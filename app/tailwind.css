@@ -1,0 +1,6 @@
+@import url("https://fonts.googleapis.com/css?family=Andika:400,500,700&display=block");
+@import url("https://fonts.googleapis.com/css?family=Elsie:400,500,700&display=block");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
