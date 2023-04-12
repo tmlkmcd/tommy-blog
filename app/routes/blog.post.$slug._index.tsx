@@ -9,10 +9,11 @@ import type { EntryCollection } from "contentful";
 import { useLoaderData } from "@remix-run/react";
 import { RichText } from "~/components/contentful/RichText";
 import { crawlAndIndexFootNotes } from "~/data/blogPosts";
+import { Categories } from "~/components/contentful/Categories";
 
 const {
   contentfulSpace,
-  contentfulContentType,
+  contentfulContentTypeBlog,
   contentfulAccessToken,
   contentfulPreviewToken,
 } = config;
@@ -35,7 +36,7 @@ export const loader: (
 
   const entries = (
     await client.getEntries({
-      content_type: contentfulContentType || "",
+      content_type: contentfulContentTypeBlog || "",
       "fields.slug[in]": params.slug,
     })
   ).toPlainObject() as EntryCollection<BlogPost>;
@@ -56,15 +57,24 @@ export const loader: (
 export default function Index() {
   const post = useLoaderData<typeof loader>() as DatedBlogPost | null;
 
+  React.useEffect(() => {
+    if (post) document.title = `${post.title} - Tommy's Blog`;
+    return () => {
+      document.title = "Tommy's Website";
+    };
+  });
+
   if (!post) {
     return <Navigate to="/blog" />;
   }
 
   return (
-    <Layout title={post.title}>
+    <Layout
+      title={post.title}
+      subtitle={<Categories categories={post.categories} leadingText />}
+    >
       <div className="flex flex-col gap-4">
         <RichText node={post.post} />
-
         <div id="footnotes" />
       </div>
     </Layout>

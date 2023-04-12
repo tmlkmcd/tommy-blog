@@ -1,26 +1,33 @@
 import * as React from "react";
-import { useLoaderData } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/node";
 import * as contentful from "contentful";
-import type { EntryCollection } from "contentful";
-
-import type { BlogPost } from "~/components/contentful/types";
-import { PostPreview } from "~/components/contentful/PostPreview";
-import { config } from "~/config";
 import { Layout } from "~/components/Layout";
-import type { DatedBlogPost } from "~/components/contentful/types";
+import type { LoaderArgs } from "@remix-run/node";
+import { config } from "~/config";
+import type {
+  BlogPost,
+  Category,
+  DatedBlogPost,
+} from "~/components/contentful/types";
+import type { EntryCollection } from "contentful";
+import { useLoaderData, useParams } from "@remix-run/react";
+import { PostPreview } from "~/components/contentful/PostPreview";
 
 const {
   contentfulSpace,
   contentfulContentTypeBlog,
+  contentfulContentTypeCategory,
   contentfulAccessToken,
   contentfulPreviewToken,
 } = config;
 
+interface Props {}
+
 export const loader: (args: LoaderArgs) => Promise<DatedBlogPost[]> = async ({
   request,
+  params,
 }) => {
   const url = new URL(request.url);
+  const { tag } = params;
 
   const accessToken =
     url.searchParams.get("cf_token") ??
@@ -33,10 +40,20 @@ export const loader: (args: LoaderArgs) => Promise<DatedBlogPost[]> = async ({
     accessToken,
   });
 
+  const categories = (
+    await client.getEntries({
+      content_type: contentfulContentTypeCategory || "",
+    })
+  ).toPlainObject() as EntryCollection<Category>;
+
+  const { id } = categories.items.filter(
+    ({ fields }) => fields.name.toLowerCase() === tag?.toLowerCase()
+  )[0].sys;
+
   const entries = (
     await client.getEntries({
       content_type: contentfulContentTypeBlog || "",
-      order: "-sys.createdAt",
+      "fields.categories.sys.id": id,
     })
   ).toPlainObject() as EntryCollection<BlogPost>;
 
@@ -51,16 +68,17 @@ export const loader: (args: LoaderArgs) => Promise<DatedBlogPost[]> = async ({
 
 export default function Index() {
   const posts = useLoaderData<typeof loader>() as DatedBlogPost[];
+  const { tag } = useParams<{ tag: string }>();
 
   React.useEffect(() => {
-    document.title = "Tommy's Blog";
+    document.title = `Posts with tag: '${tag}' - Tommy's Blog`;
     return () => {
       document.title = "Tommy's Website";
     };
-  }, []);
+  });
 
   return (
-    <Layout title="Blog Posts">
+    <Layout title={`Posts with tag: '${tag}'`}>
       {posts.map((blogPost) => (
         <PostPreview post={blogPost} key={blogPost.slug} />
       ))}
