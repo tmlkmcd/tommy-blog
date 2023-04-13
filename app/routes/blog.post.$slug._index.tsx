@@ -10,6 +10,7 @@ import { useLoaderData } from "@remix-run/react";
 import { RichText } from "~/components/contentful/RichText";
 import { crawlAndIndexFootNotes } from "~/data/blogPosts";
 import { Categories } from "~/components/contentful/Categories";
+import { formatBlogDate, getTime } from "~/data/dates";
 
 const {
   contentfulSpace,
@@ -71,12 +72,35 @@ export default function Index() {
   return (
     <Layout
       title={post.title}
-      subtitle={<Categories categories={post.categories} leadingText />}
+      subtitle={
+        <Categories
+          categories={post.categories}
+          leadingText={
+            <span>
+              <span className="font-bold text-iceColdStare-800">
+                {formatBlogDate(post.published)} @ {getTime(post.published)}
+              </span>{" "}
+              in{" "}
+            </span>
+          }
+        />
+      }
     >
       <div className="flex flex-col gap-4">
         <RichText node={post.post} />
+        {post.updated && <LastUpdatedIndicator lastUpdated={post.updated} />}
         <div id="footnotes" />
       </div>
     </Layout>
   );
 }
+
+const LastUpdatedIndicator: React.FC<{ lastUpdated: string }> = ({
+  lastUpdated,
+}) => {
+  return (
+    <span className="font-bold italic text-iceColdStare-800">
+      last updated: {getTime(lastUpdated)}
+    </span>
+  );
+};

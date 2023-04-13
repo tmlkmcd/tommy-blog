@@ -5,7 +5,7 @@ import type { Entry } from "contentful";
 
 interface Props {
   categories: Entry<Category>[];
-  leadingText?: boolean;
+  leadingText?: React.ReactNode;
 }
 
 export const Categories: React.FC<Props> = ({
@@ -14,7 +14,7 @@ export const Categories: React.FC<Props> = ({
 }) => {
   return (
     <div className="text-sm">
-      {leadingText && <>Categories: </>}
+      {leadingText}
       {categories.map((category, i) => (
         <React.Fragment key={category.sys.id}>
           {!!i && ", "}

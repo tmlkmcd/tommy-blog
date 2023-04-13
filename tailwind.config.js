@@ -88,8 +88,16 @@ module.exports = {
         main: "rgb(17, 17, 17) 4px 4px 8px 0px",
       },
       fontFamily: {
-        elsie: ["Elsie", "sans-serif"],
-        andika: ["Andika", "sans-serif"],
+        metamorphous: ["Metamorphous", "sans-serif"],
+        aleo: ["Aleo", "sans-serif"],
+      },
+      keyframes: {
+        "fade-in": { "0%": { opacity: 0 }, "100%": { opacity: 1 } },
+        "fade-out": { "0%": { opacity: 1 }, "100%": { opacity: 0 } },
+      },
+      animation: {
+        "fade-in": "fade-in 200ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
+        "fade-out": "fade-out 200ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
       },
     },
   },
