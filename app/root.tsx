@@ -5,6 +5,7 @@ import {
   Meta,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 
 import appleTouchIcon from "~/webpageIconography/apple-touch-icon.png";
@@ -19,6 +20,8 @@ import classNames from "classnames";
 import { Header } from "~/components/Header";
 import { Body } from "~/components/Body";
 import { ModalProvider } from "~/components/Modal";
+import type { ContentfulGenericItems } from "~/rootLoader";
+import { RootProvider } from "~/RootContext";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
@@ -39,6 +42,8 @@ export const links: LinksFunction = () => [
   { rel: "mask-icon", href: safariPinnedTab, color: "#5bbad5" },
 ];
 
+export { loader } from "./rootLoader";
+
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
   title: "Tommy's Website",
@@ -48,37 +53,41 @@ export const meta: MetaFunction = () => ({
 });
 
 export default function App() {
+  const cfGeneric = useLoaderData() as ContentfulGenericItems;
+
   const { theme } = useTheme();
 
   return (
     <html lang="en">
-      <head>
-        <Meta />
-        <Links />
-        <title>Tommy's Website</title>
-      </head>
-      <body
-        className={classNames(
-          "h-screen bg-cover bg-fixed bg-center bg-no-repeat text-center font-aleo md:bg-page",
-          theme
-        )}
-      >
-        <ModalProvider>
-          <div
-            className={classNames(
-              "rounded border border-black backdrop-blur-sm md:my-8 md:mx-auto md:max-w-2xl lg:max-w-6xl",
-              "h-full md:m-4 md:h-auto md:shadow-main"
-            )}
-          >
-            <Header />
-            <Body />
-          </div>
-          <ScrollRestoration />
-          <Scripts />
-          <LiveReload />
-          <div id="modal-root" />
-        </ModalProvider>
-      </body>
+      <RootProvider {...cfGeneric}>
+        <head>
+          <Meta />
+          <Links />
+          <title>Tommy's Website</title>
+        </head>
+        <body
+          className={classNames(
+            "h-screen bg-cover bg-fixed bg-center bg-no-repeat text-center font-aleo md:bg-page",
+            theme
+          )}
+        >
+          <ModalProvider>
+            <div
+              className={classNames(
+                "rounded border border-black backdrop-blur-sm md:my-8 md:mx-auto md:max-w-2xl lg:max-w-6xl",
+                "h-full md:m-4 md:h-auto md:shadow-main"
+              )}
+            >
+              <Header />
+              <Body />
+            </div>
+            <ScrollRestoration />
+            <Scripts />
+            <LiveReload />
+            <div id="modal-root" />
+          </ModalProvider>
+        </body>
+      </RootProvider>
     </html>
   );
 }

@@ -20,7 +20,6 @@ export const Layout: React.FC<React.PropsWithChildren<Props>> = ({
           {subtitle && <section>{subtitle}</section>}
         </div>
       </section>
-
       {children}
     </div>
   );

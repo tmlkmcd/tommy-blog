@@ -96,7 +96,7 @@ const ModalComponent: React.FC<
         onClick={onDismiss}
       />
       <div
-        className="z-[51] max-h-[80%] max-w-[80%] cursor-default rounded-2xl bg-white object-contain p-4"
+        className="z-[51] max-h-[80%] max-w-[80%] cursor-default rounded-2xl bg-white object-contain p-4 bg-opacity-80"
         onClick={(ev) => ev.stopPropagation()}
       >
         {children}

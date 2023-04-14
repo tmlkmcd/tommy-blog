@@ -1,4 +1,9 @@
-import type { Entry, EntryFields, RichTextContent } from "contentful";
+import type { Asset, Entry, EntryFields, RichTextContent } from "contentful";
+
+export interface DisplayPicture {
+  caption: string;
+  picture: Asset;
+}
 
 export interface RichTextFootNote extends RichTextContent {
   index: number;
