@@ -28,7 +28,11 @@ export const Header: React.FC = () => {
               <div className="text-xl">Oops!</div>
               <div className="text-md">
                 Looks like this display picture is too attractive for your
-                screen.
+                screen.{" "}
+                <span className="text-sm italic">
+                  But seriously, the image failed to load. That's on us. We're
+                  working on it!
+                </span>
               </div>
             </span>
           )}

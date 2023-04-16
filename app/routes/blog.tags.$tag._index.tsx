@@ -1,73 +1,26 @@
 import * as React from "react";
-import * as contentful from "contentful";
 import { Layout } from "~/components/Layout";
 import type { LoaderArgs } from "@remix-run/node";
-import { config } from "~/config";
-import type {
-  BlogPost,
-  Category,
-  DatedBlogPost,
-} from "~/components/contentful/types";
-import type { EntryCollection } from "contentful";
+import type { ExtendedBlogPost } from "~/components/contentful/types";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { PostPreview } from "~/components/contentful/PostPreview";
+import { getBlogPostsByTag } from "~/data/contentfulClient";
 
-const {
-  contentfulSpace,
-  contentfulContentTypeBlog,
-  contentfulContentTypeCategory,
-  contentfulAccessToken,
-  contentfulPreviewToken,
-} = config;
-
-interface Props {}
-
-export const loader: (args: LoaderArgs) => Promise<DatedBlogPost[]> = async ({
-  request,
-  params,
-}) => {
+export const loader: (
+  args: LoaderArgs
+) => Promise<ExtendedBlogPost[]> = async ({ request, params }) => {
   const url = new URL(request.url);
   const { tag } = params;
 
-  const accessToken =
-    url.searchParams.get("cf_token") ??
-    contentfulAccessToken ??
-    contentfulPreviewToken ??
-    "";
+  if (!tag) {
+    throw new Error("No tag provided");
+  }
 
-  const client = contentful.createClient({
-    space: contentfulSpace || "",
-    accessToken,
-  });
-
-  const categories = (
-    await client.getEntries({
-      content_type: contentfulContentTypeCategory || "",
-    })
-  ).toPlainObject() as EntryCollection<Category>;
-
-  const { id } = categories.items.filter(
-    ({ fields }) => fields.name.toLowerCase() === tag?.toLowerCase()
-  )[0].sys;
-
-  const entries = (
-    await client.getEntries({
-      content_type: contentfulContentTypeBlog || "",
-      "fields.categories.sys.id": id,
-    })
-  ).toPlainObject() as EntryCollection<BlogPost>;
-
-  return entries.items.map(({ fields, sys }) => {
-    return {
-      ...fields,
-      published: sys.createdAt,
-      updated: sys.updatedAt,
-    };
-  });
+  return getBlogPostsByTag({ tag, token: url.searchParams.get("cf_token") });
 };
 
 export default function Index() {
-  const posts = useLoaderData<typeof loader>() as DatedBlogPost[];
+  const posts = useLoaderData<typeof loader>() as ExtendedBlogPost[];
   const { tag } = useParams<{ tag: string }>();
 
   React.useEffect(() => {

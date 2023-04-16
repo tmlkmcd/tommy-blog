@@ -1,12 +1,12 @@
 import * as React from "react";
-import type { DatedBlogPost } from "~/components/contentful/types";
+import type { ExtendedBlogPost } from "~/components/contentful/types";
 import { Link } from "@remix-run/react";
 import type { EntryFields, RichTextContent } from "contentful";
 import { formatBlogDate } from "~/data/dates";
 import { Categories } from "~/components/contentful/Categories";
 
 interface Props {
-  post: DatedBlogPost;
+  post: ExtendedBlogPost;
 }
 
 export const PostPreview: React.FC<Props> = React.memo(function PostPreview({

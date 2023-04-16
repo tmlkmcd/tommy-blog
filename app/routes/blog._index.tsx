@@ -1,56 +1,20 @@
 import * as React from "react";
 import { useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/node";
-import * as contentful from "contentful";
-import type { EntryCollection } from "contentful";
-
-import type { BlogPost } from "~/components/contentful/types";
 import { PostPreview } from "~/components/contentful/PostPreview";
-import { config } from "~/config";
 import { Layout } from "~/components/Layout";
-import type { DatedBlogPost } from "~/components/contentful/types";
+import type { ExtendedBlogPost } from "~/components/contentful/types";
+import { getBlogPosts } from "~/data/contentfulClient";
 
-const {
-  contentfulSpace,
-  contentfulContentTypeBlog,
-  contentfulAccessToken,
-  contentfulPreviewToken,
-} = config;
-
-export const loader: (args: LoaderArgs) => Promise<DatedBlogPost[]> = async ({
-  request,
-}) => {
+export const loader: (
+  args: LoaderArgs
+) => Promise<ExtendedBlogPost[]> = async ({ request }) => {
   const url = new URL(request.url);
-
-  const accessToken =
-    url.searchParams.get("cf_token") ??
-    contentfulAccessToken ??
-    contentfulPreviewToken ??
-    "";
-
-  const client = contentful.createClient({
-    space: contentfulSpace || "",
-    accessToken,
-  });
-
-  const entries = (
-    await client.getEntries({
-      content_type: contentfulContentTypeBlog || "",
-      order: "-sys.createdAt",
-    })
-  ).toPlainObject() as EntryCollection<BlogPost>;
-
-  return entries.items.map(({ fields, sys }) => {
-    return {
-      ...fields,
-      published: sys.createdAt,
-      updated: sys.updatedAt,
-    };
-  });
+  return getBlogPosts({ token: url.searchParams.get("cf_token") });
 };
 
 export default function Index() {
-  const posts = useLoaderData<typeof loader>() as DatedBlogPost[];
+  const posts = useLoaderData<typeof loader>() as ExtendedBlogPost[];
 
   React.useEffect(() => {
     document.title = "Tommy's Blog";

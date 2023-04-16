@@ -1,22 +1,28 @@
-import type { Asset, Entry, EntryFields, RichTextContent } from "contentful";
+import type {
+  Asset,
+  Entry,
+  RichTextContent,
+  EntryFields,
+  Sys,
+} from "contentful";
 
 export interface DisplayPicture {
   caption: string;
   picture: Asset;
 }
 
-export interface RichTextFootNote extends RichTextContent {
-  index: number;
+export function isFootNote(content: RichTextContent): boolean {
+  return (
+    ((content as RichTextContent).data.target?.sys as unknown as Sys)
+      ?.contentType?.sys.id === "footnote"
+  );
 }
 
-export interface RichTextWithFootNotes extends EntryFields.RichText {
-  content: (RichTextContent | RichTextFootNote)[];
-}
-
-export function isRichTextFootNote(
-  content: RichTextWithFootNotes | RichTextContent | RichTextFootNote
-): content is RichTextFootNote {
-  return content.nodeType === "embedded-entry-inline";
+export function isInternalLink(content: RichTextContent): boolean {
+  return (
+    ((content as RichTextContent).data.target?.sys as unknown as Sys)
+      ?.contentType?.sys.id === "internalLink"
+  );
 }
 
 export interface BlogPost {
@@ -24,12 +30,13 @@ export interface BlogPost {
   title: string;
   slug: string;
   categories: Entry<Category>[];
-  post: RichTextWithFootNotes;
+  post: EntryFields.RichText;
 }
 
-export interface DatedBlogPost extends BlogPost {
+export interface ExtendedBlogPost extends BlogPost {
   published: string;
   updated?: string;
+  footnotes?: string[];
 }
 
 export interface Category {
@@ -39,4 +46,12 @@ export interface Category {
 
 export interface FootNote {
   title: string;
+  text: EntryFields.RichText;
+  index?: number;
+}
+
+export interface InternalLink {
+  inlineText: string;
+  name: string;
+  to: string;
 }

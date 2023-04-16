@@ -1,40 +1,25 @@
-import type {
-  DatedBlogPost,
-  RichTextFootNote,
-} from "~/components/contentful/types";
+import type { ExtendedBlogPost } from "~/components/contentful/types";
 import type { RichTextContent } from "contentful";
+import { isFootNote } from "~/components/contentful/types";
 
-export function crawlAndIndexFootNotes(blogPost: DatedBlogPost): DatedBlogPost {
-  let index = 0;
+export function crawlAndIndexFootNotes(blogPost: ExtendedBlogPost): string[] {
+  let footnotes: string[] = [];
 
-  const getNextIndex = () => {
-    return ++index;
-  };
+  blogPost.post.content.forEach((c) => {
+    crawlContent(c, footnotes);
+  });
 
-  return {
-    ...blogPost,
-    post: {
-      ...blogPost.post,
-      content: blogPost.post.content.map((c) => crawlContent(c, getNextIndex)),
-    },
-  };
+  return footnotes;
 }
 
-function crawlContent(
-  content: RichTextContent,
-  getNextIndex: () => number
-): RichTextContent | RichTextFootNote {
-  if (Array.isArray(content.content) && content.content.length > 0) {
-    return {
-      ...content,
-      content: content.content.map((c) => crawlContent(c, getNextIndex)),
-    };
+function crawlContent(content: RichTextContent, footnotes: string[]) {
+  if (isFootNote(content) && content.data.target?.sys.id) {
+    footnotes.push(content.data.target?.sys.id);
   }
 
-  if (content.nodeType !== "embedded-entry-inline") return content;
-
-  return {
-    ...content,
-    index: getNextIndex(),
-  };
+  if (Array.isArray(content.content) && content.content.length > 0) {
+    content.content.forEach((c) => {
+      crawlContent(c, footnotes);
+    });
+  }
 }

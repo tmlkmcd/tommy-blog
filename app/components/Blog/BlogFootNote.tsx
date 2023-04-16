@@ -1,36 +1,55 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
+import { RichText } from "~/components/contentful/RichText";
+import { useFootnotes } from "~/components/Blog/FootNoteProvider";
 
 interface Props {
-  index: number;
+  id: string;
 }
 
 interface Handle {
   scroll: () => Promise<void>;
 }
 
-export const FootNote: React.FC<React.PropsWithChildren<Props>> = (props) => {
+export const BlogFootNote: React.FC<Props> = (props) => {
   const footNote = React.useRef<Handle>(null);
   const inTextRef = React.useRef<HTMLButtonElement>(null);
 
+  const note = useFootnotes(props.id);
+  if (!note) return null;
+
+  const goBack = () => {
+    inTextRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <span>
-      <button onClick={() => footNote.current?.scroll()} ref={inTextRef}>
-        <sup>{props.index}</sup>
+      <button
+        onClick={() => footNote.current?.scroll()}
+        ref={inTextRef}
+        className=""
+      >
+        <sup
+          className={classNames(
+            "duration-3000 text-sapphireSplendour-700 underline transition"
+          )}
+        >
+          {note.index}
+        </sup>
       </button>
-      <Note {...props} inTextRef={inTextRef} ref={footNote} />
+      <Note goBack={goBack} ref={footNote} index={note.index} {...props}>
+        {note && <RichText node={note.text} />}
+      </Note>
     </span>
   );
 };
 
 const NoteBody: React.ForwardRefRenderFunction<
   Handle,
-  React.PropsWithChildren<
-    Props & { inTextRef: React.RefObject<HTMLButtonElement> }
-  >
+  React.PropsWithChildren<Props & { goBack: () => void; index: number }>
 > = (props, forwardedRef) => {
-  const { index, inTextRef, children } = props;
+  const { index, goBack, children } = props;
   const wrapper = React.useRef<HTMLDivElement>(null);
   const [footNoteWrapper, setFootNoteWrapper] = React.useState<HTMLElement>();
   const [showBg, setShowBg] = React.useState(false);
@@ -40,10 +59,6 @@ const NoteBody: React.ForwardRefRenderFunction<
       () => document.getElementById("footnotes") as HTMLElement
     );
   }, []);
-
-  const goBack = async () => {
-    inTextRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
 
   const scroll = async () => {
     setShowBg(true);
@@ -60,7 +75,7 @@ const NoteBody: React.ForwardRefRenderFunction<
     <div
       className={classNames(
         "duration-3000 mx-1 flex items-start gap-2 rounded bg-opacity-40 p-1 transition",
-        "text-xs",
+        "text-sm",
         showBg && "bg-pasta-100"
       )}
       ref={wrapper}

@@ -67,7 +67,7 @@ export default function App() {
         </head>
         <body
           className={classNames(
-            "h-screen bg-cover bg-fixed bg-center bg-no-repeat text-center font-aleo md:bg-page",
+            "h-screen bg-cover bg-fixed bg-center bg-no-repeat pb-4 text-center font-aleo md:bg-page",
             theme
           )}
         >
@@ -75,7 +75,7 @@ export default function App() {
             <div
               className={classNames(
                 "rounded border border-black backdrop-blur-sm md:my-8 md:mx-auto md:max-w-2xl lg:max-w-6xl",
-                "h-full md:m-4 md:h-auto md:shadow-main"
+                "!mb-4 h-full md:m-4 md:h-auto md:shadow-main"
               )}
             >
               <Header />

@@ -1,16 +1,13 @@
 import * as React from "react";
 import type { EntryFields, RichTextContent } from "contentful";
-import { FootNote } from "~/components/FootNote";
-import type {
-  RichTextFootNote,
-  RichTextWithFootNotes,
-} from "~/components/contentful/types";
-import { isRichTextFootNote } from "~/components/contentful/types";
+import { BlogFootNote } from "~/components/Blog/BlogFootNote";
+import { isInternalLink, isFootNote } from "~/components/contentful/types";
 import classNames from "classnames";
 import { Image } from "~/components/contentful/Image";
+import { BlogInternalLink } from "~/components/Blog/BlogInternalLink";
 
 interface Props {
-  node: RichTextWithFootNotes | RichTextContent | RichTextFootNote;
+  node: RichTextContent;
 }
 
 export const RichText: React.FC<Props> = ({ node }) => {
@@ -41,17 +38,23 @@ export const RichText: React.FC<Props> = ({ node }) => {
 
 const WrapRichText: React.FC<
   React.PropsWithChildren<{
-    node: RichTextWithFootNotes | RichTextContent | RichTextFootNote;
+    node: RichTextContent;
   }>
 > = ({ node, children }) => {
   const { nodeType, data } = node;
 
-  if (isRichTextFootNote(node)) {
-    return (
-      <FootNote index={node.index || -1}>
-        <RichText node={(node.data.target as any).fields.text.content[0]} />
-      </FootNote>
-    );
+  if (isFootNote(node)) {
+    const id = node.data.target?.sys.id;
+    if (!id) return null;
+
+    return <BlogFootNote id={id} />;
+  }
+
+  if (isInternalLink(node)) {
+    const id = node.data.target?.sys.id;
+    if (!id) return null;
+
+    return <BlogInternalLink id={id} />;
   }
 
   const mark = (node as RichTextContent).marks || [];
