@@ -11,14 +11,18 @@ export interface DisplayPicture {
   picture: Asset;
 }
 
-export function isFootNote(content: RichTextContent): boolean {
+export function isFootNote(
+  content: EntryFields.RichText | RichTextContent
+): boolean {
   return (
     ((content as RichTextContent).data.target?.sys as unknown as Sys)
       ?.contentType?.sys.id === "footnote"
   );
 }
 
-export function isInternalLink(content: RichTextContent): boolean {
+export function isInternalLink(
+  content: EntryFields.RichText | RichTextContent
+): boolean {
   return (
     ((content as RichTextContent).data.target?.sys as unknown as Sys)
       ?.contentType?.sys.id === "internalLink"
@@ -54,4 +58,10 @@ export interface InternalLink {
   inlineText: string;
   name: string;
   to: string;
+}
+
+export interface Paragraph {
+  identifier: string;
+  text: EntryFields.RichText;
+  title: string;
 }

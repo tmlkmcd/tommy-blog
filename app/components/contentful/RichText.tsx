@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { EntryFields, RichTextContent } from "contentful";
+import type { EntryFields, RichTextContent, RichTextData } from "contentful";
 import { BlogFootNote } from "~/components/Blog/BlogFootNote";
 import { isInternalLink, isFootNote } from "~/components/contentful/types";
 import classNames from "classnames";
@@ -7,7 +7,7 @@ import { Image } from "~/components/contentful/Image";
 import { BlogInternalLink } from "~/components/Blog/BlogInternalLink";
 
 interface Props {
-  node: RichTextContent;
+  node: EntryFields.RichText | RichTextContent;
 }
 
 export const RichText: React.FC<Props> = ({ node }) => {
@@ -38,20 +38,20 @@ export const RichText: React.FC<Props> = ({ node }) => {
 
 const WrapRichText: React.FC<
   React.PropsWithChildren<{
-    node: RichTextContent;
+    node: EntryFields.RichText | RichTextContent;
   }>
 > = ({ node, children }) => {
   const { nodeType, data } = node;
 
   if (isFootNote(node)) {
-    const id = node.data.target?.sys.id;
+    const id = (node.data as RichTextData).target?.sys.id;
     if (!id) return null;
 
     return <BlogFootNote id={id} />;
   }
 
   if (isInternalLink(node)) {
-    const id = node.data.target?.sys.id;
+    const id = (node.data as RichTextData).target?.sys.id;
     if (!id) return null;
 
     return <BlogInternalLink id={id} />;

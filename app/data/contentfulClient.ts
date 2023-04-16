@@ -1,12 +1,13 @@
+import type { Entry, EntryCollection } from "contentful";
 import * as contentful from "contentful";
 import { config } from "~/config";
-import type { Entry, EntryCollection } from "contentful";
 import type {
   BlogPost,
   Category,
   DisplayPicture,
   ExtendedBlogPost,
   FootNote,
+  Paragraph,
   InternalLink,
 } from "~/components/contentful/types";
 import { crawlAndIndexFootNotes } from "~/data/blogPosts";
@@ -204,4 +205,25 @@ export const getInternalLink = async ({
       content_type: "internalLink",
     })
   ).toPlainObject() as Entry<InternalLink>;
+};
+
+export const getParagraph = async ({
+  identifier,
+  client: givenClient,
+  token,
+}: {
+  identifier: string;
+  client?: contentful.ContentfulClientApi;
+  token?: string | null;
+}): Promise<Paragraph> => {
+  const client = givenClient ?? contentfulClient({ token });
+
+  const paragraphs = (
+    await client.getEntries({
+      content_type: "paragraphs",
+      "fields.identifier": identifier,
+    })
+  ).toPlainObject() as EntryCollection<Paragraph>;
+
+  return paragraphs.items[0].fields;
 };
