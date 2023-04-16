@@ -4,11 +4,13 @@ import type { Entry, EntryCollection } from "contentful";
 import type {
   BlogPost,
   Category,
+  DisplayPicture,
   ExtendedBlogPost,
   FootNote,
   InternalLink,
 } from "~/components/contentful/types";
 import { crawlAndIndexFootNotes } from "~/data/blogPosts";
+import type { ContentfulGenericItems } from "~/rootLoader";
 
 const {
   contentfulSpace,
@@ -34,6 +36,29 @@ export const contentfulClient = ({
     space: contentfulSpace || "",
     accessToken,
   });
+};
+
+export const getProfilePicture = async ({
+  token,
+  client: givenClient,
+}: {
+  token?: string | null;
+  client?: contentful.ContentfulClientApi;
+}): Promise<ContentfulGenericItems["displayPicture"]> => {
+  const client = givenClient ?? contentfulClient({ token });
+
+  const dpEntries = (
+    await client.getEntries({
+      content_type: contentfulContentTypeDisplayPic || "",
+    })
+  ).toPlainObject() as EntryCollection<DisplayPicture>;
+
+  return dpEntries.items[0]
+    ? {
+        href: dpEntries.items[0].fields.picture.fields.file.url,
+        caption: dpEntries.items[0].fields.caption,
+      }
+    : null;
 };
 
 export const getBlogPosts = async ({
