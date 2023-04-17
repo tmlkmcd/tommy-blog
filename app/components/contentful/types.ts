@@ -11,7 +11,7 @@ export interface DisplayPicture {
   picture: Asset;
 }
 
-export function isFootNote(
+export function isFootnote(
   content: EntryFields.RichText | RichTextContent
 ): boolean {
   return (
@@ -48,7 +48,7 @@ export interface Category {
   name: string;
 }
 
-export interface FootNote {
+export interface Footnote {
   title: string;
   text: EntryFields.RichText;
   index?: number;

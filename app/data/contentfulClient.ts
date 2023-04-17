@@ -6,11 +6,11 @@ import type {
   Category,
   DisplayPicture,
   ExtendedBlogPost,
-  FootNote,
+  Footnote,
   Paragraph,
   InternalLink,
 } from "~/components/contentful/types";
-import { crawlAndIndexFootNotes } from "~/data/blogPosts";
+import { crawlAndIndexFootnotes } from "~/data/blogPosts";
 import type { ContentfulGenericItems } from "~/rootLoader";
 
 const {
@@ -147,7 +147,7 @@ export const getBlogPost = async ({
 
   if (!post || post.length === 0) return null;
 
-  const footnotes = crawlAndIndexFootNotes(post[0]);
+  const footnotes = crawlAndIndexFootnotes(post[0]);
 
   return {
     ...post[0],
@@ -171,7 +171,7 @@ export const getCategories = async ({
   ).toPlainObject() as EntryCollection<Category>;
 };
 
-export const getFootNotes = async ({
+export const getFootnotes = async ({
   ids,
   client: givenClient,
   token,
@@ -179,14 +179,14 @@ export const getFootNotes = async ({
   ids: string | string[];
   client?: contentful.ContentfulClientApi;
   token?: string | null;
-}): Promise<EntryCollection<FootNote>> => {
+}): Promise<EntryCollection<Footnote>> => {
   const client = givenClient ?? contentfulClient({ token });
   return (
     await client.getEntries({
       content_type: "footnote",
       "sys.id[in]": Array.isArray(ids) ? ids.join(",") : ids,
     })
-  ).toPlainObject() as EntryCollection<FootNote>;
+  ).toPlainObject() as EntryCollection<Footnote>;
 };
 
 export const getInternalLink = async ({

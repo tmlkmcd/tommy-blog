@@ -12,8 +12,8 @@ interface Handle {
   scroll: () => Promise<void>;
 }
 
-export const BlogFootNote: React.FC<Props> = (props) => {
-  const footNote = React.useRef<Handle>(null);
+export const BlogFootnote: React.FC<Props> = (props) => {
+  const footnote = React.useRef<Handle>(null);
   const inTextRef = React.useRef<HTMLButtonElement>(null);
 
   const note = useFootnotes(props.id);
@@ -26,7 +26,7 @@ export const BlogFootNote: React.FC<Props> = (props) => {
   return (
     <span>
       <button
-        onClick={() => footNote.current?.scroll()}
+        onClick={() => footnote.current?.scroll()}
         ref={inTextRef}
         className=""
       >
@@ -38,7 +38,7 @@ export const BlogFootNote: React.FC<Props> = (props) => {
           {note.index}
         </sup>
       </button>
-      <Note goBack={goBack} ref={footNote} index={note.index} {...props}>
+      <Note goBack={goBack} ref={footnote} index={note.index} {...props}>
         {note && <RichText node={note.text} />}
       </Note>
     </span>
@@ -51,11 +51,11 @@ const NoteBody: React.ForwardRefRenderFunction<
 > = (props, forwardedRef) => {
   const { index, goBack, children } = props;
   const wrapper = React.useRef<HTMLDivElement>(null);
-  const [footNoteWrapper, setFootNoteWrapper] = React.useState<HTMLElement>();
+  const [footnoteWrapper, setFootnoteWrapper] = React.useState<HTMLElement>();
   const [showBg, setShowBg] = React.useState(false);
 
   React.useEffect(() => {
-    setFootNoteWrapper(
+    setFootnoteWrapper(
       () => document.getElementById("footnotes") as HTMLElement
     );
   }, []);
@@ -69,7 +69,7 @@ const NoteBody: React.ForwardRefRenderFunction<
 
   React.useImperativeHandle(forwardedRef, () => ({ scroll }));
 
-  if (!footNoteWrapper) return null;
+  if (!footnoteWrapper) return null;
 
   return ReactDOM.createPortal(
     <div
@@ -88,7 +88,7 @@ const NoteBody: React.ForwardRefRenderFunction<
       </button>
       {children}
     </div>,
-    footNoteWrapper
+    footnoteWrapper
   );
 };
 

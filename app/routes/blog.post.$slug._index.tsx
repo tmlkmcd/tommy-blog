@@ -8,7 +8,7 @@ import { RichText } from "~/components/contentful/RichText";
 import { Categories } from "~/components/contentful/Categories";
 import { formatBlogDate, getTime } from "~/data/dates";
 import { getBlogPost } from "~/data/contentfulClient";
-import { FootNotes } from "~/components/Blog/FootNoteProvider";
+import { Footnotes } from "~/components/Blog/FootNoteProvider";
 
 export const loader: (
   args: LoaderArgs
@@ -40,7 +40,7 @@ export default function Index() {
   }
 
   return (
-    <FootNotes ids={post.footnotes?.join(",")}>
+    <Footnotes ids={post.footnotes?.join(",")}>
       <Layout
         title={post.title}
         subtitle={
@@ -63,7 +63,7 @@ export default function Index() {
           <div id="footnotes" />
         </div>
       </Layout>
-    </FootNotes>
+    </Footnotes>
   );
 }
 

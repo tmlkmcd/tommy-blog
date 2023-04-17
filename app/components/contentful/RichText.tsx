@@ -1,7 +1,7 @@
 import * as React from "react";
 import type { EntryFields, RichTextContent, RichTextData } from "contentful";
-import { BlogFootNote } from "~/components/Blog/BlogFootNote";
-import { isInternalLink, isFootNote } from "~/components/contentful/types";
+import { BlogFootnote } from "~/components/Blog/BlogFootnote";
+import { isInternalLink, isFootnote } from "~/components/contentful/types";
 import classNames from "classnames";
 import { Image } from "~/components/contentful/Image";
 import { BlogInternalLink } from "~/components/Blog/BlogInternalLink";
@@ -43,11 +43,11 @@ const WrapRichText: React.FC<
 > = ({ node, children }) => {
   const { nodeType, data } = node;
 
-  if (isFootNote(node)) {
+  if (isFootnote(node)) {
     const id = (node.data as RichTextData).target?.sys.id;
     if (!id) return null;
 
-    return <BlogFootNote id={id} />;
+    return <BlogFootnote id={id} />;
   }
 
   if (isInternalLink(node)) {

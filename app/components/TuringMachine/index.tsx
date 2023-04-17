@@ -5,6 +5,7 @@ import {
   turingMachineReducer,
 } from "~/components/TuringMachine/tmReducer";
 import { existingMachines } from "~/components/TuringMachine/existingMachines";
+import { PlayIcon } from "~/icons/PlayIcon";
 
 export const TuringMachine: React.FC = () => {
   const [tm, tmDispatch] = React.useReducer(
@@ -35,7 +36,9 @@ export const TuringMachine: React.FC = () => {
         <button onClick={() => reset()}>reset</button>
         <br />
         <section></section>
-        <section></section>
+        <section>
+          <PlayIcon />
+        </section>
       </section>
       <section></section>
     </div>

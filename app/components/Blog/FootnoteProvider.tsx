@@ -1,23 +1,23 @@
 import * as React from "react";
 import type { EntryCollection } from "contentful";
-import type { FootNote } from "~/components/contentful/types";
+import type { Footnote } from "~/components/contentful/types";
 
-interface FootNoteProvider {
-  footnotes?: Record<string, FootNote & { index: number }>;
+interface FootnoteProvider {
+  footnotes?: Record<string, Footnote & { index: number }>;
 }
 
-interface FootNoteProps {
+interface FootnoteProps {
   ids?: string;
 }
 
-const FootNoteContext = React.createContext<FootNoteProvider | null>(null);
+const FootnoteContext = React.createContext<FootnoteProvider | null>(null);
 
-export const FootNotes: React.FC<React.PropsWithChildren<FootNoteProps>> = ({
+export const Footnotes: React.FC<React.PropsWithChildren<FootnoteProps>> = ({
   ids,
   children,
 }) => {
   const [footnotes, setFootnotes] = React.useState<
-    FootNoteProvider["footnotes"]
+    FootnoteProvider["footnotes"]
   >({});
 
   React.useEffect(() => {
@@ -29,9 +29,9 @@ export const FootNotes: React.FC<React.PropsWithChildren<FootNoteProps>> = ({
 
     const getNote = async () => {
       const retrievedNote = await fetch(`/blog/footnotes/${ids}`);
-      const json: EntryCollection<FootNote> = await retrievedNote.json();
+      const json: EntryCollection<Footnote> = await retrievedNote.json();
 
-      const footnotesStore: FootNoteProvider["footnotes"] = {};
+      const footnotesStore: FootnoteProvider["footnotes"] = {};
       json.items.forEach((fn) => {
         footnotesStore[fn.sys.id] = {
           ...fn.fields,
@@ -46,13 +46,13 @@ export const FootNotes: React.FC<React.PropsWithChildren<FootNoteProps>> = ({
   }, [ids]);
 
   return (
-    <FootNoteContext.Provider value={{ footnotes }}>
+    <FootnoteContext.Provider value={{ footnotes }}>
       {children}
-    </FootNoteContext.Provider>
+    </FootnoteContext.Provider>
   );
 };
 
 export const useFootnotes = (id: string) => {
-  const { footnotes } = React.useContext(FootNoteContext) || {};
+  const { footnotes } = React.useContext(FootnoteContext) || {};
   return footnotes?.[id];
 };

@@ -1,8 +1,8 @@
 import type { ExtendedBlogPost } from "~/components/contentful/types";
 import type { RichTextContent } from "contentful";
-import { isFootNote } from "~/components/contentful/types";
+import { isFootnote } from "~/components/contentful/types";
 
-export function crawlAndIndexFootNotes(blogPost: ExtendedBlogPost): string[] {
+export function crawlAndIndexFootnotes(blogPost: ExtendedBlogPost): string[] {
   let footnotes: string[] = [];
 
   blogPost.post.content.forEach((c) => {
@@ -13,7 +13,7 @@ export function crawlAndIndexFootNotes(blogPost: ExtendedBlogPost): string[] {
 }
 
 function crawlContent(content: RichTextContent, footnotes: string[]) {
-  if (isFootNote(content) && content.data.target?.sys.id) {
+  if (isFootnote(content) && content.data.target?.sys.id) {
     footnotes.push(content.data.target?.sys.id);
   }
 
