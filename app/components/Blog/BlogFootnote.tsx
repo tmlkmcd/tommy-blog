@@ -2,7 +2,7 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
 import { RichText } from "~/components/contentful/RichText";
-import { useFootnotes } from "~/components/Blog/FootNoteProvider";
+import { useFootnotes } from "~/components/Blog/FootnoteProvider";
 
 interface Props {
   id: string;

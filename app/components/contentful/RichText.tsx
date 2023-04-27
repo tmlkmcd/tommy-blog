@@ -1,10 +1,16 @@
 import * as React from "react";
 import type { EntryFields, RichTextContent, RichTextData } from "contentful";
 import { BlogFootnote } from "~/components/Blog/BlogFootnote";
-import { isInternalLink, isFootnote } from "~/components/contentful/types";
+import type { GithubGist } from "~/components/contentful/types";
+import {
+  isInternalLink,
+  isFootnote,
+  isGhGist,
+} from "~/components/contentful/types";
 import classNames from "classnames";
 import { Image } from "~/components/contentful/Image";
 import { BlogInternalLink } from "~/components/Blog/BlogInternalLink";
+import { GithubGistDisplay, GithubGistError } from "./GithubGist";
 
 interface Props {
   node: EntryFields.RichText | RichTextContent;
@@ -55,6 +61,16 @@ const WrapRichText: React.FC<
     if (!id) return null;
 
     return <BlogInternalLink id={id} />;
+  }
+
+  if (isGhGist(node)) {
+    const id: string | null =
+      (
+        ((node.data as RichTextData).target as any)
+          ?.fields as unknown as GithubGist
+      )?.id ?? null;
+
+    return id ? <GithubGistDisplay id={id} /> : <GithubGistError />;
   }
 
   const mark = (node as RichTextContent).marks || [];

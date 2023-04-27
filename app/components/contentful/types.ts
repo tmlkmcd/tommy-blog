@@ -29,6 +29,15 @@ export function isInternalLink(
   );
 }
 
+export function isGhGist(
+  content: EntryFields.RichText | RichTextContent
+): boolean {
+  return (
+    ((content as RichTextContent).data.target?.sys as unknown as Sys)
+      ?.contentType?.sys.id === "githubGist"
+  );
+}
+
 export interface BlogPost {
   id: number;
   title: string;
@@ -64,4 +73,9 @@ export interface Paragraph {
   identifier: string;
   text: EntryFields.RichText;
   title: string;
+}
+
+export interface GithubGist {
+  title: string;
+  id: string;
 }

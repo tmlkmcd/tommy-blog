@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const Categories: React.FC<Props> = ({
-  categories,
+  categories = [],
   leadingText = false,
 }) => {
   return (
