@@ -10,7 +10,11 @@ import {
 import classNames from "classnames";
 import { Image } from "~/components/contentful/Image";
 import { BlogInternalLink } from "~/components/Blog/BlogInternalLink";
-import { GithubGistDisplay, GithubGistError } from "./GithubGist";
+import {
+  BlockGithubGistDisplay,
+  GithubGistError,
+  TooltipGistDisplay,
+} from "./GithubGist";
 
 interface Props {
   node: EntryFields.RichText | RichTextContent;
@@ -64,13 +68,19 @@ const WrapRichText: React.FC<
   }
 
   if (isGhGist(node)) {
-    const id: string | null =
-      (
-        ((node.data as RichTextData).target as any)
-          ?.fields as unknown as GithubGist
-      )?.id ?? null;
+    const gist =
+      (((node.data as RichTextData).target as any)
+        ?.fields as unknown as GithubGist) ?? null;
 
-    return id ? <GithubGistDisplay id={id} /> : <GithubGistError />;
+    if (!gist || !gist.id) {
+      return <GithubGistError />;
+    }
+
+    if (gist.tooltip) {
+      return <TooltipGistDisplay id={gist.id} tooltip={gist.tooltip} />;
+    }
+
+    return <BlockGithubGistDisplay id={gist.id} expandable={gist.isBigCode} />;
   }
 
   const mark = (node as RichTextContent).marks || [];
@@ -87,6 +97,18 @@ const WrapRichText: React.FC<
 
   switch (nodeType) {
     case "text":
+      if (mark.some((m) => m.type === "code")) {
+        return (
+          <code
+            className={classNames(
+              className,
+              "rounded bg-pinkApotheosis-300 bg-opacity-30 px-0.5"
+            )}
+          >
+            {children}
+          </code>
+        );
+      }
       return <span className={className}>{children}</span>;
     case "paragraph":
       return <p className={className}>{children}</p>;

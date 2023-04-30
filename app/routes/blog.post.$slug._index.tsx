@@ -8,7 +8,7 @@ import { RichText } from "~/components/contentful/RichText";
 import { Categories } from "~/components/contentful/Categories";
 import { formatBlogDate, getTime } from "~/data/dates";
 import { getBlogPost } from "~/data/contentfulClient";
-import { Footnotes } from "~/components/Blog/FootNoteProvider";
+import { Footnotes } from "~/components/Blog/FootnoteProvider";
 
 export const loader: (
   args: LoaderArgs

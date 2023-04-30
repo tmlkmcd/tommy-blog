@@ -4,45 +4,100 @@ import Gist from "react-gist";
 import classNames from "classnames";
 import { GithubIcon } from "~/icons/GithubIcon";
 
-export const GithubGistDisplay: React.FC<GistProps> = (props) => {
+export const BlockGithubGistDisplay: React.FC<
+  GistProps & { expandable: boolean }
+> = (props) => {
   const [expanded, setExpanded] = React.useState(false);
   const wrapper = React.useRef<HTMLSpanElement>(null);
 
-  const toggle = () => {
-    if (!expanded) {
+  const { expandable, ...gistProps } = props;
+
+  const toggle = (scroll = false) => {
+    if (scroll) {
       setTimeout(() => {
         wrapper.current?.scrollIntoView({ behavior: "smooth" });
       }, 10);
     }
 
-    setExpanded(!expanded);
+    setExpanded((currentlyExpanded) => !currentlyExpanded);
   };
 
   return (
     <span className="mx-auto block md:max-w-[95%] lg:max-w-[90%]" ref={wrapper}>
-      <span className="flex items-center justify-start gap-2 px-4 text-sm">
-        <button
-          onClick={toggle}
-          className="text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"
-        >
-          {expanded ? "Collapse..." : "Expand..."}
-        </button>
-        <span>or,</span>
-        <a
-          href={`https://gist.github.com/tmlkmcd/${props.id}`}
-          className="flex items-center justify-start gap-2 text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"
-        >
-          <span>visit the gist on Github</span>{" "}
-          <GithubIcon className="inline-block" />
-        </a>
-      </span>
+      {expandable && (
+        <span className="flex items-center justify-start gap-2 px-4 text-sm">
+          <button
+            onClick={() => toggle(!expanded)}
+            className="text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"
+          >
+            {expanded ? "Collapse..." : "Expand..."}
+          </button>
+          <span>or,</span>
+          <a
+            href={`https://gist.github.com/tmlkmcd/${props.id}`}
+            className="flex items-center justify-start gap-2 text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"
+          >
+            <span>visit the gist on Github</span>{" "}
+            <GithubIcon className="inline-block" />
+          </a>
+        </span>
+      )}
       <span
         className={classNames(
           "block max-w-full overflow-hidden",
-          expanded || "fade max-h-[300px]"
+          expandable && !expanded && "fade max-h-[300px]"
         )}
       >
-        <Gist {...props} />
+        <Gist {...gistProps} />
+      </span>
+      {expanded && (
+        <button
+          onClick={() => toggle(true)}
+          className="gap-2 px-4 text-sm text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"
+        >
+          Collapse...
+        </button>
+      )}
+    </span>
+  );
+};
+
+export const TooltipGistDisplay: React.FC<GistProps & { tooltip: string }> = (
+  props
+) => {
+  const { tooltip, ...gistProps } = props;
+
+  const [translate, setTranslate] = React.useState<number>(0);
+  const tooltipText = React.useRef<HTMLAnchorElement>(null);
+
+  const mouseOver = () => {
+    if (tooltipText.current) {
+      const { x } = tooltipText.current.getBoundingClientRect();
+      const windowWidth = window.innerWidth;
+      const newTranslate = -1 * ((x - windowWidth) / windowWidth + 1);
+      setTranslate(newTranslate);
+    }
+  };
+
+  return (
+    <span
+      className="relative [&>span]:hover:animate-fade-in"
+      onMouseEnter={mouseOver}
+    >
+      <a
+        href={`https://gist.github.com/tmlkmcd/${props.id}`}
+        className="underline decoration-dotted"
+        ref={tooltipText}
+      >
+        {tooltip}
+      </a>
+      <span
+        className={classNames(
+          "pointer-events-none absolute bottom-4 left-0 w-[500px] animate-fade-out rounded border border-black border-opacity-50 shadow-gistTooltip"
+        )}
+        style={{ transform: `translateX(${translate * 100}%)` }}
+      >
+        <Gist {...gistProps} />
       </span>
     </span>
   );

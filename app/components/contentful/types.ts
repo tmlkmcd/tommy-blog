@@ -78,4 +78,6 @@ export interface Paragraph {
 export interface GithubGist {
   title: string;
   id: string;
+  isBigCode: boolean;
+  tooltip?: string;
 }

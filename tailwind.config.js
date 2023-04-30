@@ -86,6 +86,7 @@ module.exports = {
       },
       boxShadow: {
         main: "rgb(17, 17, 17) 4px 4px 8px 0px",
+        gistTooltip: "rgba(0, 0, 0, 0.75) 0px 0px 24px 0px inset",
       },
       fontFamily: {
         metamorphous: ["Metamorphous", "sans-serif"],
@@ -94,10 +95,21 @@ module.exports = {
       keyframes: {
         "fade-in": { "0%": { opacity: 0 }, "100%": { opacity: 1 } },
         "fade-out": { "0%": { opacity: 1 }, "100%": { opacity: 0 } },
+        "slide-up": {
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(-15%)" },
+        },
+        "slide-down": {
+          "0%": { transform: "translateY(-15%)" },
+          "100%": { transform: "translateY(0)" },
+        },
       },
       animation: {
         "fade-in": "fade-in 200ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
         "fade-out": "fade-out 200ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
+        "slide-up": "slide-up 200ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
+        "slide-down":
+          "slide-down 200ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
       },
     },
   },
