@@ -68,9 +68,11 @@ export const TooltipGistDisplay: React.FC<GistProps & { tooltip: string }> = (
   const { tooltip, ...gistProps } = props;
 
   const [translate, setTranslate] = React.useState<number>(0);
+  const [screenIsWideEnough, setScreenIsWideEnough] =
+    React.useState<boolean>(false);
   const tooltipText = React.useRef<HTMLAnchorElement>(null);
 
-  const mouseOver = () => {
+  const reCenter = () => {
     if (tooltipText.current) {
       const { x } = tooltipText.current.getBoundingClientRect();
       const windowWidth = window.innerWidth;
@@ -79,26 +81,38 @@ export const TooltipGistDisplay: React.FC<GistProps & { tooltip: string }> = (
     }
   };
 
+  React.useEffect(() => {
+    reCenter();
+    setScreenIsWideEnough(window.innerWidth > 600);
+  }, []);
+
   return (
     <span
       className="relative [&>span]:hover:animate-fade-in"
-      onMouseEnter={mouseOver}
+      onMouseEnter={reCenter}
     >
       <a
         href={`https://gist.github.com/tmlkmcd/${props.id}`}
-        className="underline decoration-dotted"
+        className={classNames(
+          "underline",
+          screenIsWideEnough
+            ? "decoration-dotted"
+            : "text-sapphireSplendour-700 transition hover:text-sapphireSplendour-300"
+        )}
         ref={tooltipText}
       >
         {tooltip}
       </a>
-      <span
-        className={classNames(
-          "pointer-events-none absolute bottom-4 left-0 w-[500px] animate-fade-out rounded border border-black border-opacity-50 shadow-gistTooltip"
-        )}
-        style={{ transform: `translateX(${translate * 100}%)` }}
-      >
-        <Gist {...gistProps} />
-      </span>
+      {screenIsWideEnough && (
+        <span
+          className={classNames(
+            "pointer-events-none absolute bottom-4 left-0 w-[500px] animate-fade-out rounded border border-black border-opacity-50 shadow-gistTooltip"
+          )}
+          style={{ transform: `translateX(${translate * 100}%)` }}
+        >
+          <Gist {...gistProps} />
+        </span>
+      )}
     </span>
   );
 };
