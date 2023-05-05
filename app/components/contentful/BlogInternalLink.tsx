@@ -22,9 +22,17 @@ export const BlogInternalLink: React.FC<Props> = (props) => {
 
   if (!link) return null;
 
+  let to: string =
+    link.fields.to ??
+    `/blog/post/${link.fields.blogPostReference?.fields.slug}`;
+
+  if (to === "/blog/post/undefined") {
+    return null;
+  }
+
   return (
     <Link
-      to={link.fields.to}
+      to={to}
       className="text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"
     >
       {link.fields.inlineText}

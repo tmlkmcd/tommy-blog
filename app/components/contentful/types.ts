@@ -66,7 +66,8 @@ export interface Footnote {
 export interface InternalLink {
   inlineText: string;
   name: string;
-  to: string;
+  to?: string;
+  blogPostReference?: Entry<BlogPost>;
 }
 
 export interface Paragraph {
