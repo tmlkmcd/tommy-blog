@@ -33,7 +33,7 @@ export default function Index() {
     return () => {
       document.title = "Tommy's Website";
     };
-  });
+  }, [post]);
 
   if (!post) {
     return <Navigate to="/blog" />;
