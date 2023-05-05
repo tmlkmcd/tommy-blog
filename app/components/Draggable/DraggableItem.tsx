@@ -8,6 +8,7 @@ interface Props {
   dragOver: boolean;
   blank?: boolean;
   className?: string;
+  hasInput?: boolean;
 }
 
 export const DraggableItem: React.FC<
@@ -18,6 +19,7 @@ export const DraggableItem: React.FC<
   dragOver,
   blank,
   className,
+  hasInput = false,
   children,
   ...draggable
 }) => {
@@ -26,7 +28,7 @@ export const DraggableItem: React.FC<
       {...draggable}
       draggable={!blank}
       className={classNames(
-        "flex h-12 items-center justify-center whitespace-nowrap rounded border border-opacity-50 p-2 font-bold",
+        "flex h-16 flex-col items-center justify-center whitespace-nowrap rounded border border-opacity-50 p-2 font-bold",
         startingIndex === 0 && "bg-iceColdStare-800",
         startingIndex === 1 && "bg-iceColdStare-700",
         startingIndex === 2 && "bg-iceColdStare-600",
@@ -42,6 +44,18 @@ export const DraggableItem: React.FC<
       )}
     >
       {children}
+      {hasInput && (
+        <input
+          type="text"
+          defaultValue="try highlighting"
+          className="w-full p-1 text-xs font-normal"
+          draggable
+          onDragStart={(ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+          }}
+        />
+      )}
     </div>
   );
 };

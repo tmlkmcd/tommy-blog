@@ -1,15 +1,12 @@
 import * as React from "react";
-import type { List, ListHandle } from "~/components/Draggable/DraggableBase";
+import type { List } from "~/components/Draggable/DraggableBase";
 import { rearrangeArray } from "~/data/rearrangeArray";
 import { useDraggableField } from "~/hooks/useDraggableField";
 import { DraggableItem } from "~/components/Draggable/DraggableItem";
 import { listCards } from "~/components/Draggable/DraggableBase";
 import { BlankDropzone } from "~/components/Draggable/BlankDropzone";
 
-const DraggableMultipleListsBody: React.ForwardRefRenderFunction<ListHandle> = (
-  _,
-  forwardedRef
-) => {
+export const DraggableMultipleLists: React.FC = () => {
   const [doubleList, setDoubleList] = React.useState<List[][]>(() => [
     [...listCards.slice(0, 4)],
     [...listCards.slice(4, 8)],
@@ -65,22 +62,12 @@ const DraggableMultipleListsBody: React.ForwardRefRenderFunction<ListHandle> = (
       },
     });
 
-  React.useImperativeHandle(
-    forwardedRef,
-    () => ({
-      reset: () => {
-        setDoubleList([listCards.slice(0, 4), listCards.slice(4, 8), [], []]);
-      },
-    }),
-    []
-  );
-
   return (
     <div className="flex flex-wrap gap-4">
       {doubleList.map((list, listIndex) => (
         <div
           key={listIndex}
-          className="flex flex-1 flex-col items-stretch justify-start gap-1 rounded border  p-1"
+          className="flex flex-1 flex-col items-stretch justify-start gap-1 rounded border p-1"
         >
           {list.map(({ name, id }, index) => (
             <DraggableItem
@@ -110,7 +97,3 @@ const DraggableMultipleListsBody: React.ForwardRefRenderFunction<ListHandle> = (
     </div>
   );
 };
-
-export const DraggableMultipleLists = React.forwardRef(
-  DraggableMultipleListsBody
-);

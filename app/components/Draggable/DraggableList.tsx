@@ -2,13 +2,10 @@ import * as React from "react";
 import { useDraggableField } from "~/hooks/useDraggableField";
 import { rearrangeArray } from "~/data/rearrangeArray";
 import { DraggableItem } from "~/components/Draggable/DraggableItem";
-import type { List, ListHandle } from "~/components/Draggable/DraggableBase";
+import type { List } from "~/components/Draggable/DraggableBase";
 import { listCards } from "~/components/Draggable/DraggableBase";
 
-const DraggableListBody: React.ForwardRefRenderFunction<ListHandle> = (
-  _,
-  forwardedRef
-) => {
+export const DraggableList: React.FC = () => {
   const [list, setList] = React.useState<List[]>(() => [...listCards]);
   const { dragging, dragOver, draggableItemProps, dropZoneProps } =
     useDraggableField({
@@ -19,16 +16,6 @@ const DraggableListBody: React.ForwardRefRenderFunction<ListHandle> = (
         });
       },
     });
-
-  React.useImperativeHandle(
-    forwardedRef,
-    () => ({
-      reset: () => {
-        setList([...listCards]);
-      },
-    }),
-    []
-  );
 
   return (
     <div className="flex flex-wrap gap-2">
@@ -41,6 +28,7 @@ const DraggableListBody: React.ForwardRefRenderFunction<ListHandle> = (
           {...draggableItemProps(index)}
           {...dropZoneProps(index)}
           className="flex-1"
+          hasInput={id === 7}
         >
           {name}
         </DraggableItem>
@@ -48,5 +36,3 @@ const DraggableListBody: React.ForwardRefRenderFunction<ListHandle> = (
     </div>
   );
 };
-
-export const DraggableList = React.forwardRef(DraggableListBody);

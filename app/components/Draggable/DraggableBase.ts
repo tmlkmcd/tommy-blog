@@ -7,7 +7,3 @@ export const listCards = [...new Array(8)].map((_, i) => ({
   id: i,
   name: `Card ${i + 1}`,
 }));
-
-export interface ListHandle {
-  reset: () => void;
-}

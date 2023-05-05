@@ -1,13 +1,11 @@
 import * as React from "react";
-import type { List, ListHandle } from "~/components/Draggable/DraggableBase";
+import type { List } from "~/components/Draggable/DraggableBase";
 import { listCards } from "~/components/Draggable/DraggableBase";
 import { useDraggableField } from "~/hooks/useDraggableField";
 import { rearrangeArray } from "~/data/rearrangeArray";
 import { DraggableItemWithHandle } from "~/components/Draggable/DraggableItemWithHandle";
 
-const DraggableListWithHandleGhostBody: React.ForwardRefRenderFunction<
-  ListHandle
-> = (_, forwardedRef) => {
+export const DraggableListWithHandleGhost: React.FC = () => {
   const [listWithHandle, setListWithHandle] = React.useState<List[]>(() => [
     ...listCards,
   ]);
@@ -21,16 +19,6 @@ const DraggableListWithHandleGhostBody: React.ForwardRefRenderFunction<
         });
       },
     });
-
-  React.useImperativeHandle(
-    forwardedRef,
-    () => ({
-      reset: () => {
-        setListWithHandle([...listCards]);
-      },
-    }),
-    []
-  );
 
   return (
     <div className="flex flex-wrap gap-2">
@@ -52,7 +40,3 @@ const DraggableListWithHandleGhostBody: React.ForwardRefRenderFunction<
     </div>
   );
 };
-
-export const DraggableListWithHandleGhost = React.forwardRef(
-  DraggableListWithHandleGhostBody
-);

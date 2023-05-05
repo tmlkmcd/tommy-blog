@@ -3,12 +3,14 @@ import { Layout } from "~/components/Layout";
 import { DraggableListWithHandleGhost } from "~/components/Draggable/DraggableListWithHandleGhost";
 import { DraggableList } from "~/components/Draggable/DraggableList";
 import { DraggableMultipleLists } from "~/components/Draggable/DraggableMultipleLists";
-import type { ListHandle } from "~/components/Draggable/DraggableBase";
 import type { LoaderArgs } from "@remix-run/node";
 import type { Paragraph } from "~/components/contentful/types";
 import { getParagraph } from "~/data/contentfulClient";
 import { useLoaderData } from "@remix-run/react";
 import { RichText } from "~/components/contentful/RichText";
+import { useDraggableField } from "~/hooks/useDraggableField";
+import { rearrangeArray } from "~/data/rearrangeArray";
+import classNames from "classnames";
 
 export const loader: (args: LoaderArgs) => Promise<Paragraph[]> = async ({
   request,
@@ -28,49 +30,74 @@ export default function Index() {
 
   React.useEffect(() => {
     document.title = "useDraggableField - Tommy's Website";
+    console.log(
+      "Did you notice that the title of each section is draggable on the page too? 😬"
+    );
     return () => {
       document.title = "Tommy's Website";
     };
   }, []);
 
-  const listRef = React.useRef<ListHandle>(null);
-  const ghostListRef = React.useRef<ListHandle>(null);
-  const betweenListRef = React.useRef<ListHandle>(null);
+  const [sections, setSections] = React.useState<
+    {
+      title: string;
+      desc: React.ReactElement;
+      body: React.ReactElement;
+    }[]
+  >(() => [
+    {
+      title: "Simple list",
+      desc: <RichText node={paragraph1.text.content[0]} />,
+      body: <DraggableList />,
+    },
+    {
+      title: "List - draggable handle with ghost",
+      desc: <RichText node={paragraph2.text.content[0]} />,
+      body: <DraggableListWithHandleGhost />,
+    },
+    {
+      title: "Moving items between lists",
+      desc: <RichText node={paragraph3.text.content[0]} />,
+      body: <DraggableMultipleLists />,
+    },
+  ]);
 
-  const reset = () => {
-    listRef.current?.reset();
-    ghostListRef.current?.reset();
-    betweenListRef.current?.reset();
-  };
+  const { dragging, dragOver, draggableItemProps, dropZoneProps } =
+    useDraggableField({
+      fieldName: "sections",
+      onRearrange: (fromIndex: number, toIndex: number) => {
+        setSections((currentSections) => {
+          return rearrangeArray(currentSections, fromIndex, toIndex);
+        });
+      },
+    });
 
   return (
     <Layout title="Draggable Field Hook">
       <div className="flex flex-col gap-6 rounded border border-black border-opacity-50 bg-pinkApotheosis-400 bg-opacity-10 p-8">
-        <section className="flex flex-col items-start gap-4">
-          <button
-            onClick={reset}
-            className="rounded border border-opacity-50 bg-iceColdStare-500 bg-opacity-60 py-1 px-2 font-bold transition-colors hover:bg-opacity-80"
+        {sections.map(({ title, desc, body }, i) => (
+          <section
+            className={classNames(
+              "flex flex-col gap-2 p-2",
+              dragging === i && "opacity-50",
+              dragOver === i && "rounded border border-dashed"
+            )}
+            {...dropZoneProps(i)}
+            key={title}
           >
-            reset all
-          </button>
-        </section>
-        <section className="flex flex-col gap-2">
-          <h2 className="text-xl font-bold">Simple list</h2>
-          <RichText node={paragraph1.text.content[0]} />
-          <DraggableList ref={listRef} />
-        </section>
-        <section className="flex flex-col gap-2">
-          <h2 className="text-xl font-bold">
-            List - draggable handle with ghost
-          </h2>
-          <RichText node={paragraph2.text.content[0]} />
-          <DraggableListWithHandleGhost ref={ghostListRef} />
-        </section>
-        <section className="flex flex-col gap-2">
-          <h2 className="text-xl font-bold">Moving items between lists</h2>
-          <RichText node={paragraph3.text.content[0]} />
-          <DraggableMultipleLists ref={betweenListRef} />
-        </section>
+            <div
+              className="flex flex-row gap-2"
+              {...draggableItemProps(i, {
+                ghost: <div className="p-4">😬</div>,
+              })}
+            >
+              <h2 className="text-xl font-bold">{title}</h2>
+            </div>
+
+            {desc}
+            {body}
+          </section>
+        ))}
       </div>
     </Layout>
   );
