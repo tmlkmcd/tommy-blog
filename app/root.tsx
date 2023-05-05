@@ -67,14 +67,14 @@ export default function App() {
         </head>
         <body
           className={classNames(
-            "h-screen bg-cover bg-fixed bg-center bg-no-repeat pb-4 text-center font-aleo md:h-auto md:bg-page",
+            "min-h-screen bg-cover bg-fixed bg-center bg-no-repeat text-center text-center font-aleo md:h-auto md:bg-page",
             theme
           )}
         >
           <ModalProvider>
             <div
               className={classNames(
-                "rounded border border-black backdrop-blur-sm md:my-8 md:mx-auto md:max-w-2xl lg:max-w-6xl",
+                "rounded border border-black backdrop-blur-sm md:mx-auto md:max-w-2xl lg:my-8 lg:w-[95%] lg:max-w-6xl",
                 "h-full md:m-4 md:h-auto md:shadow-main"
               )}
             >

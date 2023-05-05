@@ -9,7 +9,7 @@ import {
 } from "~/components/contentful/types";
 import classNames from "classnames";
 import { Image } from "~/components/contentful/Image";
-import { BlogInternalLink } from "~/components/Blog/BlogInternalLink";
+import { BlogInternalLink } from "~/components/contentful/BlogInternalLink";
 import {
   BlockGithubGistDisplay,
   GithubGistError,
