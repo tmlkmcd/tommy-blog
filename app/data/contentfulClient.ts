@@ -207,23 +207,48 @@ export const getInternalLink = async ({
   ).toPlainObject() as Entry<InternalLink>;
 };
 
-export const getParagraph = async ({
+export async function getParagraph({
   identifier,
-  client: givenClient,
+  client,
+  token,
+}: {
+  identifier: string[];
+  client?: contentful.ContentfulClientApi;
+  token?: string | null;
+}): Promise<Paragraph[]>;
+
+export async function getParagraph({
+  identifier,
+  client,
   token,
 }: {
   identifier: string;
   client?: contentful.ContentfulClientApi;
   token?: string | null;
-}): Promise<Paragraph> => {
+}): Promise<Paragraph>;
+
+export async function getParagraph({
+  identifier,
+  client: givenClient,
+  token,
+}: {
+  identifier: string | string[];
+  client?: contentful.ContentfulClientApi;
+  token?: string | null;
+}): Promise<Paragraph | Paragraph[]> {
   const client = givenClient ?? contentfulClient({ token });
 
   const paragraphs = (
     await client.getEntries({
       content_type: "paragraphs",
-      "fields.identifier": identifier,
+      "fields.identifier[in]": Array.isArray(identifier)
+        ? identifier.join(",")
+        : identifier,
+      order: "fields.identifier",
     })
   ).toPlainObject() as EntryCollection<Paragraph>;
 
-  return paragraphs.items[0].fields;
-};
+  return Array.isArray(identifier)
+    ? paragraphs.items.map((p) => p.fields)
+    : paragraphs.items[0].fields;
+}
