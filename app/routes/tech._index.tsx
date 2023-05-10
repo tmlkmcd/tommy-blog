@@ -2,19 +2,27 @@ import * as React from "react";
 
 import { Layout } from "~/components/Layout";
 import { LinkedinIcon } from "~/icons/LinkedinIcon";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/cloudflare";
 import type { Paragraph } from "~/components/contentful/types";
 import { getParagraph } from "~/data/contentfulClient";
 import { useLoaderData } from "@remix-run/react";
 import { RichText } from "~/components/contentful/RichText";
 
 export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
+  context,
   request,
 }) => {
   const url = new URL(request.url);
+  const token =
+    url.searchParams.get("cf_token") ??
+    (context.CONTENTFUL_TOKEN as string) ??
+    null;
+  const space = context.CONTENTFUL_SPACE as string;
+
   return getParagraph({
     identifier: "technology-overview",
-    token: url.searchParams.get("cf_token"),
+    token,
+    space,
   });
 };
 

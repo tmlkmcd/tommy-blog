@@ -1,4 +1,5 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
+import type { LinksFunction } from "@remix-run/cloudflare";
+import type { V2_MetaFunction } from "@remix-run/react";
 import {
   Links,
   LiveReload,
@@ -44,13 +45,15 @@ export const links: LinksFunction = () => [
 
 export { loader } from "./rootLoader";
 
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "Tommy's Website",
-  viewport: "width=device-width,initial-scale=1",
-  "msapplication-TileColor": "#da532c",
-  "theme-color": "#ffffff",
-});
+export const meta: V2_MetaFunction = () => [
+  {
+    charset: "utf-8",
+  },
+  { title: "Tommy's Website" },
+  { viewport: "width=device-width,initial-scale=1" },
+  { "msapplication-TileColor": "#da532c" },
+  { "theme-color": "#ffffff" },
+];
 
 export default function App() {
   const cfGeneric = useLoaderData() as ContentfulGenericItems;

@@ -2,18 +2,26 @@ import * as React from "react";
 import { Layout } from "~/components/Layout";
 import type { Paragraph } from "~/components/contentful/types";
 import { getParagraph } from "~/data/contentfulClient";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import { RichText } from "~/components/contentful/RichText";
 import { TuringMachine } from "~/components/TuringMachine";
 
 export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
+  context,
   request,
 }) => {
   const url = new URL(request.url);
+  const token =
+    url.searchParams.get("cf_token") ??
+    (context.CONTENTFUL_TOKEN as string) ??
+    null;
+  const space = context.CONTENTFUL_SPACE as string;
+
   return getParagraph({
     identifier: "turing-machine",
-    token: url.searchParams.get("cf_token"),
+    token,
+    space,
   });
 };
 
@@ -25,7 +33,7 @@ export default function Index() {
     return () => {
       document.title = "Tommy's Website";
     };
-  });
+  }, []);
 
   return (
     <Layout title="Turing Machine">

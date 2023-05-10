@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useLoaderData } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/cloudflare";
 import { PostPreview } from "~/components/contentful/PostPreview";
 import { Layout } from "~/components/Layout";
 import type { ExtendedBlogPost } from "~/components/contentful/types";
@@ -8,9 +8,14 @@ import { getBlogPosts } from "~/data/contentfulClient";
 
 export const loader: (
   args: LoaderArgs
-) => Promise<ExtendedBlogPost[]> = async ({ request }) => {
+) => Promise<ExtendedBlogPost[]> = async ({ context, request }) => {
   const url = new URL(request.url);
-  return getBlogPosts({ token: url.searchParams.get("cf_token") });
+  const token =
+    url.searchParams.get("cf_token") ??
+    (context.CONTENTFUL_TOKEN as string) ??
+    null;
+  const space = context.CONTENTFUL_SPACE as string;
+  return getBlogPosts({ token, space });
 };
 
 export default function Index() {

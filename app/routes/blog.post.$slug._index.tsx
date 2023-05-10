@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Navigate } from "react-router";
 import { Layout } from "~/components/Layout";
-import { type LoaderArgs } from "@remix-run/node";
+import { type LoaderArgs } from "@remix-run/cloudflare";
 import type { ExtendedBlogPost } from "~/components/contentful/types";
 import { useLoaderData } from "@remix-run/react";
 import { RichText } from "~/components/contentful/RichText";
@@ -12,8 +12,17 @@ import { Footnotes } from "~/components/Blog/FootnoteProvider";
 
 export const loader: (
   args: LoaderArgs
-) => Promise<ExtendedBlogPost | null> = async ({ request, params }) => {
+) => Promise<ExtendedBlogPost | null> = async ({
+  context,
+  request,
+  params,
+}) => {
   const url = new URL(request.url);
+  const token =
+    url.searchParams.get("cf_token") ??
+    (context.CONTENTFUL_TOKEN as string) ??
+    null;
+  const space = context.CONTENTFUL_SPACE as string;
 
   if (!params.slug) {
     throw new Error('Missing "slug" parameter');
@@ -21,7 +30,8 @@ export const loader: (
 
   return getBlogPost({
     slug: params.slug,
-    token: url.searchParams.get("cf_token"),
+    token,
+    space,
   });
 };
 
