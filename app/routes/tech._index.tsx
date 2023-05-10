@@ -23,6 +23,7 @@ export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
     identifier: "technology-overview",
     token,
     space,
+    isPreview: !!url.searchParams.get("cf_token"),
   });
 };
 

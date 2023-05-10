@@ -1,7 +1,7 @@
 import * as React from "react";
 import type { Category } from "~/components/contentful/types";
-import { Link } from "@remix-run/react";
 import type { Entry } from "contentful";
+import { LinkWithQuery } from "~/components/LinkWithQuery";
 
 interface Props {
   categories: Entry<Category>[];
@@ -30,11 +30,11 @@ const CategoryLink: React.FC<{ category: Entry<Category> }> = ({
 }) => {
   const label = category.fields.name;
   return (
-    <Link
+    <LinkWithQuery
       to={`/blog/tags/${label.toLowerCase()}`}
       className="text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"
     >
       <>{label}</>
-    </Link>
+    </LinkWithQuery>
   );
 };

@@ -2,9 +2,10 @@ import * as React from "react";
 import { Layout } from "~/components/Layout";
 import type { LoaderArgs } from "@remix-run/cloudflare";
 import type { ExtendedBlogPost } from "~/components/contentful/types";
-import { Link, useLoaderData, useParams } from "@remix-run/react";
+import { useLoaderData, useParams } from "@remix-run/react";
 import { PostPreview } from "~/components/contentful/PostPreview";
 import { getBlogPostsByTag } from "~/data/contentfulClient";
+import { LinkWithQuery } from "~/components/LinkWithQuery";
 
 export const loader: (
   args: LoaderArgs
@@ -22,7 +23,12 @@ export const loader: (
     throw new Error("No tag provided");
   }
 
-  return getBlogPostsByTag({ tag, token, space });
+  return getBlogPostsByTag({
+    tag,
+    token,
+    space,
+    isPreview: !!url.searchParams.get("cf_token"),
+  });
 };
 
 export default function Index() {
@@ -40,12 +46,12 @@ export default function Index() {
     <Layout
       title={`Posts with tag: '${tag}'`}
       subtitle={
-        <Link
+        <LinkWithQuery
           to="/blog"
           className="text-sapphireSplendour-700 transition hover:text-sapphireSplendour-300"
         >
           Back to all posts
-        </Link>
+        </LinkWithQuery>
       }
     >
       {posts.map((blogPost) => (

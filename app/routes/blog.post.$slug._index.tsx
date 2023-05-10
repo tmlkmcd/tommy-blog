@@ -32,6 +32,7 @@ export const loader: (
     slug: params.slug,
     token,
     space,
+    isPreview: !!url.searchParams.get("cf_token"),
   });
 };
 

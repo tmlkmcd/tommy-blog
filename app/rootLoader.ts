@@ -21,6 +21,7 @@ export const loader: (
   const client = contentfulClient({
     token,
     space,
+    isPreview: !!url.searchParams.get("cf_token"),
   });
 
   const displayPicture = await getProfilePicture({ client, space });

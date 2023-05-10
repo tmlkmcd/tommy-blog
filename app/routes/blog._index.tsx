@@ -15,7 +15,11 @@ export const loader: (
     (context.CONTENTFUL_TOKEN as string) ??
     null;
   const space = context.CONTENTFUL_SPACE as string;
-  return getBlogPosts({ token, space });
+  return getBlogPosts({
+    token,
+    space,
+    isPreview: !!url.searchParams.get("cf_token"),
+  });
 };
 
 export default function Index() {

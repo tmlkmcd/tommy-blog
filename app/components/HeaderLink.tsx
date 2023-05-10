@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "@remix-run/react";
+import { LinkWithQuery } from "~/components/LinkWithQuery";
 
 interface Props {
   path: string;
@@ -10,7 +10,7 @@ interface Props {
 export const HeaderLink: React.FC<Props> = ({ path, label, subItems = [] }) => {
   return (
     <div className="flex px-4 py-2 md:py-4">
-      <Link to={path}>{label}</Link>
+      <LinkWithQuery to={path}>{label}</LinkWithQuery>
     </div>
   );
 };

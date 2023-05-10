@@ -23,5 +23,6 @@ export const loader: (
     id,
     token,
     space,
+    isPreview: !!url.searchParams.get("cf_token"),
   });
 };

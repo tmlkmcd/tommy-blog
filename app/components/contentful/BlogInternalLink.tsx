@@ -1,7 +1,7 @@
 import * as React from "react";
 import type { InternalLink } from "~/components/contentful/types";
 import type { Entry } from "contentful";
-import { Link } from "@remix-run/react";
+import { LinkWithQuery } from "~/components/LinkWithQuery";
 
 interface Props {
   id: string;
@@ -31,11 +31,11 @@ export const BlogInternalLink: React.FC<Props> = (props) => {
   }
 
   return (
-    <Link
+    <LinkWithQuery
       to={to}
       className="text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"
     >
       {link.fields.inlineText}
-    </Link>
+    </LinkWithQuery>
   );
 };

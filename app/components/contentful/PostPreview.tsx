@@ -1,9 +1,9 @@
 import * as React from "react";
 import type { ExtendedBlogPost } from "~/components/contentful/types";
-import { Link } from "@remix-run/react";
 import type { EntryFields, RichTextContent } from "contentful";
 import { formatBlogDate } from "~/data/dates";
 import { Categories } from "~/components/contentful/Categories";
+import { LinkWithQuery } from "~/components/LinkWithQuery";
 
 interface Props {
   post: ExtendedBlogPost;
@@ -18,18 +18,20 @@ export const PostPreview: React.FC<Props> = React.memo(function PostPreview({
         <header className="mx-1 border-b border-dashed border-iceColdStare-900 pb-1">
           {formatBlogDate(post.published)}
         </header>
-        <Link
+        <LinkWithQuery
           to={`/blog/post/${post.slug}`}
           className="pt-2 text-xl lg:text-2xl"
         >
           {post.title}
-        </Link>
+        </LinkWithQuery>
         <section>
           <Categories categories={post.categories} />
         </section>
         <span className="pt-2">
           <TextPreview body={post.post} />{" "}
-          <Link to={`/blog/post/${post.slug}`}>(read more)</Link>
+          <LinkWithQuery to={`/blog/post/${post.slug}`}>
+            (read more)
+          </LinkWithQuery>
         </span>
       </div>
     </section>

@@ -51,7 +51,7 @@ export const meta: V2_MetaFunction = () => [
   },
   { title: "Tommy's Website" },
   { viewport: "width=device-width,initial-scale=1" },
-  { "msapplication-TileColor": "#da532c" },
+  { "msapplication-tilecolor": "#da532c" },
   { "theme-color": "#ffffff" },
 ];
 

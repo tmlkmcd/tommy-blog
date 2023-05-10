@@ -27,6 +27,7 @@ export const loader: (args: LoaderArgs) => Promise<Paragraph[]> = async ({
     identifier: ["draggable-list-1", "draggable-list-2", "draggable-list-3"],
     token,
     space,
+    isPreview: !!url.searchParams.get("cf_token"),
   });
 };
 

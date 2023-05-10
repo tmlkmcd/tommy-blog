@@ -16,17 +16,22 @@ import type { AxiosRequestConfig } from "axios";
 export const contentfulClient = ({
   token,
   space,
+  isPreview,
 }: {
   token?: string | null;
   space?: string | null;
+  isPreview?: boolean;
 }): contentful.ContentfulClientApi => {
   if (!token || !space) {
     throw new Error("No access token and/or space provided!");
   }
 
+  const host = isPreview ? "preview.contentful.com" : undefined;
+
   return contentful.createClient({
     space,
     accessToken: token,
+    host,
     adapter: async (config: AxiosRequestConfig) => {
       const url = new URL(`${config.baseURL}/${config.url}`);
       if (config.params) {
@@ -62,16 +67,19 @@ export const getProfilePicture = async ({
   token,
   client: givenClient,
   space,
+  isPreview,
 }: {
   token?: string | null;
   client?: contentful.ContentfulClientApi;
   space?: string | null;
+  isPreview?: boolean;
 }): Promise<ContentfulGenericItems["displayPicture"]> => {
   const client =
     givenClient ??
     contentfulClient({
       token,
       space,
+      isPreview,
     });
 
   const dpEntries = (
@@ -90,16 +98,19 @@ export const getBlogPosts = async ({
   token,
   client: givenClient,
   space,
+  isPreview,
 }: {
   token?: string | null;
   client?: contentful.ContentfulClientApi;
   space?: string | null;
+  isPreview?: boolean;
 }): Promise<ExtendedBlogPost[]> => {
   const client =
     givenClient ??
     contentfulClient({
       token,
       space,
+      isPreview,
     });
 
   const entries = (
@@ -123,17 +134,20 @@ export const getBlogPostsByTag = async ({
   token,
   client: givenClient,
   space,
+  isPreview,
 }: {
   tag: string;
   token?: string | null;
   client?: contentful.ContentfulClientApi;
   space?: string | null;
+  isPreview?: boolean;
 }): Promise<ExtendedBlogPost[]> => {
   const client =
     givenClient ??
     contentfulClient({
       token,
       space,
+      isPreview,
     });
   const categories = await getCategories({ token, client });
 
@@ -162,17 +176,20 @@ export const getBlogPost = async ({
   client: givenClient,
   token,
   space,
+  isPreview,
 }: {
   slug: string;
   client?: contentful.ContentfulClientApi;
   token?: string | null;
   space?: string | null;
+  isPreview?: boolean;
 }): Promise<(ExtendedBlogPost & { footnotes: string[] }) | null> => {
   const client =
     givenClient ??
     contentfulClient({
       token,
       space,
+      isPreview,
     });
 
   const entries = (
@@ -204,16 +221,19 @@ export const getCategories = async ({
   client: givenClient,
   token,
   space,
+  isPreview,
 }: {
   client?: contentful.ContentfulClientApi;
   token?: string | null;
   space?: string | null;
+  isPreview?: boolean;
 }): Promise<EntryCollection<Category>> => {
   const client =
     givenClient ??
     contentfulClient({
       token,
       space,
+      isPreview,
     });
 
   return (
@@ -226,17 +246,20 @@ export const getFootnotes = async ({
   client: givenClient,
   token,
   space,
+  isPreview,
 }: {
   ids: string | string[];
   client?: contentful.ContentfulClientApi;
   token?: string | null;
   space?: string | null;
+  isPreview?: boolean;
 }): Promise<EntryCollection<Footnote>> => {
   const client =
     givenClient ??
     contentfulClient({
       token,
       space,
+      isPreview,
     });
   return (
     await client.getEntries({
@@ -251,17 +274,20 @@ export const getInternalLink = async ({
   client: givenClient,
   token,
   space,
+  isPreview,
 }: {
   id: string;
   client?: contentful.ContentfulClientApi;
   token?: string | null;
   space?: string | null;
+  isPreview?: boolean;
 }): Promise<Entry<InternalLink>> => {
   const client =
     givenClient ??
     contentfulClient({
       token,
       space,
+      isPreview,
     });
 
   return (
@@ -276,11 +302,13 @@ export async function getParagraph({
   client,
   token,
   space,
+  isPreview,
 }: {
   identifier: string[];
   client?: contentful.ContentfulClientApi;
   token?: string | null;
   space?: string | null;
+  isPreview?: boolean;
 }): Promise<Paragraph[]>;
 
 export async function getParagraph({
@@ -288,11 +316,13 @@ export async function getParagraph({
   client,
   token,
   space,
+  isPreview,
 }: {
   identifier: string;
   client?: contentful.ContentfulClientApi;
   token?: string | null;
   space?: string | null;
+  isPreview?: boolean;
 }): Promise<Paragraph>;
 
 export async function getParagraph({
@@ -300,17 +330,20 @@ export async function getParagraph({
   client: givenClient,
   token,
   space,
+  isPreview,
 }: {
   identifier: string | string[];
   client?: contentful.ContentfulClientApi;
   token?: string | null;
   space?: string | null;
+  isPreview?: boolean;
 }): Promise<Paragraph | Paragraph[]> {
   const client =
     givenClient ??
     contentfulClient({
       token,
       space,
+      isPreview,
     });
 
   const paragraphs = (

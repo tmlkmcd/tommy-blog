@@ -22,6 +22,7 @@ export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
     identifier: "turing-machine",
     token,
     space,
+    isPreview: !!url.searchParams.get("cf_token"),
   });
 };
 
