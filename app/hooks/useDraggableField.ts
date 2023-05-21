@@ -59,8 +59,8 @@ export const useDraggableField = <T = number>({
     ghostWrapper.style.zIndex = "-1";
     ghostWrapper.setAttribute("id", "drag-ghost");
 
-    // React version note - the above has been updated for React 18;
-    // previous versions of React
+    // React version note - the below has been updated for React 18;
+    // previous versions of React should use ReactDOM.render
     const root = ReactDOM.createRoot(ghostWrapper);
     root.render(ghost);
     document.body.appendChild(ghostWrapper);
@@ -72,8 +72,7 @@ export const useDraggableField = <T = number>({
   const onDragOver = (e: React.DragEvent<HTMLDivElement>, index: T) => {
     e.preventDefault();
 
-    // if identifier type <T> is not a primitive, this comparison needs to be
-    // adapted
+    // if identifier type <T> is not a primitive, this comparison needs to be adapted
     if (index === dragging || dragField.current !== fieldName) return;
     if (dragging !== null) setDragOver(index);
   };
@@ -94,8 +93,7 @@ export const useDraggableField = <T = number>({
     setDragOver(null);
     dragImage.current?.remove();
 
-    // if identifier type <T> is not a primitive, this comparison needs to be
-    // adapted
+    // if identifier type <T> is not a primitive, this comparison needs to be adapted
     if (index === dragging || dragging === null) return;
 
     onRearrange(dragging, index);

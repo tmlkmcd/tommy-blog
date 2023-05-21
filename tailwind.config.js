@@ -86,6 +86,7 @@ module.exports = {
       },
       boxShadow: {
         main: "rgb(17, 17, 17) 4px 4px 8px 0px",
+        casual: "rgba(17, 17, 17, 0.75) 4px 4px 8px 0px",
         gistTooltip: "rgba(0, 0, 0, 0.75) 0px 0px 24px 0px inset",
       },
       fontFamily: {

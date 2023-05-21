@@ -1,5 +1,5 @@
 export interface IconProps {
-  size?: "xs" | "sm" | "md" | "lg" | "xl";
+  size?: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
   className?: string;
 }
 
@@ -15,6 +15,8 @@ export const getSize = (size: IconProps["size"]) => {
       return "2rem";
     case "xl":
       return "2.5rem";
+    case "xxl":
+      return "3.5rem";
     default:
       return "1rem";
   }

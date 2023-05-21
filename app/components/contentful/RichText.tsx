@@ -15,6 +15,8 @@ import {
   GithubGistError,
   TooltipGistDisplay,
 } from "./GithubGist";
+import { Blockquote } from "~/components/contentful/Blockquote";
+import { Table } from "~/components/contentful/Table";
 
 interface Props {
   node: EntryFields.RichText | RichTextContent;
@@ -83,6 +85,10 @@ const WrapRichText: React.FC<
     return <BlockGithubGistDisplay id={gist.id} expandable={gist.isBigCode} />;
   }
 
+  if (nodeType === "table") {
+    return <Table node={node as EntryFields.RichText} />;
+  }
+
   const mark = (node as RichTextContent).marks || [];
 
   const isBold = mark.some((m) => m.type === "bold");
@@ -139,6 +145,8 @@ const WrapRichText: React.FC<
       return <ol className="ml-6 list-decimal">{children}</ol>;
     case "list-item":
       return <li className="">{children}</li>;
+    case "blockquote":
+      return <Blockquote>{children}</Blockquote>;
     case "embedded-asset-block":
       return (
         <Image
