@@ -1,5 +1,4 @@
-import type { LinksFunction } from "@remix-run/cloudflare";
-import type { V2_MetaFunction } from "@remix-run/react";
+import type { LinksFunction, V2_MetaFunction } from "@remix-run/cloudflare";
 import {
   Links,
   LiveReload,
@@ -50,9 +49,9 @@ export const meta: V2_MetaFunction = () => [
     charset: "utf-8",
   },
   { title: "Tommy's Website" },
-  { viewport: "width=device-width,initial-scale=1" },
-  { "msapplication-tilecolor": "#da532c" },
-  { "theme-color": "#ffffff" },
+  { name: "viewport", content: "width=device-width,initial-scale=1" },
+  { name: "msapplication-tilecolor", content: "#da532c" },
+  { name: "theme-color", content: "#ffffff" },
 ];
 
 export default function App() {
