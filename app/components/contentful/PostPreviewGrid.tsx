@@ -29,7 +29,7 @@ const PostPreview: React.FC<PostPreviewProps> = React.memo(
     const imgSrc: string | null = post.image?.fields.file.url;
     return (
       <button
-        className="flex flex-col bg-nobel-400 bg-opacity-60 text-left"
+        className="flex flex-col bg-nobel-400 bg-opacity-60 text-left transition-all hover:brightness-125"
         onClick={() => {
           navigate(`/blog/post/${post.slug}`);
         }}
