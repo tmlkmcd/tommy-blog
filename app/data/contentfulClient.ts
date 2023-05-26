@@ -8,6 +8,7 @@ import type {
   Footnote,
   Paragraph,
   InternalLink,
+  Series,
 } from "~/components/contentful/types";
 import { crawlAndIndexFootnotes } from "~/data/blogPosts";
 import type { ContentfulGenericItems } from "~/rootLoader";
@@ -159,6 +160,44 @@ export const getBlogPostsByTag = async ({
     await client.getEntries({
       content_type: "blogPost",
       "fields.categories.sys.id": id,
+    })
+  ).toPlainObject() as EntryCollection<BlogPost>;
+
+  return entries.items.map(({ fields, sys }) => {
+    return {
+      ...fields,
+      published: sys.createdAt,
+      updated: sys.updatedAt,
+    };
+  });
+};
+
+export const getBlogPostsBySeries = async ({
+  id,
+  token,
+  client: givenClient,
+  space,
+  isPreview,
+}: {
+  id: string;
+  token?: string | null;
+  client?: contentful.ContentfulClientApi;
+  space?: string | null;
+  isPreview?: boolean;
+}): Promise<ExtendedBlogPost[]> => {
+  const client =
+    givenClient ??
+    contentfulClient({
+      token,
+      space,
+      isPreview,
+    });
+
+  const entries = (
+    await client.getEntries({
+      content_type: "blogPost",
+      "fields.series.sys.id": id,
+      order: "-sys.createdAt",
     })
   ).toPlainObject() as EntryCollection<BlogPost>;
 
@@ -359,4 +398,50 @@ export async function getParagraph({
   return Array.isArray(identifier)
     ? paragraphs.items.map((p) => p.fields)
     : paragraphs.items[0].fields;
+}
+
+export async function getSeries({
+  slug,
+  client: givenClient,
+  token,
+  space,
+  isPreview,
+}: {
+  slug: string;
+  client?: contentful.ContentfulClientApi;
+  token?: string | null;
+  space?: string | null;
+  isPreview?: boolean;
+}): Promise<{ series: Series; posts: ExtendedBlogPost[] }> {
+  const client =
+    givenClient ??
+    contentfulClient({
+      token,
+      space,
+      isPreview,
+    });
+
+  const seriesFetched = (
+    await client.getEntries({
+      content_type: "series",
+      "fields.slug[in]": slug,
+    })
+  ).toPlainObject() as EntryCollection<Series>;
+
+  const series = seriesFetched.items[0].fields;
+
+  const seriesId = seriesFetched.items[0].sys.id;
+
+  const posts = await getBlogPostsBySeries({
+    id: seriesId,
+    client,
+    token,
+    space,
+    isPreview,
+  });
+
+  return {
+    series,
+    posts,
+  };
 }

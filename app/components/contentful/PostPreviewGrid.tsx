@@ -7,24 +7,29 @@ import { useNavigate } from "react-router";
 
 interface Props {
   posts: ExtendedBlogPost[];
+  showSeries?: boolean;
 }
 
 interface PostPreviewProps {
   post: ExtendedBlogPost;
+  showSeries: boolean;
 }
 
-export const PostPreviewGrid: React.FC<Props> = ({ posts }) => {
+export const PostPreviewGrid: React.FC<Props> = ({
+  posts,
+  showSeries = true,
+}) => {
   return (
     <section className="flex flex-col gap-2 sm:grid sm:grid-cols-2 xl:grid-cols-3">
       {posts.map((post) => (
-        <PostPreview post={post} key={post.slug} />
+        <PostPreview post={post} key={post.slug} showSeries={showSeries} />
       ))}
     </section>
   );
 };
 
 const PostPreview: React.FC<PostPreviewProps> = React.memo(
-  function PostPreview({ post }) {
+  function PostPreview({ post, showSeries }) {
     const navigate = useNavigate();
     const imgSrc: string | null = post.image?.fields.file.url;
     return (
@@ -54,7 +59,7 @@ const PostPreview: React.FC<PostPreviewProps> = React.memo(
           <span className="pt-2 text-xl lg:text-2xl">{post.title}</span>
           <Categories categories={post.categories} />
           <span className="pt-2 text-sm md:text-base">{post.blurb}</span>
-          {post.series && (
+          {showSeries && post.series && (
             <span className="pt-2 text-sm">
               Part a series on{" "}
               <LinkWithQuery
