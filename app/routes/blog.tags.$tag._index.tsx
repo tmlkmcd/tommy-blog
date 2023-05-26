@@ -3,7 +3,7 @@ import { Layout } from "~/components/Layout";
 import type { LoaderArgs } from "@remix-run/cloudflare";
 import type { ExtendedBlogPost } from "~/components/contentful/types";
 import { useLoaderData, useParams } from "@remix-run/react";
-import { PostPreview } from "~/components/contentful/PostPreview";
+import { PostPreviewGrid } from "~/components/contentful/PostPreviewGrid";
 import { getBlogPostsByTag } from "~/data/contentfulClient";
 import { LinkWithQuery } from "~/components/LinkWithQuery";
 
@@ -54,9 +54,7 @@ export default function Index() {
         </LinkWithQuery>
       }
     >
-      {posts.map((blogPost) => (
-        <PostPreview post={blogPost} key={blogPost.slug} />
-      ))}
+      <PostPreviewGrid posts={posts} />
     </Layout>
   );
 }

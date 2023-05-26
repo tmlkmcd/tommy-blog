@@ -6,7 +6,7 @@
 @tailwind utilities;
 
 @layer utilities {
-    .fade {
+    .fade-btm {
         -webkit-mask-image: -webkit-gradient(
             linear,
             left top,
@@ -19,6 +19,54 @@
             rgba(0, 0, 0, 1),
             rgba(0, 0, 0, 1) 60%,
             transparent
+        );
+    }
+
+    .fade-btm-tight {
+        -webkit-mask-image: -webkit-gradient(
+                linear,
+                left top,
+                left bottom,
+                from(rgba(0, 0, 0, 1)),
+                color-stop(85%, rgba(0, 0, 0, 1)),
+                to(rgba(0, 0, 0, 0))
+        );
+        mask-image: linear-gradient(
+                rgba(0, 0, 0, 1),
+                rgba(0, 0, 0, 1) 85%,
+                transparent
+        );
+    }
+
+    .fade-top {
+        -webkit-mask-image: -webkit-gradient(
+                linear,
+                left bottom,
+                left top,
+                from(rgba(0, 0, 0, 1)),
+                color-stop(60%, rgba(0, 0, 0, 1)),
+                to(rgba(0, 0, 0, 0))
+        );
+        mask-image: linear-gradient(
+                transparent,
+                rgba(0, 0, 0, 1) 60%,
+                rgba(0, 0, 0, 1)
+        );
+    }
+
+    .fade-top-tight {
+        -webkit-mask-image: -webkit-gradient(
+                linear,
+                left bottom,
+                left top,
+                from(rgba(0, 0, 0, 1)),
+                color-stop(85%, rgba(0, 0, 0, 1)),
+                to(rgba(0, 0, 0, 0))
+        );
+        mask-image: linear-gradient(
+                transparent,
+                rgba(0, 0, 0, 1) 85%,
+                rgba(0, 0, 0, 1)
         );
     }
 }

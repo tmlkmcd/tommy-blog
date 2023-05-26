@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import { PostPreview } from "~/components/contentful/PostPreview";
+import { PostPreviewGrid } from "~/components/contentful/PostPreviewGrid";
 import { Layout } from "~/components/Layout";
 import type { ExtendedBlogPost } from "~/components/contentful/types";
 import { getBlogPosts } from "~/data/contentfulClient";
@@ -34,9 +34,7 @@ export default function Index() {
 
   return (
     <Layout title="Blog Posts">
-      {posts.map((blogPost) => (
-        <PostPreview post={blogPost} key={blogPost.slug} />
-      ))}
+      <PostPreviewGrid posts={posts} />
     </Layout>
   );
 }

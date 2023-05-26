@@ -45,7 +45,7 @@ export const BlockGithubGistDisplay: React.FC<
       <span
         className={classNames(
           "block max-w-full overflow-hidden",
-          expandable && !expanded && "fade max-h-[300px]"
+          expandable && !expanded && "fade-btm max-h-[300px]"
         )}
       >
         <Gist {...gistProps} />

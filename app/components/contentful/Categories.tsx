@@ -33,6 +33,7 @@ const CategoryLink: React.FC<{ category: Entry<Category> }> = ({
     <LinkWithQuery
       to={`/blog/tags/${label.toLowerCase()}`}
       className="text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"
+      onClick={(e) => e.stopPropagation()}
     >
       <>{label}</>
     </LinkWithQuery>

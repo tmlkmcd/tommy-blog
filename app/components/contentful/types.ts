@@ -41,9 +41,12 @@ export function isGhGist(
 export interface BlogPost {
   id: number;
   title: string;
+  blurb: string;
   slug: string;
   categories: Entry<Category>[];
   post: EntryFields.RichText;
+  image: Asset;
+  series?: Entry<Series>;
 }
 
 export interface ExtendedBlogPost extends BlogPost {
@@ -81,4 +84,11 @@ export interface GithubGist {
   id: string;
   isBigCode: boolean;
   tooltip?: string;
+}
+
+export interface Series {
+  name: string;
+  description: string;
+  numberOfPosts: number;
+  slug: string;
 }
