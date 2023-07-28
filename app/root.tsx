@@ -69,7 +69,7 @@ export default function App() {
         </head>
         <body
           className={classNames(
-            "min-h-screen bg-page bg-cover bg-fixed bg-center bg-no-repeat text-center text-center font-aleo md:h-auto",
+            "md:h-au min-h-screen bg-page bg-cover bg-fixed bg-center bg-no-repeat text-center font-aleo text-nobel-950",
             theme
           )}
         >

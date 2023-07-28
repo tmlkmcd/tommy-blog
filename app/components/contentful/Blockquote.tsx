@@ -7,7 +7,7 @@ export const Blockquote: React.FC<React.PropsWithChildren> = ({ children }) => {
       <span className="text-sapphireSplendour-700 opacity-80">
         <OpenSpeechMarkIcon size="lg" />
       </span>
-      {children}
+      <span className="flex items-center">{children}</span>
     </blockquote>
   );
 };
