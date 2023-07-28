@@ -127,5 +127,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('@sira-ui/tailwind')],
 };
