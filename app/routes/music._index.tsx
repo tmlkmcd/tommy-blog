@@ -1,13 +1,13 @@
 import * as React from "react";
-
-import { Layout } from "~/components/Layout";
-import { LinkedinIcon } from "~/icons/LinkedinIcon";
 import type { LoaderArgs } from "@remix-run/cloudflare";
 import type { Paragraph } from "~/components/contentful/types";
-import { getParagraph } from "~/data/contentfulClient";
 import { useLoaderData } from "@remix-run/react";
+import { Layout } from "~/components/Layout";
 import { RichText } from "~/components/contentful/RichText";
+import { LinkedinIcon } from "~/icons/LinkedinIcon";
 import { GithubIcon } from "~/icons/GithubIcon";
+import { NotesIcon } from "~/icons/NotesIcon";
+import { getParagraph } from "~/data/contentfulClient";
 
 export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
   context,
@@ -21,7 +21,7 @@ export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
   const space = context.CONTENTFUL_SPACE as string;
 
   return getParagraph({
-    identifier: "technology-overview",
+    identifier: "music-about",
     token,
     space,
     isPreview: !!url.searchParams.get("cf_token"),
@@ -32,14 +32,14 @@ export default function Index() {
   const paragraph = useLoaderData<typeof loader>() as Paragraph;
 
   React.useEffect(() => {
-    document.title = "Technology - Tommy's Website";
+    document.title = "Music - Tommy's Website";
     return () => {
       document.title = "Tommy's Website";
     };
   }, []);
 
   return (
-    <Layout title="Technology" subtitle={<Subtitle />}>
+    <Layout title="🎵 Music 🎹" subtitle={<Subtitle />}>
       <div className="flex flex-col gap-4">
         <RichText node={paragraph.text} />
       </div>
@@ -49,19 +49,8 @@ export default function Index() {
 
 const Subtitle: React.FC = () => {
   return (
-    <span className="flex gap-2">
-      <a
-        href="https://www.linkedin.com/in/tmlkmcd/"
-        className="flex items-center justify-start gap-2 text-sm text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"
-      >
-        <LinkedinIcon /> Linkedin
-      </a>
-      <a
-        href="https://github.com/tmlkmcd/"
-        className="flex items-center justify-start gap-2 text-sm text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"
-      >
-        <GithubIcon /> Github
-      </a>
-    </span>
+    <div>
+      <NotesIcon />
+    </div>
   );
 };

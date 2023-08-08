@@ -3,7 +3,7 @@ import type { ExtendedBlogPost } from "~/components/contentful/types";
 import { formatBlogDate } from "~/data/dates";
 import { Categories } from "~/components/contentful/Categories";
 import { LinkWithQuery } from "~/components/LinkWithQuery";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 interface Props {
   posts: ExtendedBlogPost[];
@@ -30,13 +30,14 @@ export const PostPreviewGrid: React.FC<Props> = ({
 
 const PostPreview: React.FC<PostPreviewProps> = React.memo(
   function PostPreview({ post, showSeries }) {
+    const { search } = useLocation();
     const navigate = useNavigate();
     const imgSrc: string | null = post.image?.fields.file.url;
     return (
       <button
         className="flex flex-col bg-nobel-400 bg-opacity-60 text-left transition-all hover:brightness-125"
         onClick={() => {
-          navigate(`/blog/post/${post.slug}`);
+          navigate(`/blog/post/${post.slug}${search}`);
         }}
       >
         <section className="relative w-full">
