@@ -1,5 +1,5 @@
 import * as React from "react";
-import { randomBitString } from "~/components/ErrorCorrection/randomBitString";
+import { randomBitString } from "~/components/VisualAndExample/ErrorCorrection/randomBitString";
 
 type CorruptTuplet = [
   boolean,

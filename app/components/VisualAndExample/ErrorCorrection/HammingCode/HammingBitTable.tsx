@@ -1,7 +1,7 @@
 import * as React from "react";
 import classNames from "classnames";
 import { ChevronRightIcon } from "~/icons/Chevron";
-import { useHammingContext } from "~/components/ErrorCorrection/HammingCode/HammingContext";
+import { useHammingContext } from "~/components/VisualAndExample/ErrorCorrection/HammingCode/HammingContext";
 
 export const HammingBitTable: React.FC = () => {
   const { bits, parityBits, highlighted, highlight, setHighlighted } =

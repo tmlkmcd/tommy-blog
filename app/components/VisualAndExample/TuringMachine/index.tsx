@@ -2,11 +2,11 @@ import * as React from "react";
 import {
   TuringMachineActionType,
   turingMachineReducer,
-} from "~/components/TuringMachine/tmReducer";
-import { existingMachines } from "~/components/TuringMachine/existingMachines";
+} from "~/components/VisualAndExample/TuringMachine/tmReducer";
+import { existingMachines } from "~/components/VisualAndExample/TuringMachine/existingMachines";
 import { useThrottle } from "~/hooks/useThrottle";
 import classNames from "classnames";
-import { Tape } from "~/components/TuringMachine/Tape";
+import { Tape } from "~/components/VisualAndExample/TuringMachine/Tape";
 import { TuringMachineIcon } from "~/icons/TuringMachineIcon";
 
 const ANIMATION_DURATION = 700;

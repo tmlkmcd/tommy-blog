@@ -1,10 +1,10 @@
 import * as React from "react";
-import type { List } from "~/components/Draggable/DraggableBase";
+import type { List } from "~/components/VisualAndExample/Draggable/DraggableBase";
 import { rearrangeArray } from "~/data/rearrangeArray";
 import { useDraggableField } from "~/hooks/useDraggableField";
-import { DraggableItem } from "~/components/Draggable/DraggableItem";
-import { listCards } from "~/components/Draggable/DraggableBase";
-import { BlankDropzone } from "~/components/Draggable/BlankDropzone";
+import { DraggableItem } from "~/components/VisualAndExample/Draggable/DraggableItem";
+import { listCards } from "~/components/VisualAndExample/Draggable/DraggableBase";
+import { BlankDropzone } from "~/components/VisualAndExample/Draggable/BlankDropzone";
 
 export const DraggableMultipleLists: React.FC = () => {
   const [doubleList, setDoubleList] = React.useState<List[][]>(() => [

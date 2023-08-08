@@ -1,9 +1,9 @@
 import * as React from "react";
-import type { List } from "~/components/Draggable/DraggableBase";
-import { listCards } from "~/components/Draggable/DraggableBase";
+import type { List } from "~/components/VisualAndExample/Draggable/DraggableBase";
+import { listCards } from "~/components/VisualAndExample/Draggable/DraggableBase";
 import { useDraggableField } from "~/hooks/useDraggableField";
 import { rearrangeArray } from "~/data/rearrangeArray";
-import { DraggableItemWithHandle } from "~/components/Draggable/DraggableItemWithHandle";
+import { DraggableItemWithHandle } from "~/components/VisualAndExample/Draggable/DraggableItemWithHandle";
 
 export const DraggableListWithHandleGhost: React.FC = () => {
   const [listWithHandle, setListWithHandle] = React.useState<List[]>(() => [

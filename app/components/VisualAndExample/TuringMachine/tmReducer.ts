@@ -1,9 +1,9 @@
-import { existingMachines } from "~/components/TuringMachine/existingMachines";
+import { existingMachines } from "~/components/VisualAndExample/TuringMachine/existingMachines";
 import type {
   TuringMachineBase,
   TuringMachineComputedDetails,
   TuringMachineState,
-} from "~/components/TuringMachine/types";
+} from "~/components/VisualAndExample/TuringMachine/types";
 
 export enum TuringMachineActionType {
   STEP = "STEP",

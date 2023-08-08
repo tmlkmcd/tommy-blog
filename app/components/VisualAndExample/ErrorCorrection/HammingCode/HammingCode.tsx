@@ -1,8 +1,8 @@
 import * as React from "react";
-import { HammingBitTable } from "~/components/ErrorCorrection/HammingCode/HammingBitTable";
-import { useHammingContext } from "~/components/ErrorCorrection/HammingCode/HammingContext";
-import { HammingBitChecker } from "~/components/ErrorCorrection/HammingCode/HammingBitChecker";
-import { HammingCells } from "~/components/ErrorCorrection/HammingCode/HammingCells";
+import { HammingBitTable } from "~/components/VisualAndExample/ErrorCorrection/HammingCode/HammingBitTable";
+import { useHammingContext } from "~/components/VisualAndExample/ErrorCorrection/HammingCode/HammingContext";
+import { HammingBitChecker } from "~/components/VisualAndExample/ErrorCorrection/HammingCode/HammingBitChecker";
+import { HammingCells } from "~/components/VisualAndExample/ErrorCorrection/HammingCode/HammingCells";
 
 export const HammingCode: React.FC = () => {
   const { value, setValue, randomise, isEncoding } = useHammingContext();

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useHammingContext } from "~/components/ErrorCorrection/HammingCode/HammingContext";
+import { useHammingContext } from "~/components/VisualAndExample/ErrorCorrection/HammingCode/HammingContext";
 import classNames from "classnames";
 
 export const HammingBitChecker: React.FC = () => {

@@ -5,7 +5,7 @@ import { getParagraph } from "~/data/contentfulClient";
 import type { LoaderArgs } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import { RichText } from "~/components/contentful/RichText";
-import { TuringMachine } from "~/components/TuringMachine";
+import { TuringMachine } from "app/components/VisualAndExample/TuringMachine";
 
 export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
   context,

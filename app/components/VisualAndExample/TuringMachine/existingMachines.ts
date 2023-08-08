@@ -1,8 +1,8 @@
 import type {
   TuringMachineBase,
   TuringMachineState,
-} from "~/components/TuringMachine/types";
-import { getComputedDetailsFromTape } from "~/components/TuringMachine/tmReducer";
+} from "~/components/VisualAndExample/TuringMachine/types";
+import { getComputedDetailsFromTape } from "~/components/VisualAndExample/TuringMachine/tmReducer";
 
 const increment: TuringMachineBase<"r" | "l" | "fin", " " | "0" | "1"> = {
   name: "Increment",

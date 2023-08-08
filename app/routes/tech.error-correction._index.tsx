@@ -5,11 +5,11 @@ import { getParagraph } from "~/data/contentfulClient";
 import { useLoaderData } from "@remix-run/react";
 import { Layout } from "~/components/Layout";
 import { RichText } from "~/components/contentful/RichText";
-import { ImplementedECSimulators } from "~/components/ErrorCorrection/types";
+import { ImplementedECSimulators } from "~/components/VisualAndExample/ErrorCorrection/types";
 import classNames from "classnames";
-import { HammingCode } from "~/components/ErrorCorrection/HammingCode/HammingCode";
+import { HammingCode } from "~/components/VisualAndExample/ErrorCorrection/HammingCode/HammingCode";
 import { ChevronIcon } from "~/icons/Chevron";
-import { HammingProvider } from "~/components/ErrorCorrection/HammingCode/HammingContext";
+import { HammingProvider } from "~/components/VisualAndExample/ErrorCorrection/HammingCode/HammingContext";
 
 const ImplementedSimulatorsMap: Record<
   ImplementedECSimulators,

@@ -1,7 +1,10 @@
 import * as React from "react";
 import classNames from "classnames";
-import { Cell, CellLabel } from "~/components/ErrorCorrection/Cell";
-import { useHammingContext } from "~/components/ErrorCorrection/HammingCode/HammingContext";
+import {
+  Cell,
+  CellLabel,
+} from "~/components/VisualAndExample/ErrorCorrection/Cell";
+import { useHammingContext } from "~/components/VisualAndExample/ErrorCorrection/HammingCode/HammingContext";
 
 export const HammingCells: React.FC = () => {
   const {

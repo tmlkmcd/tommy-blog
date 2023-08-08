@@ -1,9 +1,9 @@
 import * as React from "react";
 import { useDraggableField } from "~/hooks/useDraggableField";
 import { rearrangeArray } from "~/data/rearrangeArray";
-import { DraggableItem } from "~/components/Draggable/DraggableItem";
-import type { List } from "~/components/Draggable/DraggableBase";
-import { listCards } from "~/components/Draggable/DraggableBase";
+import { DraggableItem } from "~/components/VisualAndExample/Draggable/DraggableItem";
+import type { List } from "~/components/VisualAndExample/Draggable/DraggableBase";
+import { listCards } from "~/components/VisualAndExample/Draggable/DraggableBase";
 
 export const DraggableList: React.FC = () => {
   const [list, setList] = React.useState<List[]>(() => [...listCards]);

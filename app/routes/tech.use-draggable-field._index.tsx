@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Layout } from "~/components/Layout";
-import { DraggableListWithHandleGhost } from "~/components/Draggable/DraggableListWithHandleGhost";
-import { DraggableList } from "~/components/Draggable/DraggableList";
-import { DraggableMultipleLists } from "~/components/Draggable/DraggableMultipleLists";
+import { DraggableListWithHandleGhost } from "~/components/VisualAndExample/Draggable/DraggableListWithHandleGhost";
+import { DraggableList } from "~/components/VisualAndExample/Draggable/DraggableList";
+import { DraggableMultipleLists } from "~/components/VisualAndExample/Draggable/DraggableMultipleLists";
 import type { LoaderArgs } from "@remix-run/cloudflare";
 import type { Paragraph } from "~/components/contentful/types";
 import { getParagraph } from "~/data/contentfulClient";
