@@ -1,28 +1,9 @@
 import { existingMachines } from "~/components/TuringMachine/existingMachines";
-
-export type TuringMachineState<
-  States extends string = string,
-  TapeValues extends string | number = string
-> = {
-  name: string;
-  tape: Record<number, TapeValues>;
-  head: number;
-  state: States;
-  table: Record<States, Action<States, TapeValues>>;
-  done?: boolean;
-};
-
-export type Action<
-  States extends string,
-  TapeValues extends string | number
-> = Record<
-  TapeValues,
-  Partial<{
-    write: TapeValues;
-    move: "left" | "right";
-    newState: States;
-  }>
->;
+import type {
+  TuringMachineBase,
+  TuringMachineComputedDetails,
+  TuringMachineState,
+} from "~/components/TuringMachine/types";
 
 export enum TuringMachineActionType {
   STEP = "STEP",
@@ -77,10 +58,40 @@ function takeStep(machine: TuringMachineState): TuringMachineState {
     newHead = move === "right" ? head + 1 : head - 1;
   }
 
-  return {
+  const newMachine = {
     ...machine,
     tape: newTape,
     head: newHead,
     state: newState || state,
+    history: [
+      ...(machine.history || []),
+      {
+        head,
+        tape: { ...tape },
+      },
+    ],
+  };
+
+  return {
+    ...newMachine,
+    computed: getComputedDetailsFromTape(newMachine),
+  };
+}
+
+export function getComputedDetailsFromTape(
+  tm: TuringMachineBase
+): TuringMachineComputedDetails {
+  const tapeIndices = Object.keys(tm.tape).map((k) => parseInt(k, 10));
+
+  const minIndex = Math.min(...tapeIndices);
+  const maxIndex = Math.max(...tapeIndices);
+
+  const tapeArray = [...new Array(maxIndex - minIndex + 1)].map(
+    (_, i) => tm.tape[i + minIndex] || " "
+  );
+
+  return {
+    tapeArray,
+    tapeHead: tm.head - minIndex,
   };
 }
