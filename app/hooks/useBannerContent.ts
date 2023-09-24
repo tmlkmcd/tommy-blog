@@ -18,45 +18,44 @@ interface UseBannerContent {
 
 interface UseBannerContentParams {
   switchTimeout: number;
+  showingSomethingElse: boolean;
+  defaultEnabled?: boolean;
 }
 
 export const useBannerContent = (
   params: UseBannerContentParams
 ): UseBannerContent => {
-  const { switchTimeout } = params;
-  const [currentIndex, setCurrentIndex] = React.useState(0);
+  const { switchTimeout, showingSomethingElse, defaultEnabled = true } = params;
+  const [currentIndex, setCurrentIndex] = React.useState(() => {
+    return Math.floor(Math.random() * numberOfBanners);
+  });
 
-  const inMotionRef = React.useRef(false);
-  const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const inMotionRef = React.useRef(defaultEnabled);
+  const intervalRef = React.useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const setCurrentBanner = (index: number) => {
-    setCurrentIndex(index % numberOfBanners);
-  };
+  const nextBanner = React.useCallback(() => {
+    setCurrentIndex((index) => (index + 1) % numberOfBanners);
+  }, []);
 
-  const nextBanner = () => {
-    setCurrentBanner(currentIndex + 1);
-  };
+  const startTimer = React.useCallback(() => {
+    intervalRef.current = setInterval(() => nextBanner(), switchTimeout);
+  }, [nextBanner, switchTimeout]);
 
-  const previousBanner = () => {
-    setCurrentBanner(currentIndex - 1);
-  };
+  React.useEffect(() => {
+    if (showingSomethingElse) {
+      setCurrentIndex(Math.floor(Math.random() * numberOfBanners));
 
-  const toggleAutomaticBannerChange = () => {
-    if (inMotionRef.current && timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    } else {
-      startTimer();
+      inMotionRef.current = false;
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+
+      return;
     }
 
-    inMotionRef.current = !inMotionRef.current;
-  };
-
-  const startTimer = () => {
-    timeoutRef.current = setTimeout(() => {
-      nextBanner();
-    }, switchTimeout);
-  };
+    inMotionRef.current = true;
+    startTimer();
+  }, [showingSomethingElse, startTimer]);
 
   return {
     currentBanner: banners[currentIndex],

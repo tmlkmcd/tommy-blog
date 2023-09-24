@@ -25,7 +25,10 @@ export const Banner: React.FC = () => {
 
     return null;
   }, [blogPost]);
-  const { currentBanner } = useBannerContent({ switchTimeout: 15000 });
+  const { currentBanner } = useBannerContent({
+    switchTimeout: 60000,
+    showingSomethingElse: !!component,
+  });
 
   const [banner, setBanner] = React.useState<AvailableBanners | string | null>(
     component ?? currentBanner
@@ -65,8 +68,9 @@ export const Banner: React.FC = () => {
             case AvailableBanners.SNAX:
               return <SnaxBanner />;
             case AvailableBanners.MEDIUM:
+              return <div>medium</div>;
             case AvailableBanners.SLJO:
-              throw new Error("Not implemented");
+              return <div>sljo</div>;
             default:
               assertUnreachable(banner);
           }
