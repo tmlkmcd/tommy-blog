@@ -86,7 +86,7 @@ const NoteBody: React.ForwardRefRenderFunction<
       >
         ^{index}
       </button>
-      {children}
+      <section>{children}</section>
     </div>,
     footnoteWrapper
   );

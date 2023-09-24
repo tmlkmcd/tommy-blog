@@ -2,25 +2,29 @@ import * as React from "react";
 import type { Category } from "~/components/contentful/types";
 import type { Entry } from "contentful";
 import { LinkWithQuery } from "~/components/LinkWithQuery";
+import { formatBlogDate, getTime } from "~/data/dates";
 
 interface Props {
   categories: Entry<Category>[];
-  leadingText?: React.ReactNode;
+  published?: string;
+  updated?: string;
 }
 
 export const Categories: React.FC<Props> = ({
   categories = [],
-  leadingText = false,
+  published,
+  updated,
 }) => {
   return (
-    <div className="text-sm">
-      {leadingText}
+    <div className=" text-sm">
+      <Published published={published} />
       {categories.map((category, i) => (
         <React.Fragment key={category.sys.id}>
           {!!i && ", "}
           <CategoryLink category={category} />
         </React.Fragment>
       ))}
+      <Updated updated={updated} />
     </div>
   );
 };
@@ -37,5 +41,26 @@ const CategoryLink: React.FC<{ category: Entry<Category> }> = ({
     >
       <>{label}</>
     </LinkWithQuery>
+  );
+};
+
+const Published: React.FC<{ published?: string }> = ({ published }) => {
+  if (!published) return null;
+  return (
+    <span>
+      <span className="font-bold text-iceColdStare-800">
+        {formatBlogDate(published)} @ {getTime(published)}
+      </span>
+      &nbsp; in&nbsp;
+    </span>
+  );
+};
+
+const Updated: React.FC<{ updated?: string }> = ({ updated }) => {
+  if (!updated) return null;
+  return (
+    <span className="italic text-iceColdStare-800">
+      &nbsp; (last updated: {formatBlogDate(updated)} @ {getTime(updated)})
+    </span>
   );
 };

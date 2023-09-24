@@ -57,33 +57,16 @@ export default function Index() {
         subtitle={
           <Categories
             categories={post.categories}
-            leadingText={
-              <span>
-                <span className="font-bold text-iceColdStare-800">
-                  {formatBlogDate(post.published)} @ {getTime(post.published)}
-                </span>{" "}
-                in{" "}
-              </span>
-            }
+            published={post.published}
+            updated={post.updated}
           />
         }
       >
         <div className="flex flex-col gap-4">
           <RichText node={post.post} />
-          {post.updated && <LastUpdatedIndicator lastUpdated={post.updated} />}
           <div id="footnotes" />
         </div>
       </Layout>
     </Footnotes>
   );
 }
-
-const LastUpdatedIndicator: React.FC<{ lastUpdated: string }> = ({
-  lastUpdated,
-}) => {
-  return (
-    <span className="font-bold italic text-iceColdStare-800">
-      last updated: {getTime(lastUpdated)}
-    </span>
-  );
-};

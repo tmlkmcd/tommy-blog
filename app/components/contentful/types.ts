@@ -43,14 +43,15 @@ export interface BlogPost {
   title: string;
   blurb: string;
   slug: string;
+  published: string;
   categories: Entry<Category>[];
   post: EntryFields.RichText;
   image: Asset;
+  bannerImage: Asset;
   series?: Entry<Series>;
 }
 
 export interface ExtendedBlogPost extends BlogPost {
-  published: string;
   updated?: string;
   footnotes?: string[];
 }

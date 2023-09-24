@@ -117,14 +117,13 @@ export const getBlogPosts = async ({
   const entries = (
     await client.getEntries({
       content_type: "blogPost",
-      order: "-sys.createdAt",
+      order: "-fields.published",
     })
   ).toPlainObject() as EntryCollection<BlogPost>;
 
   return entries.items.map(({ fields, sys }) => {
     return {
       ...fields,
-      published: sys.createdAt,
       updated: sys.updatedAt,
     };
   });

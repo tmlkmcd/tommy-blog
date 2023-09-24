@@ -43,9 +43,7 @@ const PostPreview: React.FC<PostPreviewProps> = React.memo(
         <section className="relative w-full">
           <div
             className="fade-btm absolute inset-0 w-full bg-cover opacity-50"
-            style={{
-              backgroundImage: `url(${imgSrc})`,
-            }}
+            style={{ backgroundImage: `url(${imgSrc})` }}
           />
           <div className="flex justify-center">
             {imgSrc && <img src={imgSrc} className="fade-btm" alt="" />}
