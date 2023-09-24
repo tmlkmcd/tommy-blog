@@ -9,6 +9,7 @@ import type { ImageAsset } from "~/components/contentful/types";
 export interface ContentfulGenericItems {
   displayPicture: ImageAsset | null;
   snaxBannerPictures: (ImageAsset | null)[];
+  sljoBannerPictures: (ImageAsset | null)[];
 }
 
 export const loader: (
@@ -31,6 +32,9 @@ export const loader: (
   const snaxBannerPictures = await Promise.all([
     getPictureByTag({ client, space, tag: "snax-card" }),
   ]);
+  const sljoBannerPictures = await Promise.all([
+    getPictureByTag({ client, space, tag: "sljo-logo" }),
+  ]);
 
-  return { displayPicture, snaxBannerPictures };
+  return { displayPicture, snaxBannerPictures, sljoBannerPictures };
 };

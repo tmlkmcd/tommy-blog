@@ -9,6 +9,7 @@ import {
 } from "~/hooks/useBannerContent";
 import { SnaxBanner } from "~/components/Banner/SnaxBanner";
 import { assertUnreachable } from "~/data/assertUnreachable";
+import { SljoBanner } from "~/components/Banner/SljoBanner";
 
 type Fading = "in" | "out" | null;
 
@@ -67,10 +68,8 @@ export const Banner: React.FC = () => {
           switch (banner) {
             case AvailableBanners.SNAX:
               return <SnaxBanner />;
-            case AvailableBanners.MEDIUM:
-              return <div>medium</div>;
             case AvailableBanners.SLJO:
-              return <div>sljo</div>;
+              return <SljoBanner />;
             default:
               assertUnreachable(banner);
           }

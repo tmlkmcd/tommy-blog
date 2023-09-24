@@ -3,7 +3,6 @@ import * as React from "react";
 export enum AvailableBanners {
   SNAX = "SNAX",
   SLJO = "SLJO",
-  MEDIUM = "MEDIUM",
 }
 
 const banners: AvailableBanners[] = Object.values(AvailableBanners);
@@ -26,9 +25,7 @@ export const useBannerContent = (
   params: UseBannerContentParams
 ): UseBannerContent => {
   const { switchTimeout, showingSomethingElse, defaultEnabled = true } = params;
-  const [currentIndex, setCurrentIndex] = React.useState(() => {
-    return Math.floor(Math.random() * numberOfBanners);
-  });
+  const [currentIndex, setCurrentIndex] = React.useState(0);
 
   const inMotionRef = React.useRef(defaultEnabled);
   const intervalRef = React.useRef<ReturnType<typeof setInterval> | null>(null);
