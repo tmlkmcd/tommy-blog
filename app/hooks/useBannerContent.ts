@@ -64,3 +64,9 @@ export const useBannerContent = (
     resetTimer: () => {},
   };
 };
+
+export function isAvailableBanner(
+  banner: string | null
+): banner is AvailableBanners {
+  return banners.includes(banner as AvailableBanners);
+}
