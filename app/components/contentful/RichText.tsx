@@ -8,7 +8,7 @@ import {
   isGhGist,
 } from "~/components/contentful/types";
 import classNames from "classnames";
-import { Image } from "~/components/contentful/Image";
+import { BlogImage } from "~/components/contentful/BlogImage";
 import { BlogInternalLink } from "~/components/contentful/BlogInternalLink";
 import {
   BlockGithubGistDisplay,
@@ -149,7 +149,7 @@ const WrapRichText: React.FC<
       return <Blockquote>{children}</Blockquote>;
     case "embedded-asset-block":
       return (
-        <Image
+        <BlogImage
           image={data.target as any}
           className="w-full min-w-[8rem] max-w-xs lg:max-w-sm"
           imageClassName="w-full"

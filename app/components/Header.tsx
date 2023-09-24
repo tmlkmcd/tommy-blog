@@ -4,6 +4,8 @@ import { HeaderLink } from "~/components/HeaderLink";
 import classNames from "classnames";
 import { useRootContext } from "~/RootContext";
 import { Banner } from "~/components/Banner";
+import type { ImageAsset } from "~/components/contentful/types";
+import { Image } from "~/components/contentful/Image";
 
 export const Header: React.FC = () => {
   const { displayPicture } = useRootContext();
@@ -21,9 +23,8 @@ export const Header: React.FC = () => {
             )}
           >
             {displayPictureHasLoaded(displayPicture) ? (
-              <img
-                src={displayPicture.href}
-                alt={displayPicture.caption}
+              <Image
+                image={displayPicture?.picture}
                 className="z-50 object-contain"
               />
             ) : (
@@ -56,13 +57,7 @@ export const Header: React.FC = () => {
 };
 
 function displayPictureHasLoaded(
-  displayPicture: {
-    caption: string;
-    href: string;
-  } | null
-): displayPicture is {
-  caption: string;
-  href: string;
-} {
+  displayPicture: ImageAsset | null
+): displayPicture is ImageAsset {
   return displayPicture !== null;
 }

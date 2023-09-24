@@ -3,7 +3,7 @@ import * as contentful from "contentful";
 import type {
   BlogPost,
   Category,
-  DisplayPicture,
+  ImageAsset,
   ExtendedBlogPost,
   Footnote,
   Paragraph,
@@ -84,15 +84,44 @@ export const getProfilePicture = async ({
     });
 
   const dpEntries = (
-    await client.getEntries({ content_type: "profilePicture" })
-  ).toPlainObject() as EntryCollection<DisplayPicture>;
+    await client.getEntries({
+      content_type: "profilePicture",
+      "fields.imageType": "Profile Picture",
+    })
+  ).toPlainObject() as EntryCollection<ImageAsset>;
 
-  return dpEntries.items[0]
-    ? {
-        href: dpEntries.items[0].fields.picture.fields.file.url,
-        caption: dpEntries.items[0].fields.caption,
-      }
-    : null;
+  return dpEntries.items[0]?.fields ?? null;
+};
+
+export const getPictureByTag = async ({
+  token,
+  client: givenClient,
+  space,
+  isPreview,
+  tag,
+}: {
+  token?: string | null;
+  client?: contentful.ContentfulClientApi;
+  space?: string | null;
+  isPreview?: boolean;
+  tag: string;
+}): Promise<ImageAsset> => {
+  const client =
+    givenClient ??
+    contentfulClient({
+      token,
+      space,
+      isPreview,
+    });
+
+  const pictureEntries = (
+    await client.getEntries({
+      content_type: "profilePicture",
+      "fields.imageTag": tag,
+    })
+  ).toPlainObject() as EntryCollection<ImageAsset>;
+
+  return pictureEntries.items[0]?.fields ?? null;
 };
 
 export const getBlogPosts = async ({

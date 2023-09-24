@@ -1,11 +1,14 @@
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import { contentfulClient, getProfilePicture } from "~/data/contentfulClient";
+import {
+  contentfulClient,
+  getPictureByTag,
+  getProfilePicture,
+} from "~/data/contentfulClient";
+import type { ImageAsset } from "~/components/contentful/types";
 
 export interface ContentfulGenericItems {
-  displayPicture: null | {
-    caption: string;
-    href: string;
-  };
+  displayPicture: ImageAsset | null;
+  snaxBannerPictures: (ImageAsset | null)[];
 }
 
 export const loader: (
@@ -25,6 +28,9 @@ export const loader: (
   });
 
   const displayPicture = await getProfilePicture({ client, space });
+  const snaxBannerPictures = await Promise.all([
+    getPictureByTag({ client, space, tag: "snax-card" }),
+  ]);
 
-  return { displayPicture };
+  return { displayPicture, snaxBannerPictures };
 };

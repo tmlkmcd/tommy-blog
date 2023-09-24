@@ -6,10 +6,12 @@ import type {
   Sys,
 } from "contentful";
 
-export interface DisplayPicture {
+export type ImageAsset = {
   caption: string;
   picture: Asset;
-}
+  imageType: string;
+  imageTag: string;
+};
 
 export function isFootnote(
   content: EntryFields.RichText | RichTextContent

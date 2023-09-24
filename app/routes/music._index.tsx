@@ -4,9 +4,6 @@ import type { Paragraph } from "~/components/contentful/types";
 import { useLoaderData } from "@remix-run/react";
 import { Layout } from "~/components/Layout";
 import { RichText } from "~/components/contentful/RichText";
-import { LinkedinIcon } from "~/icons/LinkedinIcon";
-import { GithubIcon } from "~/icons/GithubIcon";
-import { NotesIcon } from "~/icons/NotesIcon";
 import { getParagraph } from "~/data/contentfulClient";
 
 export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
@@ -39,18 +36,10 @@ export default function Index() {
   }, []);
 
   return (
-    <Layout title="🎵 Music 🎹" subtitle={<Subtitle />}>
+    <Layout title="🎵 Music 🎹">
       <div className="flex flex-col gap-4">
         <RichText node={paragraph.text} />
       </div>
     </Layout>
   );
 }
-
-const Subtitle: React.FC = () => {
-  return (
-    <div>
-      <NotesIcon />
-    </div>
-  );
-};

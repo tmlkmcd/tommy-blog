@@ -87,6 +87,7 @@ module.exports = {
         900: "#4e4e4e",
         950: "#282828",
       },
+      snax: "#ffb700",
     },
     extend: {
       maxWidth: {
@@ -127,5 +128,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@sira-ui/tailwind')],
+  plugins: [require("@sira-ui/tailwind")],
 };

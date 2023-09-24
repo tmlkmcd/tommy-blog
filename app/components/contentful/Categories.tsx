@@ -16,7 +16,7 @@ export const Categories: React.FC<Props> = ({
   updated,
 }) => {
   return (
-    <div className=" text-sm">
+    <div className="text-sm">
       <Published published={published} />
       {categories.map((category, i) => (
         <React.Fragment key={category.sys.id}>
@@ -51,7 +51,7 @@ const Published: React.FC<{ published?: string }> = ({ published }) => {
       <span className="font-bold text-iceColdStare-800">
         {formatBlogDate(published)} @ {getTime(published)}
       </span>
-      &nbsp; in&nbsp;
+      &nbsp;in&nbsp;
     </span>
   );
 };
@@ -60,7 +60,7 @@ const Updated: React.FC<{ updated?: string }> = ({ updated }) => {
   if (!updated) return null;
   return (
     <span className="italic text-iceColdStare-800">
-      &nbsp; (last updated: {formatBlogDate(updated)} @ {getTime(updated)})
+      &nbsp;(last updated: {formatBlogDate(updated)} @ {getTime(updated)})
     </span>
   );
 };
