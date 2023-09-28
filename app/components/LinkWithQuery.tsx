@@ -6,6 +6,7 @@ export const LinkWithQuery: React.FC<
   React.PropsWithChildren<
     {
       to: string;
+      className?: string;
     } & React.ComponentProps<typeof Link>
   >
 > = ({ children, to, ...props }) => {

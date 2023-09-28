@@ -11,7 +11,7 @@ export const Header: React.FC = () => {
   const { displayPicture } = useRootContext();
 
   return (
-    <header className="flex flex-col border-b bg-pinkApotheosis-50 bg-opacity-60 shadow-lg">
+    <header className="flex flex-col border-b bg-iceColdStare-900 bg-opacity-60 shadow-lg">
       <Banner />
       <div className="flex px-4 md:-mt-12 md:pt-4 lg:-mt-24">
         <div className="hidden md:block md:h-20 md:w-40 lg:h-32 lg:w-64">
@@ -42,8 +42,8 @@ export const Header: React.FC = () => {
             )}
           </div>
         </div>
-        <div className="flex grow flex-col justify-end">
-          <div className="flex flex-col md:flex-row md:justify-evenly">
+        <div className="flex grow flex-col justify-end pl-4">
+          <div className="mb-2 flex flex-col gap-4 md:flex-row md:justify-evenly">
             <HeaderLink label="Blog" path="/blog" />
             <HeaderLink label="Music" path="/music" />
             <HeaderLink label="Technology" path="/tech" />

@@ -69,15 +69,15 @@ export default function App() {
         </head>
         <body
           className={classNames(
-            "min-h-screen bg-page bg-cover bg-fixed bg-center bg-no-repeat text-center font-aleo text-nobel-950 md:h-auto",
+            "min-h-screen bg-page bg-cover bg-fixed bg-center bg-no-repeat text-center font-aleo text-nobel-950 md:h-auto md:py-8",
             theme
           )}
         >
           <ModalProvider>
             <div
               className={classNames(
-                "rounded border border-black backdrop-blur-sm md:mx-auto md:max-w-2xl lg:my-8 lg:w-[95%] lg:max-w-6xl",
-                "h-full md:m-4 md:h-auto md:shadow-main"
+                "rounded border border-black backdrop-blur-sm md:mx-auto md:max-w-2xl lg:w-[95%] lg:max-w-6xl",
+                "h-full md:h-auto md:shadow-main"
               )}
             >
               <Header />

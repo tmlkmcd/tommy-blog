@@ -10,7 +10,7 @@ export const SnaxBanner: React.FC = () => {
 
   return (
     <article className="inset-0 flex bg-snax text-white">
-      <LinkWithQuery className="inset-0 flex flex-1" to="/music">
+      <LinkWithQuery className="inset-0 flex min-w-0 flex-1" to="/music">
         {card && <Image image={card.picture} />}
       </LinkWithQuery>
     </article>
