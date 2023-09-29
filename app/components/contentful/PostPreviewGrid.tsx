@@ -35,14 +35,14 @@ const PostPreview: React.FC<PostPreviewProps> = React.memo(
     const imgSrc: string | null = post.image?.fields.file.url;
     return (
       <button
-        className="flex flex-col bg-nobel-400 bg-opacity-60 text-left transition-all hover:brightness-125"
+        className="flex flex-col rounded bg-nobel-400 bg-opacity-60 text-left transition-all hover:brightness-125"
         onClick={() => {
           navigate(`/blog/post/${post.slug}${search}`);
         }}
       >
         <section className="relative w-full">
           <div
-            className="fade-btm absolute inset-0 w-full bg-cover opacity-50"
+            className="fade-btm absolute inset-0 w-full rounded-t bg-cover opacity-50"
             style={{ backgroundImage: `url(${imgSrc})` }}
           />
           <div className="flex justify-center">

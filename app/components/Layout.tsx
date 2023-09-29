@@ -1,10 +1,12 @@
 import * as React from "react";
 
 interface Props {
+  supertitle?: React.ReactNode;
   title: string;
   subtitle?: React.ReactNode;
 }
 export const Layout: React.FC<React.PropsWithChildren<Props>> = ({
+  supertitle = null,
   title,
   subtitle = null,
   children,
@@ -13,6 +15,7 @@ export const Layout: React.FC<React.PropsWithChildren<Props>> = ({
     <div>
       <section className="flex flex-row items-center">
         <div className="hidden h-20 shrink-0 md:block md:basis-40 lg:h-32 lg:basis-64" />
+        {supertitle && <section>{supertitle}</section>}
         <div className="flex flex-col gap-0 p-4">
           <h1 className="flex-1 grow text-left font-metamorphous text-xl font-semibold md:text-2xl lg:text-3xl">
             {title}

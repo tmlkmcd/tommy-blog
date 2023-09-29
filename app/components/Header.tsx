@@ -43,7 +43,7 @@ export const Header: React.FC = () => {
           </div>
         </div>
         <div className="flex grow flex-col justify-end pl-4">
-          <div className="mb-2 flex flex-col gap-4 md:flex-row md:justify-evenly">
+          <div className="mb-2 flex flex-col md:flex-row md:justify-evenly">
             <HeaderLink label="Blog" path="/blog" />
             <HeaderLink label="Music" path="/music" />
             <HeaderLink label="Technology" path="/tech" />
