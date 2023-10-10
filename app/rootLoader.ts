@@ -1,17 +1,17 @@
 import type { LoaderArgs } from "@remix-run/cloudflare";
 import {
   contentfulClient,
+  getBanners,
   getCategories,
-  getPictureByTag,
   getProfilePicture,
 } from "~/data/contentfulClient";
 import type { ImageAsset } from "~/components/contentful/types";
+import type { Banner } from "~/components/contentful/types";
 
 export interface ContentfulGenericItems {
   categories: string[];
   displayPicture: ImageAsset | null;
-  snaxBannerPictures: (ImageAsset | null)[];
-  sljoBannerPictures: (ImageAsset | null)[];
+  banners: Banner[];
 }
 
 export const loader: (
@@ -30,18 +30,15 @@ export const loader: (
     isPreview: !!url.searchParams.get("cf_token"),
   });
 
-  const [categories, displayPicture, snaxBannerPictures, sljoBannerPictures] =
-    await Promise.all([
-      getCategories({ client, space }),
-      getProfilePicture({ client, space }),
-      Promise.all([getPictureByTag({ client, space, tag: "snax-card" })]),
-      Promise.all([getPictureByTag({ client, space, tag: "sljo-logo" })]),
-    ]);
+  const [categories, displayPicture, banners] = await Promise.all([
+    getCategories({ client, space }),
+    getProfilePicture({ client, space }),
+    getBanners({ client, space }),
+  ]);
 
   return {
     categories: categories.items.map(({ fields }) => fields.name),
     displayPicture,
-    snaxBannerPictures,
-    sljoBannerPictures,
+    banners,
   };
 };

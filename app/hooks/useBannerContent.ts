@@ -1,17 +1,9 @@
 import * as React from "react";
-
-export enum AvailableBanners {
-  SNAX = "SNAX",
-  SLJO = "SLJO",
-}
-
-const banners: AvailableBanners[] = Object.values(AvailableBanners);
-
-export const numberOfBanners = banners.length;
+import type { Banner } from "~/components/contentful/types";
+import { useRootContext } from "~/RootContext";
 
 interface UseBannerContent {
-  currentBanner: AvailableBanners;
-  resetTimer: () => void;
+  currentBanner: Banner;
   startTimer: () => void;
 }
 
@@ -24,6 +16,7 @@ interface UseBannerContentParams {
 export const useBannerContent = (
   params: UseBannerContentParams
 ): UseBannerContent => {
+  const { banners } = useRootContext();
   const { switchTimeout, showingSomethingElse, defaultEnabled = true } = params;
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
@@ -31,7 +24,7 @@ export const useBannerContent = (
   const intervalRef = React.useRef<ReturnType<typeof setInterval> | null>(null);
 
   const nextBanner = React.useCallback(() => {
-    setCurrentIndex((index) => (index + 1) % numberOfBanners);
+    setCurrentIndex((index) => (index + 1) % banners.length);
   }, []);
 
   const startTimer = React.useCallback(() => {
@@ -40,7 +33,7 @@ export const useBannerContent = (
 
   React.useEffect(() => {
     if (showingSomethingElse) {
-      setCurrentIndex(Math.floor(Math.random() * numberOfBanners));
+      setCurrentIndex(Math.floor(Math.random() * banners.length));
 
       inMotionRef.current = false;
       if (intervalRef.current) {
@@ -52,17 +45,17 @@ export const useBannerContent = (
 
     inMotionRef.current = true;
     startTimer();
-  }, [showingSomethingElse, startTimer]);
+  }, [banners.length, showingSomethingElse, startTimer]);
 
   return {
     currentBanner: banners[currentIndex],
     startTimer,
-    resetTimer: () => {},
   };
 };
 
-export function isAvailableBanner(
-  banner: string | null
-): banner is AvailableBanners {
-  return banners.includes(banner as AvailableBanners);
+export function isCdnBanner(banner: unknown): banner is Banner {
+  return (
+    Object.prototype.hasOwnProperty.call(banner, "header") &&
+    Object.prototype.hasOwnProperty.call(banner, "images")
+  );
 }

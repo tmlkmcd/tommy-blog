@@ -9,10 +9,12 @@ import type {
   Paragraph,
   InternalLink,
   Series,
+  Banner,
 } from "~/components/contentful/types";
 import { crawlAndIndexFootnotes } from "~/data/blogPosts";
 import type { ContentfulGenericItems } from "~/rootLoader";
 import type { AxiosRequestConfig } from "axios";
+import { shuffleArray } from "~/data/shuffleArray";
 
 export const contentfulClient = ({
   token,
@@ -91,6 +93,33 @@ export const getProfilePicture = async ({
   ).toPlainObject() as EntryCollection<ImageAsset>;
 
   return dpEntries.items[0]?.fields ?? null;
+};
+
+export const getBanners = async ({
+  token,
+  client: givenClient,
+  space,
+  isPreview,
+}: {
+  token?: string | null;
+  client?: contentful.ContentfulClientApi;
+  space?: string | null;
+  isPreview?: boolean;
+}): Promise<Banner[]> => {
+  const client =
+    givenClient ??
+    contentfulClient({
+      token,
+      space,
+      isPreview,
+    });
+
+  const dpEntries = (
+    await client.getEntries({ content_type: "banner" })
+  ).toPlainObject() as EntryCollection<Banner>;
+
+  const banners = dpEntries.items.map(({ fields }) => fields);
+  return shuffleArray(banners);
 };
 
 export const getPictureByTag = async ({

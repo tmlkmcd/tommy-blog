@@ -87,16 +87,16 @@ const ModalComponent: React.FC<
   return ReactDOM.createPortal(
     <div
       className={classNames(
-        "fixed top-0 left-0 z-50 flex h-screen h-full w-screen items-center justify-center overflow-auto bg-black bg-opacity-60",
+        "fixed left-0 top-0 z-50 flex h-full h-screen w-screen items-center justify-center overflow-auto bg-black bg-opacity-60",
         isDismissing ? "animate-fade-out" : "animate-fade-in"
       )}
     >
       <button
-        className="absolute top-0 left-0 z-50 m-0 h-screen w-screen p-4 p-0"
+        className="absolute left-0 top-0 z-50 m-0 h-screen w-screen p-0 p-4"
         onClick={onDismiss}
       />
       <div
-        className="z-[51] max-h-[80%] w-min max-w-[80%] cursor-default rounded-2xl bg-white object-contain p-4"
+        className="z-[51] max-h-[80%] max-w-[80%] cursor-default rounded-2xl bg-white object-contain p-4"
         onClick={(ev) => ev.stopPropagation()}
       >
         {children}

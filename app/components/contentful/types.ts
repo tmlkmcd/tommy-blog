@@ -40,6 +40,15 @@ export function isGhGist(
   );
 }
 
+export interface Banner {
+  header: string;
+  subtitle?: string;
+  link?: string;
+  images: Asset[];
+  isInternal: boolean;
+  imageAlignment: "Top" | "Bottom" | "Left" | "Right";
+}
+
 export interface BlogPost {
   id: number;
   title: string;

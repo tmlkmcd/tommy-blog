@@ -128,5 +128,17 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@sira-ui/tailwind")],
+  plugins: [
+    require("@sira-ui/tailwind")({
+      themes: [
+        {
+          name: "light",
+          colorScheme: "light",
+          colors: {
+            success: "#8ddb88",
+          },
+        },
+      ],
+    }),
+  ],
 };

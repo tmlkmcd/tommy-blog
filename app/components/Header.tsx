@@ -3,7 +3,7 @@ import * as React from "react";
 import { HeaderLink } from "~/components/HeaderLink";
 import classNames from "classnames";
 import { useRootContext } from "~/RootContext";
-import { Banner } from "~/components/Banner";
+import { PageBanner } from "~/components/PageBanner";
 import type { ImageAsset } from "~/components/contentful/types";
 import { Image } from "~/components/contentful/Image";
 
@@ -12,7 +12,7 @@ export const Header: React.FC = () => {
 
   return (
     <header className="flex flex-col border-b bg-iceColdStare-900 bg-opacity-60 shadow-lg">
-      <Banner />
+      <PageBanner />
       <div className="flex px-4 md:-mt-12 md:pt-4 lg:-mt-24">
         <div className="hidden md:block md:h-20 md:w-40 lg:h-32 lg:w-64">
           <div
