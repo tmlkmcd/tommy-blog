@@ -30,12 +30,5 @@ export const BlogInternalLink: React.FC<Props> = (props) => {
     return null;
   }
 
-  return (
-    <LinkWithQuery
-      to={to}
-      className="text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"
-    >
-      {link.fields.inlineText}
-    </LinkWithQuery>
-  );
+  return <LinkWithQuery to={to}>{link.fields.inlineText}</LinkWithQuery>;
 };

@@ -50,14 +50,7 @@ export default function Index() {
   return (
     <Layout
       title={`Posts in series: '${series.name}'`}
-      subtitle={
-        <LinkWithQuery
-          to="/blog"
-          className="text-sapphireSplendour-700 transition hover:text-sapphireSplendour-300"
-        >
-          Back to all posts
-        </LinkWithQuery>
-      }
+      subtitle={<LinkWithQuery to="/blog">Back to all posts</LinkWithQuery>}
     >
       <PostPreviewGrid posts={posts} showSeries={false} />
     </Layout>

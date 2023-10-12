@@ -33,13 +33,10 @@ export const Confirm: React.FC<Props> = ({
       <div className="flex flex-col gap-4">
         <span>{bodyText}</span>
         <section className="flex gap-4">
-          <button
-            className="btn solid flex-1 !bg-lightMint-700"
-            onClick={onConfirm}
-          >
+          <button className="success btn solid flex-1" onClick={onConfirm}>
             Ok
           </button>
-          <button className="danger btn flex-1 outline" onClick={die}>
+          <button className="warn btn flex-1 outline" onClick={die}>
             Cancel
           </button>
         </section>

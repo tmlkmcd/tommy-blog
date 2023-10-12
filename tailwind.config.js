@@ -118,6 +118,10 @@ module.exports = {
           "0%": { transform: "translateY(-15%)" },
           "100%": { transform: "translateY(0)" },
         },
+        "slide-in-side-fancy": {
+          "0%": { opacity: 0, transform: "translateX(1rem)" },
+          "100%": { opacity: 1, transform: "translateX(0)" },
+        },
       },
       animation: {
         "fade-in": "fade-in 200ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
@@ -125,6 +129,8 @@ module.exports = {
         "slide-up": "slide-up 200ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
         "slide-down":
           "slide-down 200ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
+        "slide-in-side-fancy":
+          "slide-in-side-fancy 400ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
       },
     },
   },

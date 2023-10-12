@@ -13,7 +13,7 @@ export const HeaderLink: React.FC<Props> = ({ path, label, subItems = [] }) => {
   const { pathname } = useLocation();
 
   return (
-    <LinkWithQuery to={path} className="flex-1">
+    <LinkWithQuery to={path} className="flex-1" variant="other">
       <div
         className={classNames(
           "px-4 pt-2 text-center text-lg text-iceColdStare-300 md:pt-4",

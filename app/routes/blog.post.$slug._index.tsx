@@ -6,9 +6,10 @@ import type { ExtendedBlogPost } from "~/components/contentful/types";
 import { useLoaderData } from "@remix-run/react";
 import { RichText } from "~/components/contentful/RichText";
 import { Categories } from "~/components/contentful/Categories";
-import { formatBlogDate, getTime } from "~/data/dates";
 import { getBlogPost } from "~/data/contentfulClient";
 import { Footnotes } from "~/components/Blog/FootnoteProvider";
+import { useRootContext } from "~/RootContext";
+import { PageName } from "~/Pages";
 
 export const loader: (
   args: LoaderArgs
@@ -37,14 +38,16 @@ export const loader: (
 };
 
 export default function Index() {
+  const { pushBreadcrumb } = useRootContext();
   const post = useLoaderData<typeof loader>() as ExtendedBlogPost | null;
 
   React.useEffect(() => {
+    pushBreadcrumb(PageName.Post(post?.title));
     if (post) document.title = `${post.title} - Tommy's Blog`;
     return () => {
       document.title = "Tommy's Website";
     };
-  }, [post]);
+  }, [post, pushBreadcrumb]);
 
   if (!post) {
     return <Navigate to="/blog" />;

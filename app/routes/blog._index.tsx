@@ -5,6 +5,9 @@ import { PostPreviewGrid } from "~/components/contentful/PostPreviewGrid";
 import { Layout } from "~/components/Layout";
 import type { ExtendedBlogPost } from "~/components/contentful/types";
 import { getBlogPosts } from "~/data/contentfulClient";
+import { LinkWithQuery } from "~/components/LinkWithQuery";
+import { useRootContext } from "~/RootContext";
+import { PageName } from "~/Pages";
 
 export const loader: (
   args: LoaderArgs
@@ -24,17 +27,32 @@ export const loader: (
 
 export default function Index() {
   const posts = useLoaderData<typeof loader>() as ExtendedBlogPost[];
+  const { pushBreadcrumb } = useRootContext();
 
   React.useEffect(() => {
+    pushBreadcrumb(PageName.Blog);
     document.title = "Tommy's Blog";
     return () => {
       document.title = "Tommy's Website";
     };
-  }, []);
+  }, [pushBreadcrumb]);
 
   return (
-    <Layout title="Blog Posts">
-      <PostPreviewGrid posts={posts} />
+    <Layout title="Blog Posts" subtitle={<Subtitle />}>
+      <section className="flex flex-col-reverse gap-2 lg:flex-row">
+        <section className="flex-1">
+          <PostPreviewGrid posts={posts} />
+        </section>
+      </section>
     </Layout>
   );
 }
+
+const Subtitle: React.FC = () => {
+  return (
+    <span className="text-sm">
+      You can also browse by <LinkWithQuery to="/blog/tags">tag</LinkWithQuery>{" "}
+      or by <LinkWithQuery to="/blog/series">series</LinkWithQuery>.
+    </span>
+  );
+};

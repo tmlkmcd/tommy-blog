@@ -5,6 +5,8 @@ import { useLoaderData } from "@remix-run/react";
 import { Layout } from "~/components/Layout";
 import { RichText } from "~/components/contentful/RichText";
 import { getParagraph } from "~/data/contentfulClient";
+import { useRootContext } from "~/RootContext";
+import { PageName } from "~/Pages";
 
 export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
   context,
@@ -27,13 +29,15 @@ export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
 
 export default function Index() {
   const paragraph = useLoaderData<typeof loader>() as Paragraph;
+  const { pushBreadcrumb } = useRootContext();
 
   React.useEffect(() => {
+    pushBreadcrumb(PageName.Music, true);
     document.title = "Music - Tommy's Website";
     return () => {
       document.title = "Tommy's Website";
     };
-  }, []);
+  }, [pushBreadcrumb]);
 
   return (
     <Layout title="🎵 Music 🎹">

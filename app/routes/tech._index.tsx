@@ -8,6 +8,8 @@ import { getParagraph } from "~/data/contentfulClient";
 import { useLoaderData } from "@remix-run/react";
 import { RichText } from "~/components/contentful/RichText";
 import { GithubIcon } from "~/icons/GithubIcon";
+import { useRootContext } from "~/RootContext";
+import { PageName } from "~/Pages";
 
 export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
   context,
@@ -30,8 +32,10 @@ export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
 
 export default function Index() {
   const paragraph = useLoaderData<typeof loader>() as Paragraph;
+  const { pushBreadcrumb } = useRootContext();
 
   React.useEffect(() => {
+    pushBreadcrumb(PageName.Tech, true);
     document.title = "Technology - Tommy's Website";
     return () => {
       document.title = "Tommy's Website";

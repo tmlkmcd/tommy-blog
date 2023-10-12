@@ -63,7 +63,6 @@ const PostPreview: React.FC<PostPreviewProps> = React.memo(
               Part a series on{" "}
               <LinkWithQuery
                 to={`/blog/series/${post.series.fields.slug}`}
-                className="text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"
                 onClick={(ev) => ev.stopPropagation()}
               >
                 {post.series.fields.name}

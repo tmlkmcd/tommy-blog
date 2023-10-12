@@ -5,7 +5,8 @@ import type { ExtendedBlogPost } from "~/components/contentful/types";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { PostPreviewGrid } from "~/components/contentful/PostPreviewGrid";
 import { getBlogPostsByTag } from "~/data/contentfulClient";
-import { LinkWithQuery } from "~/components/LinkWithQuery";
+import { useRootContext } from "~/RootContext";
+import { PageName } from "~/Pages";
 
 export const loader: (
   args: LoaderArgs
@@ -32,28 +33,20 @@ export const loader: (
 };
 
 export default function Index() {
+  const { pushBreadcrumb } = useRootContext();
   const posts = useLoaderData<typeof loader>() as ExtendedBlogPost[];
   const { tag } = useParams<{ tag: string }>();
 
   React.useEffect(() => {
+    pushBreadcrumb(PageName.Tag(tag));
     document.title = `Posts with tag: '${tag}' - Tommy's Blog`;
     return () => {
       document.title = "Tommy's Website";
     };
-  }, [tag]);
+  }, [pushBreadcrumb, tag]);
 
   return (
-    <Layout
-      title={`Posts with tag: '${tag}'`}
-      subtitle={
-        <LinkWithQuery
-          to="/blog"
-          className="text-sapphireSplendour-700 transition hover:text-sapphireSplendour-300"
-        >
-          Back to all posts
-        </LinkWithQuery>
-      }
-    >
+    <Layout title={`Posts with tag: '${tag}'`}>
       <PostPreviewGrid posts={posts} />
     </Layout>
   );
