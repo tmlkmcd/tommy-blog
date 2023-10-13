@@ -14,7 +14,7 @@ const BreadcrumbTrail: React.FC = () => {
 
   return (
     <div className="inline-flex items-center gap-1">
-      Location:
+      <span className="opacity-60">Location:</span>
       {trail.map(({ label, route }, i) => (
         <React.Fragment key={label}>
           <LinkWithQuery
@@ -24,10 +24,10 @@ const BreadcrumbTrail: React.FC = () => {
           >
             {label}
           </LinkWithQuery>
-          <ChevronRightIcon size="xs" />
+          <ChevronRightIcon size="xs" className="opacity-60" />
         </React.Fragment>
       ))}
-      <span className="font-bold">{currentPage}</span>
+      <span className="font-bold opacity-60">{currentPage}</span>
     </div>
   );
 };
@@ -55,7 +55,7 @@ export const Layout: React.FC<React.PropsWithChildren<Props>> = ({
           <section>{subtitle ? subtitle : <>&nbsp;</>}</section>
         </div>
       </section>
-      {children}
+      <section className="pt-4">{children}</section>
     </div>
   );
 };

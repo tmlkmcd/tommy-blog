@@ -39,7 +39,7 @@ export default function Index() {
   }));
 
   return (
-    <Layout title="Tags">
+    <Layout title="Tags" subtitle={<div>Blog post categories</div>}>
       <GeneralPreviewGrid items={items} />
     </Layout>
   );

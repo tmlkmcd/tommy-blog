@@ -6,6 +6,7 @@ import { useRootContext } from "~/RootContext";
 import { useLoaderData } from "@remix-run/react";
 import { PageName } from "~/Pages";
 import { Layout } from "~/components/Layout";
+import { GeneralPreviewGrid } from "~/components/contentful/PostPreviewGrid";
 
 export const loader: (args: LoaderArgs) => Promise<Series[]> = async ({
   context,
@@ -30,12 +31,31 @@ export default function Index() {
   const series = useLoaderData<typeof loader>() as Series[];
 
   React.useEffect(() => {
-    pushBreadcrumb(PageName.Series, true);
+    pushBreadcrumb(PageName.Series);
     document.title = "Blog Series - Tommy's Website";
     return () => {
       document.title = "Tommy's Website";
     };
   }, [pushBreadcrumb]);
 
-  return <Layout title="Blog Series"></Layout>;
+  const items = series.map(
+    ({ name, slug, image, numberOfPosts, description }) => {
+      return {
+        title: name,
+        blurb: description,
+        imgSrc: image?.fields.file.url ?? null,
+        id: slug,
+        target: `/blog/series/${slug}`,
+      };
+    }
+  );
+
+  return (
+    <Layout
+      title="Blog Series"
+      subtitle={<div>Blog posts grouped by series</div>}
+    >
+      <GeneralPreviewGrid items={items} />
+    </Layout>
+  );
 }

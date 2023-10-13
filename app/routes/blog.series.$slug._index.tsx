@@ -5,8 +5,9 @@ import type { Series } from "~/components/contentful/types";
 import { getSeriesBySlug } from "~/data/contentfulClient";
 import type { ExtendedBlogPost } from "~/components/contentful/types";
 import { Layout } from "~/components/Layout";
-import { LinkWithQuery } from "~/components/LinkWithQuery";
 import { PostPreviewGrid } from "~/components/contentful/PostPreviewGrid";
+import { useRootContext } from "~/RootContext";
+import { PageName } from "~/Pages";
 
 export const loader: (
   args: LoaderArgs
@@ -40,18 +41,18 @@ export default function Index() {
     posts: ExtendedBlogPost[];
   };
 
+  const { pushBreadcrumb } = useRootContext();
+
   React.useEffect(() => {
+    pushBreadcrumb(PageName.SeriesGroup(series.name));
     document.title = `Posts in series: '${series.name}' - Tommy's Blog`;
     return () => {
       document.title = "Tommy's Website";
     };
-  }, [series.name]);
+  }, [pushBreadcrumb, series.name]);
 
   return (
-    <Layout
-      title={`Posts in series: '${series.name}'`}
-      subtitle={<LinkWithQuery to="/blog">Back to all posts</LinkWithQuery>}
-    >
+    <Layout title={`Posts in series: '${series.name}'`}>
       <PostPreviewGrid posts={posts} showSeries={false} />
     </Layout>
   );
