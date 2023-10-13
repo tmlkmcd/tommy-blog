@@ -7,6 +7,7 @@ export const PageName = {
   Post: (post?: string) => {
     return post ? `Post: ${post}` : "Post";
   },
+  Series: "Series",
   About: "About",
   Music: "Music",
   Tech: "Tech",

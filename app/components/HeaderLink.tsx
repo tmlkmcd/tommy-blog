@@ -17,7 +17,7 @@ export const HeaderLink: React.FC<Props> = ({ path, label, subItems = [] }) => {
       <div
         className={classNames(
           "px-4 pt-2 text-center text-lg text-iceColdStare-300 md:pt-4",
-          "after:content-[' '] after:mx-auto after:block after:border-b",
+          "after:mx-auto after:block after:border-b",
           "after:w-0 after:opacity-50",
           "after:transition-500 after:transition-all hover:after:w-[30%] md:hover:after:w-[80%]",
           pathname.startsWith(path) &&

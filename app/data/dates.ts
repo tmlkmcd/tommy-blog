@@ -5,7 +5,7 @@ export const formatDateTime = (date: string): string => {
   return `${dateString} ${time}`;
 };
 
-export const formatBlogDate = (date: string): string => {
+export const formatBlogDate = (date: Date | string): string => {
   const d = new Date(date);
   const now = new Date();
   const dayOfWeek = d.toLocaleDateString("en-US", { weekday: "long" });

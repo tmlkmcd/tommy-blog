@@ -10,7 +10,7 @@ export default function Index() {
   const [animating, setAnimating] = React.useState<number>(0);
 
   React.useEffect(() => {
-    pushBreadcrumb(PageName.Tags, true);
+    pushBreadcrumb(PageName.Tags);
     document.title = "Tags - Tommy's Blog";
     return () => {
       document.title = "Tommy's Website";

@@ -2,7 +2,7 @@ import * as React from "react";
 import { useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/cloudflare";
 import type { Series } from "~/components/contentful/types";
-import { getSeries } from "~/data/contentfulClient";
+import { getSeriesBySlug } from "~/data/contentfulClient";
 import type { ExtendedBlogPost } from "~/components/contentful/types";
 import { Layout } from "~/components/Layout";
 import { LinkWithQuery } from "~/components/LinkWithQuery";
@@ -27,7 +27,7 @@ export const loader: (
     throw new Error("No series provided");
   }
 
-  return getSeries({
+  return getSeriesBySlug({
     slug,
     token,
     space,

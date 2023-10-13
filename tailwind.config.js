@@ -119,8 +119,8 @@ module.exports = {
           "100%": { transform: "translateY(0)" },
         },
         "slide-in-side-fancy": {
-          "0%": { opacity: 0, transform: "translateX(1rem)" },
-          "100%": { opacity: 1, transform: "translateX(0)" },
+          "0%": { opacity: 0, transform: "translateY(1.5rem)" },
+          "100%": { opacity: 1, transform: "translateY(0)" },
         },
       },
       animation: {

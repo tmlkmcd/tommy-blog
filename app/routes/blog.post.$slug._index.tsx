@@ -59,7 +59,7 @@ export default function Index() {
         title={post.title}
         subtitle={
           <Categories
-            categories={post.categories}
+            categories={post.categories.map(({ fields: { name } }) => name)}
             published={post.published}
             updated={post.updated}
           />

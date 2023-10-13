@@ -30,7 +30,7 @@ export default function Index() {
   const { pushBreadcrumb } = useRootContext();
 
   React.useEffect(() => {
-    pushBreadcrumb(PageName.Blog);
+    pushBreadcrumb(PageName.Blog, true);
     document.title = "Tommy's Blog";
     return () => {
       document.title = "Tommy's Website";

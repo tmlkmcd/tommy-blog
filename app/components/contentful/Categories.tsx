@@ -1,11 +1,9 @@
 import * as React from "react";
-import type { Category } from "~/components/contentful/types";
-import type { Entry } from "contentful";
 import { LinkWithQuery } from "~/components/LinkWithQuery";
 import { formatBlogDate, getTime } from "~/data/dates";
 
 interface Props {
-  categories: Entry<Category>[];
+  categories: string[];
   published?: string;
   updated?: string;
 }
@@ -19,7 +17,7 @@ export const Categories: React.FC<Props> = ({
     <div className="text-sm">
       <Published published={published} />
       {categories.map((category, i) => (
-        <React.Fragment key={category.sys.id}>
+        <React.Fragment key={category}>
           {!!i && ", "}
           <CategoryLink category={category} />
         </React.Fragment>
@@ -29,16 +27,13 @@ export const Categories: React.FC<Props> = ({
   );
 };
 
-const CategoryLink: React.FC<{ category: Entry<Category> }> = ({
-  category,
-}) => {
-  const label = category.fields.name;
+const CategoryLink: React.FC<{ category: string }> = ({ category }) => {
   return (
     <LinkWithQuery
-      to={`/blog/tags/${label.toLowerCase()}`}
+      to={`/blog/tags/${category.toLowerCase()}`}
       onClick={(e) => e.stopPropagation()}
     >
-      <>{label}</>
+      <>{category}</>
     </LinkWithQuery>
   );
 };
