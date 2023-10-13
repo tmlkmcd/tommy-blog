@@ -5,11 +5,11 @@ import {
   getCategories,
   getProfilePicture,
 } from "~/data/contentfulClient";
-import type { ImageAsset } from "~/components/contentful/types";
+import type { Category, ImageAsset } from "~/components/contentful/types";
 import type { Banner } from "~/components/contentful/types";
 
 export interface ContentfulGenericItems {
-  categories: string[];
+  categories: Category[];
   displayPicture: ImageAsset | null;
   banners: Banner[];
 }
@@ -37,7 +37,7 @@ export const loader: (
   ]);
 
   return {
-    categories: categories.items.map(({ fields }) => fields.name),
+    categories: categories.items.map(({ fields }) => fields),
     displayPicture,
     banners,
   };

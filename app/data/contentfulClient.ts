@@ -10,6 +10,7 @@ import type {
   InternalLink,
   Series,
   Banner,
+  TruthAndLie,
 } from "~/components/contentful/types";
 import { crawlAndIndexFootnotes } from "~/data/blogPosts";
 import type { ContentfulGenericItems } from "~/rootLoader";
@@ -457,7 +458,63 @@ export async function getParagraph({
     : paragraphs.items[0].fields;
 }
 
-export async function getSeries({
+export async function getTruthsAndLies({
+  client: givenClient,
+  token,
+  space,
+  isPreview,
+}: {
+  client?: contentful.ContentfulClientApi;
+  token?: string | null;
+  space?: string | null;
+  isPreview?: boolean;
+}): Promise<EntryCollection<TruthAndLie>> {
+  const client =
+    givenClient ??
+    contentfulClient({
+      token,
+      space,
+      isPreview,
+    });
+
+  const truthsAndLies = (
+    await client.getEntries({
+      content_type: "twoTruthsAndALie",
+    })
+  ).toPlainObject() as EntryCollection<TruthAndLie>;
+
+  return truthsAndLies;
+}
+
+export async function getAllSeries({
+  client: givenClient,
+  token,
+  space,
+  isPreview,
+}: {
+  client?: contentful.ContentfulClientApi;
+  token?: string | null;
+  space?: string | null;
+  isPreview?: boolean;
+}): Promise<Series[]> {
+  const client =
+    givenClient ??
+    contentfulClient({
+      token,
+      space,
+      isPreview,
+    });
+
+  const allSeriesFetched = (
+    await client.getEntries({
+      content_type: "series",
+    })
+  ).toPlainObject() as EntryCollection<Series>;
+
+  return allSeriesFetched.items.map(({ fields }) => fields);
+}
+
+export async function getSeriesBySlug({
   slug,
   client: givenClient,
   token,
@@ -486,7 +543,6 @@ export async function getSeries({
   ).toPlainObject() as EntryCollection<Series>;
 
   const series = seriesFetched.items[0].fields;
-
   const seriesId = seriesFetched.items[0].sys.id;
 
   const posts = await getBlogPostsBySeries({

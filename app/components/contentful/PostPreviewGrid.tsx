@@ -17,10 +17,11 @@ interface PreviewProps {
   blurb?: string;
   imgSrc?: string | null;
   categories?: string[];
-  slug: string;
+  id: string | number;
   showSeries?: boolean;
   series?: Entry<Series>;
   date?: Date | string;
+  target: string;
   className?: string;
 }
 
@@ -33,9 +34,10 @@ export const PostPreviewGrid: React.FC<Props> = ({
     blurb: post.blurb,
     imgSrc: post.image?.fields.file.url ?? null,
     categories: post.categories.map(({ fields: { name } }) => name),
-    slug: post.slug,
+    id: post.slug,
     series: post.series,
     date: post.published,
+    target: `/blog/post/${post.slug}`,
     showSeries,
   }));
 
@@ -70,7 +72,7 @@ export const GeneralPreviewGrid: React.FC<{ items: PreviewProps[] }> = ({
           animating > index && "animate-slide-in-side-fancy"
         );
         return (
-          <GridItemPreview key={item.slug} {...item} className={className} />
+          <GridItemPreview key={item.id} {...item} className={className} />
         );
       })}
     </section>
@@ -83,10 +85,10 @@ const GridItemPreview: React.FC<PreviewProps> = React.memo(
     blurb,
     imgSrc = null,
     categories,
-    slug,
     showSeries = true,
     series,
     date,
+    target,
     className = "",
   }) {
     const { search } = useLocation();
@@ -99,7 +101,7 @@ const GridItemPreview: React.FC<PreviewProps> = React.memo(
           className
         )}
         onClick={() => {
-          navigate(`/blog/post/${slug}${search}`);
+          navigate(`${target}${search}`);
         }}
       >
         <section className="relative w-full">

@@ -70,6 +70,7 @@ export interface ExtendedBlogPost extends BlogPost {
 export interface Category {
   id: number;
   name: string;
+  image: Asset;
 }
 
 export interface Footnote {
@@ -103,4 +104,11 @@ export interface Series {
   description: string;
   numberOfPosts: number;
   slug: string;
+  image: Asset;
+}
+
+export interface TruthAndLie {
+  isReal: boolean;
+  detail: string;
+  explanation: string;
 }

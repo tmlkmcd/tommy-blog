@@ -1,9 +1,8 @@
 import * as React from "react";
 import { useRootContext } from "~/RootContext";
 import { Layout } from "~/components/Layout";
-import classNames from "classnames";
-import { LinkWithQuery } from "~/components/LinkWithQuery";
 import { PageName } from "~/Pages";
+import { GeneralPreviewGrid } from "~/components/contentful/PostPreviewGrid";
 
 export default function Index() {
   const { pushBreadcrumb, categories } = useRootContext();
@@ -32,25 +31,16 @@ export default function Index() {
     }
   }, [animating, categories.length]);
 
+  const items = categories.map(({ name, id, image }) => ({
+    title: name,
+    imgSrc: image?.fields.file.url ?? null,
+    target: `/blog/tags/${name.toLowerCase()}`,
+    id,
+  }));
+
   return (
     <Layout title="Tags">
-      <ul className="list-disc">
-        {categories.map((category, i) => {
-          return (
-            <li key={category}>
-              <LinkWithQuery
-                className={classNames(
-                  animating <= i && "invisible translate-x-[2rem]",
-                  animating > i && "animate-slide-in-side-fancy"
-                )}
-                to={`/blog/tags/${category.toLowerCase()}`}
-              >
-                {category}
-              </LinkWithQuery>
-            </li>
-          );
-        })}
-      </ul>
+      <GeneralPreviewGrid items={items} />
     </Layout>
   );
 }
