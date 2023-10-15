@@ -40,7 +40,7 @@ export default function Index() {
     return () => {
       document.title = "Tommy's Website";
     };
-  }, []);
+  }, [pushBreadcrumb]);
 
   return (
     <Layout title="Technology" subtitle={<Subtitle />}>

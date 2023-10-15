@@ -6,6 +6,7 @@ import { LinkWithQuery } from "~/components/LinkWithQuery";
 import { useLocation, useNavigate } from "react-router";
 import type { Entry } from "contentful";
 import classNames from "classnames";
+import { useCascadeAnimate } from "~/hooks/useCascadeAnimate";
 
 interface Props {
   posts: ExtendedBlogPost[];
@@ -47,22 +48,7 @@ export const PostPreviewGrid: React.FC<Props> = ({
 export const GeneralPreviewGrid: React.FC<{ items: PreviewProps[] }> = ({
   items,
 }) => {
-  const [animating, setAnimating] = React.useState<number>(0);
-
-  React.useEffect(() => {
-    if (animating === 0) {
-      setTimeout(() => {
-        setAnimating(1);
-      }, 500);
-      return;
-    }
-
-    if (animating < items.length) {
-      setTimeout(() => {
-        setAnimating((prev) => prev + 1);
-      }, 120);
-    }
-  }, [animating, items.length]);
+  const { animating } = useCascadeAnimate({ limit: items.length });
 
   return (
     <section className="flex flex-col gap-2 sm:grid sm:grid-cols-2 xl:grid-cols-3">
