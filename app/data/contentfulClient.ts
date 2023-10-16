@@ -481,7 +481,7 @@ export async function getSkills({
 
   return (
     await client.getEntries({
-      content_type: "coreSkills",
+      content_type: "coreSkill",
     })
   ).toPlainObject() as EntryCollection<CoreSkill>;
 }

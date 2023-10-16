@@ -5,6 +5,7 @@ import { contentfulClient, getSkills } from "~/data/contentfulClient";
 import { useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/cloudflare";
 import { useRootContext } from "~/RootContext";
+import { SkillCategory } from "~/components/contentful/types";
 
 export const handle = {
   about: AboutPages.SKILLSET,
@@ -38,10 +39,43 @@ export default function Index() {
   const { pushBreadcrumb } = useRootContext();
   const skills = useLoaderData<typeof loader>() as CoreSkill[];
 
+  const [highlight, setHighlight] = React.useState<SkillCategory | null>(null);
+
   React.useEffect(() => {
     pushBreadcrumb(PageName.About, true, true);
     pushBreadcrumb(PageName.AboutPages(handle.about));
   }, [pushBreadcrumb]);
 
-  return <div>skillset</div>;
+  const onMouseOver = (cat: SkillCategory) => {
+    setHighlight(cat);
+  };
+
+  return (
+    <section>
+      <SkillCategories setCategoryHighlight={onMouseOver} />
+    </section>
+  );
+}
+
+interface SkillCategoriesProps {
+  setCategoryHighlight: (category: SkillCategory) => void;
+}
+
+function SkillCategories({ setCategoryHighlight }: SkillCategoriesProps) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {(Object.values(SkillCategory) as SkillCategory[]).map((category) => {
+        return (
+          <button
+            key={category}
+            onMouseOver={() => setCategoryHighlight(category)}
+            onClick={() => setCategoryHighlight(category)}
+            className="rounded-xl bg-iceColdStare-600 px-6 py-2"
+          >
+            {category}
+          </button>
+        );
+      })}
+    </div>
+  );
 }

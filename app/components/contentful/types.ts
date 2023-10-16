@@ -107,7 +107,7 @@ export interface Series {
   image: Asset;
 }
 
-enum SkillCategory {
+export enum SkillCategory {
   FRONT_END = "Front End",
   BACK_END = "Back End",
   WEB_DEVELOPMENT = "Web Development",
