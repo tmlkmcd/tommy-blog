@@ -3,13 +3,17 @@ import type { ContentfulGenericItems } from "~/rootLoader";
 import { useLocation } from "react-router";
 
 export type Breadcrumb = {
-  route: string;
+  route: string | null;
   label: string;
 };
 
 interface RootContextValue extends ContentfulGenericItems {
   breadcrumbTrail: Breadcrumb[];
-  pushBreadcrumb: (breadcrumb: string, refresh?: boolean) => void;
+  pushBreadcrumb: (
+    breadcrumb: string,
+    refresh?: boolean,
+    ignoreLink?: boolean
+  ) => void;
   goToBreadcrumb: (index: number) => void;
   resetBreadcrumbTrail: () => void;
 }
@@ -21,15 +25,15 @@ export const RootProvider: React.FC<
 > = (props) => {
   const { children, ...otherProps } = props;
   const { pathname, search } = useLocation();
-  const route = pathname + search;
 
   const [breadcrumbTrail, setBreadcrumbTrail] = React.useState<Breadcrumb[]>(
     []
   );
 
   const pushBreadcrumb = React.useCallback(
-    (label: string, refresh: boolean = false) => {
+    (label: string, refresh: boolean = false, ignoreLink = false) => {
       setBreadcrumbTrail((breadcrumbs) => {
+        let route = ignoreLink ? null : pathname + search;
         if (refresh) return [{ label, route }];
 
         if (breadcrumbs.length >= 1) {
@@ -44,7 +48,7 @@ export const RootProvider: React.FC<
         return [...breadcrumbs, { label, route }];
       });
     },
-    [route]
+    [pathname, search]
   );
 
   const goToBreadcrumb = (index: number) => {

@@ -107,8 +107,29 @@ export interface Series {
   image: Asset;
 }
 
+enum SkillCategory {
+  FRONT_END = "Front End",
+  BACK_END = "Back End",
+  WEB_DEVELOPMENT = "Web Development",
+  MOBILE_DEVELOPMENT = "Mobile Development",
+  CLOUD_COMPUTING = "Cloud Computing",
+  PROGRAMMING = "Programming",
+  DATABASES = "Databases",
+}
+
+export interface CoreSkill {
+  name: string;
+  rating: number;
+  skillCategory: SkillCategory;
+}
+
 export interface TruthAndLie {
   isReal: boolean;
   detail: string;
   explanation: string;
+}
+
+export interface Faq {
+  question: string;
+  answer: string;
 }

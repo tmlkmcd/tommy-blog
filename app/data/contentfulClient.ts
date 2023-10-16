@@ -11,6 +11,8 @@ import type {
   Series,
   Banner,
   TruthAndLie,
+  CoreSkill,
+  Faq,
 } from "~/components/contentful/types";
 import { crawlAndIndexFootnotes } from "~/data/blogPosts";
 import type { ContentfulGenericItems } from "~/rootLoader";
@@ -458,6 +460,32 @@ export async function getParagraph({
     : paragraphs.items[0].fields;
 }
 
+export async function getSkills({
+  client: givenClient,
+  token,
+  space,
+  isPreview,
+}: {
+  client?: contentful.ContentfulClientApi;
+  token?: string | null;
+  space?: string | null;
+  isPreview?: boolean;
+}): Promise<EntryCollection<CoreSkill>> {
+  const client =
+    givenClient ??
+    contentfulClient({
+      token,
+      space,
+      isPreview,
+    });
+
+  return (
+    await client.getEntries({
+      content_type: "coreSkills",
+    })
+  ).toPlainObject() as EntryCollection<CoreSkill>;
+}
+
 export async function getTruthsAndLies({
   client: givenClient,
   token,
@@ -477,13 +505,37 @@ export async function getTruthsAndLies({
       isPreview,
     });
 
-  const truthsAndLies = (
+  return (
     await client.getEntries({
       content_type: "twoTruthsAndALie",
     })
   ).toPlainObject() as EntryCollection<TruthAndLie>;
+}
 
-  return truthsAndLies;
+export async function getFaqs({
+  client: givenClient,
+  token,
+  space,
+  isPreview,
+}: {
+  client?: contentful.ContentfulClientApi;
+  token?: string | null;
+  space?: string | null;
+  isPreview?: boolean;
+}): Promise<EntryCollection<Faq>> {
+  const client =
+    givenClient ??
+    contentfulClient({
+      token,
+      space,
+      isPreview,
+    });
+
+  return (
+    await client.getEntries({
+      content_type: "faq",
+    })
+  ).toPlainObject() as EntryCollection<Faq>;
 }
 
 export async function getAllSeries({

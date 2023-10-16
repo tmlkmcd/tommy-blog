@@ -17,13 +17,17 @@ const BreadcrumbTrail: React.FC = () => {
       <span className="opacity-60">Location:</span>
       {trail.map(({ label, route }, i) => (
         <React.Fragment key={label}>
-          <LinkWithQuery
-            to={route}
-            onClick={() => goToBreadcrumb(i)}
-            className="font-bold"
-          >
-            {label}
-          </LinkWithQuery>
+          {route ? (
+            <LinkWithQuery
+              to={route}
+              onClick={() => goToBreadcrumb(i)}
+              className="font-bold"
+            >
+              {label}
+            </LinkWithQuery>
+          ) : (
+            <span className="font-bold">{label}</span>
+          )}
           <ChevronRightIcon size="xs" className="opacity-60" />
         </React.Fragment>
       ))}

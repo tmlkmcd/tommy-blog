@@ -1,3 +1,9 @@
+export enum AboutPages {
+  SKILLSET = "skillset",
+  FAQ = "faq",
+  TTAAL = "ttaal",
+}
+
 export const PageName = {
   Blog: "Blog",
   Tags: "Tags",
@@ -12,6 +18,16 @@ export const PageName = {
     return series ? `Series: ${truncate(series)}` : "Series";
   },
   About: "About",
+  AboutPages: (page: AboutPages) => {
+    switch (page) {
+      case AboutPages.SKILLSET:
+        return "My Skills";
+      case AboutPages.FAQ:
+        return "FAQ";
+      case AboutPages.TTAAL:
+        return "Two truths and a Lie";
+    }
+  },
   Music: "Music",
   Tech: "Tech",
   Contact: "Contact",
