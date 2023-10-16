@@ -26,7 +26,7 @@ const BreadcrumbTrail: React.FC = () => {
               {label}
             </LinkWithQuery>
           ) : (
-            <span className="font-bold">{label}</span>
+            <span className="font-bold opacity-60">{label}</span>
           )}
           <ChevronRightIcon size="xs" className="opacity-60" />
         </React.Fragment>

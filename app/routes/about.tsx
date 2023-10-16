@@ -6,9 +6,10 @@ import type { Paragraph } from "~/components/contentful/types";
 import { contentfulClient, getParagraph } from "~/data/contentfulClient";
 import { RichText } from "~/components/contentful/RichText";
 import { useRootContext } from "~/RootContext";
-import { AboutPages, PageName } from "~/Pages";
+import { AboutPages } from "~/Pages";
 import classNames from "classnames";
 import { Navigate } from "react-router";
+import { OutsideLink, Subtitle } from "~/components/OtherLinks";
 
 export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
   context,
@@ -27,11 +28,10 @@ export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
     isPreview: !!url.searchParams.get("cf_token"),
   });
 
-  const paragraph = await getParagraph({
+  return getParagraph({
     identifier: "about-tommy",
     client,
   });
-  return paragraph;
 };
 
 export default function Index() {
@@ -54,7 +54,12 @@ export default function Index() {
   }
 
   return (
-    <Layout title="About Me">
+    <Layout
+      title="About Me"
+      subtitle={
+        <Subtitle links={[OutsideLink.MEDIUM, OutsideLink.INSTAGRAM]} />
+      }
+    >
       <RichText node={paragraph.text} />
       <div className="info tabs bordered mt-4">
         <Link
