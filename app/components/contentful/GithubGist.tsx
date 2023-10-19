@@ -88,7 +88,7 @@ export const TooltipGistDisplay: React.FC<GistProps & { tooltip: string }> = (
 
   return (
     <span
-      className="relative [&>span]:hover:animate-fade-in"
+      className="relative z-[999] [&>span]:hover:animate-fade-in"
       onMouseEnter={reCenter}
     >
       <a

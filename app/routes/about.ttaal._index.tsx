@@ -82,8 +82,8 @@ function Item({
     <button
       className={classNames(
         fadeIn
-          ? "animate-slide-in-side-fancy"
-          : "invisible translate-y-[1.5rem]",
+          ? "motion-safe:animate-fade-in-fancy motion-reduce:animate-fade-in"
+          : "invisible motion-safe:translate-y-[1.5rem]",
         "flex flex-1 items-stretch rounded-xl bg-transparent transition",
         "flipCard-wrapper"
       )}

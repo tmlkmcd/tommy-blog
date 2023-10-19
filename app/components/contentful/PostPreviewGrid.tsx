@@ -54,8 +54,9 @@ export const GeneralPreviewGrid: React.FC<{ items: PreviewProps[] }> = ({
     <section className="flex flex-col gap-2 sm:grid sm:grid-cols-2 xl:grid-cols-3">
       {items.map((item, index) => {
         const className = classNames(
-          animating <= index && "invisible translate-y-[1.5rem]",
-          animating > index && "animate-slide-in-side-fancy"
+          animating <= index && "invisible motion-safe:translate-y-[1.5rem]",
+          animating > index &&
+            "motion-safe:animate-fade-in-fancy motion-reduce:animate-fade-in"
         );
         return (
           <GridItemPreview key={item.id} {...item} className={className} />

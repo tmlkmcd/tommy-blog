@@ -10,6 +10,7 @@ import { getBlogPost } from "~/data/contentfulClient";
 import { Footnotes } from "~/components/Blog/FootnoteProvider";
 import { useRootContext } from "~/RootContext";
 import { PageName } from "~/Pages";
+import { LinkWithQuery } from "~/components/LinkWithQuery";
 
 export const loader: (
   args: LoaderArgs
@@ -67,9 +68,27 @@ export default function Index() {
       >
         <div className="flex flex-col gap-4">
           <RichText node={post.post} />
+          <SignOff />
+          <div className="mt-2 text-xl font-bold">Footnotes</div>
           <div id="footnotes" />
         </div>
       </Layout>
     </Footnotes>
+  );
+}
+
+function SignOff() {
+  return (
+    <div className="flex flex-col gap-4">
+      <p>-tommy</p>
+      <p className="text-sm italic">
+        Thanks for reading! If you enjoyed reading this post and/or learned
+        something, please{" "}
+        <LinkWithQuery to="/contact">get in touch</LinkWithQuery> and let me
+        know. Better yet, if you've found any errata in my writing, please do{" "}
+        <LinkWithQuery to="/contact">make me aware</LinkWithQuery>. I'm always
+        looking for opportunities to improve my writing!
+      </p>
+    </div>
   );
 }

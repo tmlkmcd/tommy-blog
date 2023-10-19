@@ -29,6 +29,9 @@ const flipCard = plugin(function ({ addUtilities }) {
         minWidth: "100%",
         transform: "rotateX(-180deg) translate(-100%, 0)",
       },
+      "@media (prefers-reduced-motion: reduce)": {
+        transition: "none",
+      },
     },
   });
 });
@@ -152,19 +155,9 @@ module.exports = {
           "0%": { transform: "translateY(-15%)" },
           "100%": { transform: "translateY(0)" },
         },
-        "slide-in-side-fancy": {
+        "fade-in-fancy": {
           "0%": { opacity: 0, transform: "translateY(1.5rem)" },
           "100%": { opacity: 1, transform: "translateY(0)" },
-        },
-        "fade-swap-out": {
-          "0%": { opacity: 1 },
-          "40%": { opacity: 0 },
-          "100%": { opacity: 0 },
-        },
-        "fade-swap-in": {
-          "0%": { opacity: 0 },
-          "60%": { opacity: 0 },
-          "100%": { opacity: 1 },
         },
       },
       animation: {
@@ -173,10 +166,8 @@ module.exports = {
         "slide-up": "slide-up 200ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
         "slide-down":
           "slide-down 200ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
-        "slide-in-side-fancy":
-          "slide-in-side-fancy 400ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
-        "fade-swap-in": "fade-swap-in 400ms ease-in-out forwards",
-        "fade-swap-out": "fade-swap-out 400ms ease-in-out forwards",
+        "fade-in-fancy":
+          "fade-in-fancy 400ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
       },
     },
   },

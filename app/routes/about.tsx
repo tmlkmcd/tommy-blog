@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, Outlet, useLoaderData, useMatches } from "@remix-run/react";
+import { Outlet, useLoaderData, useMatches } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/cloudflare";
 import { Layout } from "~/components/Layout";
 import type { Paragraph } from "~/components/contentful/types";
@@ -10,6 +10,7 @@ import { AboutPages } from "~/Pages";
 import classNames from "classnames";
 import { Navigate } from "react-router";
 import { OutsideLink, Subtitle } from "~/components/OtherLinks";
+import { LinkWithQuery } from "~/components/LinkWithQuery";
 
 export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
   context,
@@ -62,33 +63,36 @@ export default function Index() {
     >
       <RichText node={paragraph.text} />
       <div className="info tabs bordered mt-4">
-        <Link
+        <LinkWithQuery
           className={classNames(
             "tab p-2",
             matches.includes(AboutPages.SKILLSET) && "active"
           )}
+          variant="other"
           to="/about/skills"
         >
           Core Skills
-        </Link>
-        <Link
+        </LinkWithQuery>
+        <LinkWithQuery
           className={classNames(
             "tab p-2",
             matches.includes(AboutPages.TTAAL) && "active"
           )}
+          variant="other"
           to="/about/ttaal"
         >
           Two Truths and a Lie
-        </Link>
-        <Link
+        </LinkWithQuery>
+        <LinkWithQuery
           className={classNames(
             "tab p-2",
             matches.includes(AboutPages.FAQ) && "active"
           )}
+          variant="other"
           to="/about/faq"
         >
           FAQ
-        </Link>
+        </LinkWithQuery>
       </div>
       <div className="p-2">
         <Outlet />
