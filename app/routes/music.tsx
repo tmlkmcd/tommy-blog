@@ -55,7 +55,7 @@ export default function Index() {
   const navigate = useNavigate();
 
   const bandRoutes = bands.map((band) => {
-    return `${band.name.toLowerCase()}`;
+    return `${toKebabCase(band.name)}`;
   });
 
   const showingBandIndex = bandRoutes.indexOf(useParams().band ?? "");
@@ -84,7 +84,7 @@ export default function Index() {
                 "tab p-2",
                 index === showingBandIndex && "active"
               )}
-              onClick={() => transition(`/music/${band.name.toLowerCase()}`)}
+              onClick={() => transition(`/music/${toKebabCase(band.name)}`)}
               key={band.name}
             >
               {band.name}
@@ -109,4 +109,8 @@ function Subtitle() {
       </span>
     </div>
   );
+}
+
+function toKebabCase(bandName: string): string {
+  return bandName.split(" ").join("-").toLowerCase();
 }

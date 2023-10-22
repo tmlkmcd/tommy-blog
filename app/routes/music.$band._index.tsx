@@ -15,7 +15,8 @@ export default function Index() {
     pushBreadcrumb(band.name, false, true);
   }, [band.name, pushBreadcrumb]);
 
-  const { description, gallery, mainLink } = band;
+  const { name, colourHex, fontColourHex, description, gallery, mainLink } =
+    band;
 
   const images = gallery.map(({ fields }) => ({
     src: fields.file.url,
@@ -26,18 +27,20 @@ export default function Index() {
   return (
     <div className="flex flex-col gap-4">
       <div className="mt-4 flex flex-col gap-4">
-        <RichText node={description} />
-      </div>
-      <ul className="list-disc">
-        <li>
+        <div className="flex justify-start">
           <a
             href={mainLink}
-            className="ml-2 text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"
+            className="rounded-lg p-2 text-2xl font-bold"
+            style={{
+              backgroundColor: colourHex,
+              color: fontColourHex,
+            }}
           >
-            Main page (external)
+            {name}
           </a>
-        </li>
-      </ul>
+        </div>
+        <RichText node={description} />
+      </div>
       <ImageGallery images={images} />
     </div>
   );

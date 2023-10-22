@@ -20,7 +20,7 @@ export const Confirm: React.FC<Props> = ({
   const die = () => popModal(CONFIRM_MODAL_TAG);
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-4 rounded bg-white p-2">
       <section className="flex items-center gap-2">
         <h1 className="grow text-lg font-bold">{headerText}</h1>
         <button
