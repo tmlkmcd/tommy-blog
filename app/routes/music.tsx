@@ -75,7 +75,9 @@ export default function Index() {
 
   return (
     <Layout title="🎸 Music" subtitle={<Subtitle />}>
-      <RichText node={paragraph.text} />
+      <div className="flex flex-col gap-4">
+        <RichText node={paragraph.text} />
+      </div>
       <div className="warn tabs bordered mt-4">
         {bands.map((band, index) => {
           return (
