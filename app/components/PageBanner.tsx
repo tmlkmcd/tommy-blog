@@ -118,7 +118,7 @@ function BannerComponent(props: BannerComponentProps) {
   const { onClick } = props || {};
 
   return onClick ? (
-    <button onClick={onClick}>
+    <button onClick={onClick} className="relative">
       <InnerBannerComponent {...props} />
     </button>
   ) : (
