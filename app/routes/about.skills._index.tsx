@@ -48,7 +48,7 @@ export default function Index() {
 
   return (
     <section>
-      <article className="grid grid-cols-1 gap-1 lg:grid-cols-2 xl:grid-cols-3">
+      <article className="grid grid-cols-1 gap-x-4 gap-y-1 lg:grid-cols-2 xl:grid-cols-3">
         {skills.map((skill, index) => (
           <CoreSkillComponent
             skill={skill}
@@ -76,11 +76,11 @@ function CoreSkillComponent({ skill, className }: CoreSkillProps) {
   return (
     <div
       className={classNames(
-        "flex flex-col gap-1 rounded border bg-white bg-opacity-40 p-4 text-left",
+        "flex flex-col gap-2 border-t-2 bg-opacity-40 px-4 py-2 text-left",
         className
       )}
     >
-      <h2 className={classNames("relative mb-4 text-lg font-bold")}>
+      <h2 className="relative mb-4 text-lg font-bold">
         <span
           className={classNames(
             "relative inline-block",

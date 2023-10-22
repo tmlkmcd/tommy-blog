@@ -124,3 +124,12 @@ export interface Faq {
   question: string;
   answer: string;
 }
+
+export interface Band {
+  name: string;
+  description: EntryFields.RichText;
+  colourHex: string;
+  mainLink: string;
+  gallery: Asset[];
+  order: number;
+}

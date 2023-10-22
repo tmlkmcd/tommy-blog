@@ -1,5 +1,10 @@
 import * as React from "react";
-import type { EntryFields, RichTextContent, RichTextData } from "contentful";
+import type {
+  Asset,
+  EntryFields,
+  RichTextContent,
+  RichTextData,
+} from "contentful";
 import { BlogFootnote } from "~/components/Blog/BlogFootnote";
 import type { GithubGist } from "~/components/contentful/types";
 import {
@@ -8,7 +13,6 @@ import {
   isGhGist,
 } from "~/components/contentful/types";
 import classNames from "classnames";
-import { BlogImage } from "~/components/contentful/BlogImage";
 import { BlogInternalLink } from "~/components/contentful/BlogInternalLink";
 import {
   BlockGithubGistDisplay,
@@ -17,6 +21,7 @@ import {
 } from "./GithubGist";
 import { Blockquote } from "~/components/contentful/Blockquote";
 import { Table } from "~/components/contentful/Table";
+import { LightboxImage } from "~/components/LightboxImage";
 
 interface Props {
   node: EntryFields.RichText | RichTextContent;
@@ -148,9 +153,14 @@ const WrapRichText: React.FC<
     case "blockquote":
       return <Blockquote>{children}</Blockquote>;
     case "embedded-asset-block":
+      const img = data.target as unknown as Asset;
       return (
-        <BlogImage
-          image={data.target as any}
+        <LightboxImage
+          image={{
+            src: img.fields.file.url,
+            title: img.fields.title,
+            description: img.fields.description,
+          }}
           className="w-full min-w-[8rem] max-w-xs lg:max-w-sm"
           imageClassName="w-full"
         />

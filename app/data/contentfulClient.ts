@@ -18,6 +18,7 @@ import { crawlAndIndexFootnotes } from "~/data/blogPosts";
 import type { ContentfulGenericItems } from "~/rootLoader";
 import type { AxiosRequestConfig } from "axios";
 import { shuffleArray } from "~/data/shuffleArray";
+import { Band } from "~/components/contentful/types";
 
 export const contentfulClient = ({
   token,
@@ -613,4 +614,35 @@ export async function getSeriesBySlug({
     series,
     posts,
   };
+}
+
+export async function getBands({
+  client: givenClient,
+  token,
+  space,
+  isPreview,
+}: {
+  client?: contentful.ContentfulClientApi;
+  token?: string | null;
+  space?: string | null;
+  isPreview?: boolean;
+}): Promise<Band[]> {
+  const client =
+    givenClient ??
+    contentfulClient({
+      token,
+      space,
+      isPreview,
+    });
+
+  const seriesFetched = (
+    await client.getEntries({
+      content_type: "bands",
+    })
+  ).toPlainObject() as EntryCollection<Band>;
+
+  const bands = seriesFetched.items.map(({ fields }) => fields);
+  bands.sort((a, b) => a.order - b.order);
+
+  return bands;
 }

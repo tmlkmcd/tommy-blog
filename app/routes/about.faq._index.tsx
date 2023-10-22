@@ -5,7 +5,6 @@ import type { Faq } from "~/components/contentful/types";
 import { contentfulClient, getFaqs } from "~/data/contentfulClient";
 import { useLoaderData } from "@remix-run/react";
 import { useRootContext } from "~/RootContext";
-import classNames from "classnames";
 import { AccordionMenu } from "~/components/AccordionMenu";
 
 export const handle = {

@@ -34,7 +34,6 @@ export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
 };
 
 export default function Index() {
-  const { pushBreadcrumb } = useRootContext();
   const paragraph = useLoaderData<typeof loader>() as Paragraph;
   const navigate = useNavigate();
 
@@ -47,7 +46,7 @@ export default function Index() {
     return () => {
       document.title = "Tommy's Website";
     };
-  }, [pushBreadcrumb]);
+  }, []);
 
   if (!matches.length) {
     return <Navigate to="/about/skills" replace={true} />;
@@ -63,7 +62,7 @@ export default function Index() {
   };
 
   return (
-    <Layout title="About Me" subtitle={<div />}>
+    <Layout title="😬 About Me">
       <RichText node={paragraph.text} />
       <div className="info tabs bordered mt-4">
         <button

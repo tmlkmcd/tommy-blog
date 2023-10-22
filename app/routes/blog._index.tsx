@@ -38,7 +38,7 @@ export default function Index() {
   }, [pushBreadcrumb]);
 
   return (
-    <Layout title="Blog Posts" subtitle={<Subtitle />}>
+    <Layout title="📖 Blog Posts" subtitle={<Subtitle />}>
       <section className="flex flex-col-reverse gap-2 lg:flex-row">
         <section className="flex-1">
           <PostPreviewGrid posts={posts} />
