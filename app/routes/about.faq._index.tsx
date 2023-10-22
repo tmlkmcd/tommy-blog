@@ -5,6 +5,8 @@ import type { Faq } from "~/components/contentful/types";
 import { contentfulClient, getFaqs } from "~/data/contentfulClient";
 import { useLoaderData } from "@remix-run/react";
 import { useRootContext } from "~/RootContext";
+import classNames from "classnames";
+import { AccordionMenu } from "~/components/AccordionMenu";
 
 export const handle = {
   about: AboutPages.FAQ,
@@ -43,5 +45,18 @@ export default function Index() {
     pushBreadcrumb(PageName.AboutPages(handle.about));
   }, [pushBreadcrumb]);
 
-  return <div>faq</div>;
+  const items = faqs.map(({ question, answer }, index) => ({
+    label: <div className="text-lg font-bold">{question}</div>,
+    bodyText: answer,
+    identifier: `faq-${index}`,
+  }));
+
+  return (
+    <section>
+      <AccordionMenu
+        items={items}
+        className="rounded border bg-white bg-opacity-20"
+      />
+    </section>
+  );
 }

@@ -53,7 +53,7 @@ export const Layout: React.FC<React.PropsWithChildren<Props>> = ({
           <section className="text-sm">
             <BreadcrumbTrail />
           </section>
-          <h1 className="flex-1 grow text-left font-metamorphous text-xl font-semibold md:text-2xl lg:text-3xl">
+          <h1 className="flex-1 grow text-left font-metamorphous text-2xl font-semibold lg:text-3xl">
             {title}
           </h1>
           <section>{subtitle ? subtitle : <>&nbsp;</>}</section>

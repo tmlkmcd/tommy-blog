@@ -57,10 +57,13 @@ const Instagram: React.FC = () => {
 
 export const OtherLinks: React.FC = () => {
   return (
-    <span className="flex gap-4">
-      <Github /> |
-      <LinkedIn /> |
-      <Medium /> |
+    <span className="flex flex-wrap justify-center gap-2">
+      <Github />
+      <span className="hidden md:block">|</span>
+      <LinkedIn />
+      <span className="hidden md:block">|</span>
+      <Medium />
+      <span className="hidden md:block">|</span>
       <Instagram />
     </span>
   );
