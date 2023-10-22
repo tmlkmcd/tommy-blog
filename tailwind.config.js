@@ -1,41 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-const plugin = require("tailwindcss/plugin");
-
-const flipCard = plugin(function ({ addUtilities }) {
-  addUtilities({
-    ".-rotate-x-180": { transform: "rotateX(-180deg)" },
-    ".flipCard-wrapper": {
-      perspective: "40rem",
-      "&:hover .flipCard-inner-wrapper": {
-        transform: "rotateX(180deg)",
-      },
-      "&:active .flipCard-inner-wrapper": {
-        transform: "rotateX(180deg)",
-      },
-      "&:focus .flipCard-inner-wrapper": {
-        transform: "rotateX(180deg)",
-      },
-    },
-    ".flipCard-inner-wrapper": {
-      display: "flex",
-      transformStyle: "preserve-3d",
-      transition: "700ms transform",
-      "& > *:nth-child(1)": {
-        backfaceVisibility: "hidden",
-        minWidth: "100%",
-      },
-      "& > *:nth-child(2)": {
-        backfaceVisibility: "hidden",
-        minWidth: "100%",
-        transform: "rotateX(-180deg) translate(-100%, 0)",
-      },
-      "@media (prefers-reduced-motion: reduce)": {
-        transition: "none",
-      },
-    },
-  });
-});
-
+const { flipCard } = require("./tailwind/flipCard");
+const { borderGradient } = require("./tailwind/borderGradient");
 module.exports = {
   content: ["./app/**/*.{js,jsx,ts,tsx}"],
   theme: {
@@ -138,6 +103,7 @@ module.exports = {
       boxShadow: {
         main: "rgb(17, 17, 17) 4px 4px 8px 0px",
         casual: "rgba(17, 17, 17, 0.75) 4px 4px 8px 0px",
+        casualLight: "rgba(17, 17, 17, 0.5) 4px 4px 8px 0px",
         gistTooltip: "rgba(0, 0, 0, 0.75) 0px 0px 24px 0px inset",
       },
       fontFamily: {
@@ -173,6 +139,7 @@ module.exports = {
   },
   plugins: [
     flipCard,
+    borderGradient,
     require("@sira-ui/tailwind")({
       themes: [
         {

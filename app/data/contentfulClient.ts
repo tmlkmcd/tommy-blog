@@ -479,11 +479,15 @@ export async function getSkills({
       isPreview,
     });
 
-  return (
+  const skills = (
     await client.getEntries({
       content_type: "coreSkill",
     })
   ).toPlainObject() as EntryCollection<CoreSkill>;
+
+  skills.items.sort((a, b) => a.fields.order - b.fields.order);
+
+  return skills;
 }
 
 export async function getTruthsAndLies({

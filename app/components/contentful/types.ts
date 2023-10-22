@@ -107,20 +107,11 @@ export interface Series {
   image: Asset;
 }
 
-export enum SkillCategory {
-  FRONT_END = "Front End",
-  BACK_END = "Back End",
-  WEB_DEVELOPMENT = "Web Development",
-  MOBILE_DEVELOPMENT = "Mobile Development",
-  CLOUD_COMPUTING = "Cloud Computing",
-  PROGRAMMING = "Programming",
-  DATABASES = "Databases",
-}
-
 export interface CoreSkill {
   name: string;
-  rating: number;
-  skillCategory: SkillCategory;
+  blurb: string;
+  subskill: string[];
+  order: number;
 }
 
 export interface TruthAndLie {

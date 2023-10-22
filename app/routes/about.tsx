@@ -8,9 +8,7 @@ import { RichText } from "~/components/contentful/RichText";
 import { useRootContext } from "~/RootContext";
 import { AboutPages } from "~/Pages";
 import classNames from "classnames";
-import { Navigate } from "react-router";
-import { OutsideLink, Subtitle } from "~/components/OtherLinks";
-import { LinkWithQuery } from "~/components/LinkWithQuery";
+import { Navigate, useNavigate } from "react-router";
 
 export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
   context,
@@ -38,6 +36,7 @@ export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
 export default function Index() {
   const { pushBreadcrumb } = useRootContext();
   const paragraph = useLoaderData<typeof loader>() as Paragraph;
+  const navigate = useNavigate();
 
   const matches = useMatches()
     .map<string>(({ handle }) => handle?.about)
@@ -54,45 +53,46 @@ export default function Index() {
     return <Navigate to="/about/skills" replace={true} />;
   }
 
+  const transition = (to: string) => {
+    if (document.startViewTransition) {
+      document.startViewTransition(() => navigate(to));
+      return;
+    }
+
+    navigate(to);
+  };
+
   return (
-    <Layout
-      title="About Me"
-      subtitle={
-        <Subtitle links={[OutsideLink.MEDIUM, OutsideLink.INSTAGRAM]} />
-      }
-    >
+    <Layout title="About Me" subtitle={<div />}>
       <RichText node={paragraph.text} />
       <div className="info tabs bordered mt-4">
-        <LinkWithQuery
+        <button
           className={classNames(
             "tab p-2",
             matches.includes(AboutPages.SKILLSET) && "active"
           )}
-          variant="other"
-          to="/about/skills"
+          onClick={() => transition("/about/skills")}
         >
-          Core Skills
-        </LinkWithQuery>
-        <LinkWithQuery
+          Expertise
+        </button>
+        <button
           className={classNames(
             "tab p-2",
             matches.includes(AboutPages.TTAAL) && "active"
           )}
-          variant="other"
-          to="/about/ttaal"
+          onClick={() => transition("/about/ttaal")}
         >
           Two Truths and a Lie
-        </LinkWithQuery>
-        <LinkWithQuery
+        </button>
+        <button
           className={classNames(
             "tab p-2",
             matches.includes(AboutPages.FAQ) && "active"
           )}
-          variant="other"
-          to="/about/faq"
+          onClick={() => transition("/about/faq")}
         >
           FAQ
-        </LinkWithQuery>
+        </button>
       </div>
       <div className="p-2">
         <Outlet />

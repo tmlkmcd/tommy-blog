@@ -22,6 +22,7 @@ import { Body } from "~/components/Body";
 import { ModalProvider } from "~/components/Modal";
 import type { ContentfulGenericItems } from "~/rootLoader";
 import { RootProvider } from "~/RootContext";
+import { Footer } from "~/components/Footer";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
@@ -82,6 +83,7 @@ export default function App() {
             >
               <Header />
               <Body />
+              <Footer />
             </div>
             <ScrollRestoration />
             <Scripts />

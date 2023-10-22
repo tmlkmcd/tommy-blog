@@ -31,6 +31,7 @@
     "@cloudflare/workers-types": "^3.19.0",
     "@remix-run/dev": "^1.16.0",
     "@remix-run/eslint-config": "^1.16.0",
+    "@types/dom-view-transitions": "^1.0.3",
     "@types/react": "^18.0.35",
     "@types/react-dom": "^18.0.11",
     "eslint": "^8.36.0",

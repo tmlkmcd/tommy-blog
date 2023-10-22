@@ -8,7 +8,7 @@ import { useLoaderData } from "@remix-run/react";
 import { RichText } from "~/components/contentful/RichText";
 import { useRootContext } from "~/RootContext";
 import { PageName } from "~/Pages";
-import { OutsideLink, Subtitle } from "~/components/OtherLinks";
+import { OutsideLink, OtherLinks } from "~/components/OtherLinks";
 
 export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
   context,
@@ -42,10 +42,7 @@ export default function Index() {
   }, [pushBreadcrumb]);
 
   return (
-    <Layout
-      title="Technology"
-      subtitle={<Subtitle links={[OutsideLink.LINKEDIN, OutsideLink.GITHUB]} />}
-    >
+    <Layout title="Technology">
       <div className="flex flex-col gap-4">
         <RichText node={paragraph.text} />
       </div>

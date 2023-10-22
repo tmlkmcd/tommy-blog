@@ -2,7 +2,6 @@ import { LinkedinIcon } from "~/icons/LinkedinIcon";
 import * as React from "react";
 import { GithubIcon } from "~/icons/GithubIcon";
 import { MediumIcon } from "~/icons/MediumIcon";
-import { assertUnreachable } from "~/data/assertUnreachable";
 import { InstagramIcon } from "~/icons/InstagramIcon";
 
 export enum OutsideLink {
@@ -10,10 +9,6 @@ export enum OutsideLink {
   LINKEDIN = "LINKEDIN",
   INSTAGRAM = "INSTAGRAM",
   MEDIUM = "MEDIUM",
-}
-
-interface Props {
-  links: OutsideLink[];
 }
 
 const LinkedIn: React.FC = () => {
@@ -60,23 +55,13 @@ const Instagram: React.FC = () => {
   );
 };
 
-export const Subtitle: React.FC<Props> = ({ links }) => {
+export const OtherLinks: React.FC = () => {
   return (
-    <span className="flex gap-2">
-      {links.map((link) => {
-        switch (link) {
-          case OutsideLink.GITHUB:
-            return <Github key={link} />;
-          case OutsideLink.LINKEDIN:
-            return <LinkedIn key={link} />;
-          case OutsideLink.MEDIUM:
-            return <Medium key={link} />;
-          case OutsideLink.INSTAGRAM:
-            return <Instagram key={link} />;
-          default:
-            assertUnreachable(link);
-        }
-      })}
+    <span className="flex gap-4">
+      <Github /> |
+      <LinkedIn /> |
+      <Medium /> |
+      <Instagram />
     </span>
   );
 };
