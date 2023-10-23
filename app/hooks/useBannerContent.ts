@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { Banner } from "~/components/contentful/types";
+import type { Banner } from "~/data/contentful/types";
 import { useRootContext } from "~/RootContext";
 
 interface UseBannerContent {

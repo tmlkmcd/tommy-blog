@@ -1,16 +1,14 @@
 import * as React from "react";
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import type { Band, Paragraph } from "~/components/contentful/types";
+import type { Band, Paragraph } from "~/data/contentful/types";
 import { Outlet, useLoaderData, useParams } from "@remix-run/react";
 import { Layout } from "~/components/Layout";
 import { RichText } from "~/components/contentful/RichText";
-import {
-  contentfulClient,
-  getBands,
-  getParagraph,
-} from "~/data/contentfulClient";
 import { Navigate, useNavigate } from "react-router";
 import classNames from "classnames";
+import { contentfulClient } from "~/data/contentful/client";
+import { getParagraph } from "~/data/contentful/generic";
+import { getBands } from "~/data/contentful/music";
 
 export const loader: (
   args: LoaderArgs

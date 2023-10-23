@@ -2,12 +2,12 @@ import * as React from "react";
 
 import { Layout } from "~/components/Layout";
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import type { Paragraph } from "~/components/contentful/types";
-import { getParagraph } from "~/data/contentfulClient";
+import type { Paragraph } from "~/data/contentful/types";
 import { useLoaderData } from "@remix-run/react";
 import { RichText } from "~/components/contentful/RichText";
 import { useRootContext } from "~/RootContext";
 import { PageName } from "~/Pages";
+import { getParagraph } from "~/data/contentful/generic";
 
 export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
   context,

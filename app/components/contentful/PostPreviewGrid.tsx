@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { ExtendedBlogPost, Series } from "~/components/contentful/types";
+import type { ExtendedBlogPost, Series } from "~/data/contentful/types";
 import { formatBlogDate } from "~/data/dates";
 import { Categories } from "~/components/contentful/Categories";
 import { LinkWithQuery } from "~/components/LinkWithQuery";
@@ -34,7 +34,7 @@ export const PostPreviewGrid: React.FC<Props> = ({
     title: post.title,
     blurb: post.blurb,
     imgSrc: post.image?.fields.file.url ?? null,
-    categories: post.categories.map(({ fields: { name } }) => name),
+    categories: (post.categories ?? []).map(({ fields: { name } }) => name),
     id: post.slug,
     series: post.series,
     date: post.published,

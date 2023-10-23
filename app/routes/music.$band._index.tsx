@@ -1,5 +1,5 @@
 import { useOutletContext } from "react-router";
-import type { Band } from "~/components/contentful/types";
+import type { Band } from "~/data/contentful/types";
 import * as React from "react";
 import { PageName } from "~/Pages";
 import { useRootContext } from "~/RootContext";

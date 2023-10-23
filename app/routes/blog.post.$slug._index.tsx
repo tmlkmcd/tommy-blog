@@ -2,15 +2,15 @@ import * as React from "react";
 import { Navigate } from "react-router";
 import { Layout } from "~/components/Layout";
 import { type LoaderArgs } from "@remix-run/cloudflare";
-import type { ExtendedBlogPost } from "~/components/contentful/types";
+import type { ExtendedBlogPost } from "~/data/contentful/types";
 import { useLoaderData } from "@remix-run/react";
 import { RichText } from "~/components/contentful/RichText";
 import { Categories } from "~/components/contentful/Categories";
-import { getBlogPost } from "~/data/contentfulClient";
 import { Footnotes } from "~/components/Blog/FootnoteProvider";
 import { useRootContext } from "~/RootContext";
 import { PageName } from "~/Pages";
 import { LinkWithQuery } from "~/components/LinkWithQuery";
+import { getBlogPosts } from "~/data/contentful/blog";
 
 export const loader: (
   args: LoaderArgs
@@ -30,7 +30,7 @@ export const loader: (
     throw new Error('Missing "slug" parameter');
   }
 
-  return getBlogPost({
+  return getBlogPosts({
     slug: params.slug,
     token,
     space,

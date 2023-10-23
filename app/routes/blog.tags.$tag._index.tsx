@@ -1,12 +1,12 @@
 import * as React from "react";
 import { Layout } from "~/components/Layout";
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import type { ExtendedBlogPost } from "~/components/contentful/types";
+import type { ExtendedBlogPost } from "~/data/contentful/types";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { PostPreviewGrid } from "~/components/contentful/PostPreviewGrid";
-import { getBlogPostsByTag } from "~/data/contentfulClient";
 import { useRootContext } from "~/RootContext";
 import { PageName } from "~/Pages";
+import { getBlogPosts } from "~/data/contentful/blog";
 
 export const loader: (
   args: LoaderArgs
@@ -24,7 +24,7 @@ export const loader: (
     throw new Error("No tag provided");
   }
 
-  return getBlogPostsByTag({
+  return getBlogPosts({
     tag,
     token,
     space,

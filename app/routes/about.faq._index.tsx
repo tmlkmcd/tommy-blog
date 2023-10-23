@@ -1,11 +1,12 @@
 import * as React from "react";
 import { AboutPages, PageName } from "~/Pages";
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import type { Faq } from "~/components/contentful/types";
-import { contentfulClient, getFaqs } from "~/data/contentfulClient";
+import type { Faq } from "~/data/contentful/types";
 import { useLoaderData } from "@remix-run/react";
 import { useRootContext } from "~/RootContext";
 import { AccordionMenu } from "~/components/AccordionMenu";
+import { contentfulClient } from "~/data/contentful/client";
+import { getFaqs } from "~/data/contentful/about";
 
 export const handle = {
   about: AboutPages.FAQ,

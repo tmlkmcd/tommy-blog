@@ -3,11 +3,11 @@ import { useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/cloudflare";
 import { PostPreviewGrid } from "~/components/contentful/PostPreviewGrid";
 import { Layout } from "~/components/Layout";
-import type { ExtendedBlogPost } from "~/components/contentful/types";
-import { getBlogPosts } from "~/data/contentfulClient";
+import type { ExtendedBlogPost } from "~/data/contentful/types";
 import { LinkWithQuery } from "~/components/LinkWithQuery";
 import { useRootContext } from "~/RootContext";
 import { PageName } from "~/Pages";
+import { getBlogPosts } from "~/data/contentful/blog";
 
 export const loader: (
   args: LoaderArgs

@@ -4,13 +4,13 @@ import { DraggableListWithHandleGhost } from "~/components/VisualAndExample/Drag
 import { DraggableList } from "~/components/VisualAndExample/Draggable/DraggableList";
 import { DraggableMultipleLists } from "~/components/VisualAndExample/Draggable/DraggableMultipleLists";
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import type { Paragraph } from "~/components/contentful/types";
-import { getParagraph } from "~/data/contentfulClient";
+import type { Paragraph } from "~/data/contentful/types";
 import { useLoaderData } from "@remix-run/react";
 import { RichText } from "~/components/contentful/RichText";
 import { useDraggableField } from "~/hooks/useDraggableField";
 import { rearrangeArray } from "~/data/rearrangeArray";
 import classNames from "classnames";
+import { getParagraph } from "~/data/contentful/generic";
 
 export const loader: (args: LoaderArgs) => Promise<Paragraph[]> = async ({
   context,

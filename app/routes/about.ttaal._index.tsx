@@ -1,13 +1,14 @@
 import * as React from "react";
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import type { TruthAndLie } from "~/components/contentful/types";
-import { contentfulClient, getTruthsAndLies } from "~/data/contentfulClient";
+import type { TruthAndLie } from "~/data/contentful/types";
 import { shuffleArray } from "~/data/shuffleArray";
 import { useLoaderData } from "@remix-run/react";
 import { useCascadeAnimate } from "~/hooks/useCascadeAnimate";
 import classNames from "classnames";
 import { AboutPages, PageName } from "~/Pages";
 import { useRootContext } from "~/RootContext";
+import { contentfulClient } from "~/data/contentful/client";
+import { getTruthsAndLies } from "~/data/contentful/about";
 
 export const handle = {
   about: AboutPages.TTAAL,

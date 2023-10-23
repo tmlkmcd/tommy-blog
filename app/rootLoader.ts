@@ -1,12 +1,9 @@
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import {
-  contentfulClient,
-  getBanners,
-  getCategories,
-  getProfilePicture,
-} from "~/data/contentfulClient";
-import type { Category, ImageAsset } from "~/components/contentful/types";
-import type { Banner } from "~/components/contentful/types";
+import type { Category, ImageAsset } from "~/data/contentful/types";
+import type { Banner } from "~/data/contentful/types";
+import { contentfulClient } from "~/data/contentful/client";
+import { getCategories } from "~/data/contentful/blog";
+import { getBanners, getProfilePicture } from "~/data/contentful/generic";
 
 export interface ContentfulGenericItems {
   categories: Category[];

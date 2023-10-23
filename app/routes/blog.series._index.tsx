@@ -1,12 +1,12 @@
 import * as React from "react";
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import type { Series } from "~/components/contentful/types";
-import { getAllSeries } from "~/data/contentfulClient";
+import type { Series } from "~/data/contentful/types";
 import { useRootContext } from "~/RootContext";
 import { useLoaderData } from "@remix-run/react";
 import { PageName } from "~/Pages";
 import { Layout } from "~/components/Layout";
 import { GeneralPreviewGrid } from "~/components/contentful/PostPreviewGrid";
+import { getAllSeries } from "~/data/contentful/blog";
 
 export const loader: (args: LoaderArgs) => Promise<Series[]> = async ({
   context,

@@ -1,7 +1,7 @@
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import type { Footnote } from "~/components/contentful/types";
+import type { Footnote } from "~/data/contentful/types";
 import type { EntryCollection } from "contentful";
-import { getFootnotes } from "~/data/contentfulClient";
+import { getFootnotes } from "~/data/contentful/blog";
 
 export const loader: (
   args: LoaderArgs

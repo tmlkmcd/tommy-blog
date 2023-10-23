@@ -6,12 +6,8 @@ import type {
   RichTextData,
 } from "contentful";
 import { BlogFootnote } from "~/components/Blog/BlogFootnote";
-import type { GithubGist } from "~/components/contentful/types";
-import {
-  isInternalLink,
-  isFootnote,
-  isGhGist,
-} from "~/components/contentful/types";
+import type { GithubGist } from "~/data/contentful/types";
+import { isInternalLink, isFootnote, isGhGist } from "~/data/contentful/types";
 import classNames from "classnames";
 import { BlogInternalLink } from "~/components/contentful/BlogInternalLink";
 import {
@@ -124,7 +120,7 @@ const WrapRichText: React.FC<
     case "paragraph":
       return <p className={className}>{children}</p>;
     case "heading-1":
-      return <h1 className="text-xxl font-bold">{children}</h1>;
+      return <h1 className="text-2xl font-bold">{children}</h1>;
     case "heading-2":
       return <h2 className="mt-2 text-xl font-bold">{children}</h2>;
     case "heading-3":

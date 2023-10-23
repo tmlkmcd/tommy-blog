@@ -1,7 +1,6 @@
 import * as React from "react";
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import type { Paragraph } from "~/components/contentful/types";
-import { getParagraph } from "~/data/contentfulClient";
+import type { Paragraph } from "~/data/contentful/types";
 import { useLoaderData } from "@remix-run/react";
 import { Layout } from "~/components/Layout";
 import { RichText } from "~/components/contentful/RichText";
@@ -10,6 +9,7 @@ import classNames from "classnames";
 import { HammingCode } from "~/components/VisualAndExample/ErrorCorrection/HammingCode/HammingCode";
 import { ChevronIcon } from "~/icons/Chevron";
 import { HammingProvider } from "~/components/VisualAndExample/ErrorCorrection/HammingCode/HammingContext";
+import { getParagraph } from "~/data/contentful/generic";
 
 const ImplementedSimulatorsMap: Record<
   ImplementedECSimulators,

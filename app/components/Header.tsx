@@ -4,7 +4,7 @@ import { HeaderLink } from "~/components/HeaderLink";
 import classNames from "classnames";
 import { useRootContext } from "~/RootContext";
 import { PageBanner } from "~/components/PageBanner";
-import type { ImageAsset } from "~/components/contentful/types";
+import type { ImageAsset } from "~/data/contentful/types";
 import { Image } from "~/components/contentful/Image";
 
 export const Header: React.FC = () => {

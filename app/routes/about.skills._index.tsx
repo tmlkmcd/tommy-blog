@@ -1,12 +1,13 @@
 import * as React from "react";
 import { AboutPages, PageName } from "~/Pages";
-import type { CoreSkill } from "~/components/contentful/types";
-import { contentfulClient, getSkills } from "~/data/contentfulClient";
+import type { CoreSkill } from "~/data/contentful/types";
 import { useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/cloudflare";
 import { useRootContext } from "~/RootContext";
 import classNames from "classnames";
 import { useCascadeAnimate } from "~/hooks/useCascadeAnimate";
+import { contentfulClient } from "~/data/contentful/client";
+import { getSkills } from "~/data/contentful/about";
 
 export const handle = {
   about: AboutPages.SKILLSET,

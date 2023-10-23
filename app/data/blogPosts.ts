@@ -1,6 +1,6 @@
-import type { ExtendedBlogPost } from "~/components/contentful/types";
+import type { ExtendedBlogPost } from "~/data/contentful/types";
 import type { RichTextContent } from "contentful";
-import { isFootnote } from "~/components/contentful/types";
+import { isFootnote } from "~/data/contentful/types";
 
 export function crawlAndIndexFootnotes(blogPost: ExtendedBlogPost): string[] {
   let footnotes: string[] = [];

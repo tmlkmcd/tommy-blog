@@ -1,13 +1,13 @@
 import * as React from "react";
 import { useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import type { Series } from "~/components/contentful/types";
-import { getSeriesBySlug } from "~/data/contentfulClient";
-import type { ExtendedBlogPost } from "~/components/contentful/types";
+import type { Series } from "~/data/contentful/types";
+import type { ExtendedBlogPost } from "~/data/contentful/types";
 import { Layout } from "~/components/Layout";
 import { PostPreviewGrid } from "~/components/contentful/PostPreviewGrid";
 import { useRootContext } from "~/RootContext";
 import { PageName } from "~/Pages";
+import { getBlogPosts } from "~/data/contentful/blog";
 
 export const loader: (
   args: LoaderArgs
@@ -28,8 +28,8 @@ export const loader: (
     throw new Error("No series provided");
   }
 
-  return getSeriesBySlug({
-    slug,
+  return getBlogPosts({
+    series: slug,
     token,
     space,
     isPreview: !!url.searchParams.get("cf_token"),

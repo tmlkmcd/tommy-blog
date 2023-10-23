@@ -1,7 +1,7 @@
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import type { InternalLink } from "~/components/contentful/types";
+import type { InternalLink } from "~/data/contentful/types";
 import type { Entry } from "contentful";
-import { getInternalLink } from "~/data/contentfulClient";
+import { getInternalLink } from "~/data/contentful/generic";
 
 export const loader: (
   args: LoaderArgs

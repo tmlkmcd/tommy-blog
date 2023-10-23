@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useNavigate, useRouteLoaderData } from "react-router";
-import type { Banner, ExtendedBlogPost } from "~/components/contentful/types";
+import type { Banner, ExtendedBlogPost } from "~/data/contentful/types";
 import classNames from "classnames";
 import { isCdnBanner, useBannerContent } from "~/hooks/useBannerContent";
 import { useModal } from "~/components/Modal";

@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { EntryCollection } from "contentful";
-import type { Footnote } from "~/components/contentful/types";
+import type { Footnote } from "~/data/contentful/types";
 
 interface FootnoteProvider {
   footnotes?: Record<string, Footnote & { index: number }>;

@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { InternalLink } from "~/components/contentful/types";
+import type { InternalLink } from "~/data/contentful/types";
 import type { Entry } from "contentful";
 import { LinkWithQuery } from "~/components/LinkWithQuery";
 
