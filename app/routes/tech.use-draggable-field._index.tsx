@@ -8,7 +8,7 @@ import type { Paragraph } from "~/data/contentful/types";
 import { useLoaderData } from "@remix-run/react";
 import { RichText } from "~/components/contentful/RichText";
 import { useDraggableField } from "~/hooks/useDraggableField";
-import { rearrangeArray } from "~/data/rearrangeArray";
+import { rearrangeArray } from "~/data/arrayHelpers";
 import classNames from "classnames";
 import { getParagraph } from "~/data/contentful/generic";
 

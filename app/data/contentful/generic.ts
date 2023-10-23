@@ -4,10 +4,10 @@ import type { EntryCollection } from "contentful";
 import type { ImageAsset } from "~/data/contentful/types";
 import { contentfulClient } from "~/data/contentful/client";
 import type { Banner } from "~/data/contentful/types";
-import { shuffleArray } from "~/data/shuffleArray";
 import type { Entry } from "contentful";
 import type { InternalLink } from "~/data/contentful/types";
-import { Paragraph } from "~/data/contentful/types";
+import type { Paragraph } from "~/data/contentful/types";
+import { shuffleArray } from "~/data/arrayHelpers";
 
 export const getProfilePicture = async ({
   token,

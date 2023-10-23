@@ -16,7 +16,7 @@ export const ImageGallery: React.FC<Props> = ({ images }) => {
     <div className="flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-2 lg:grid-cols-3">
       {images.map((image) => {
         return (
-          <>
+          <React.Fragment key={image.title}>
             <div key={image.title} className="relative aspect-[3/2] w-full">
               <LightboxImage
                 image={image}
@@ -25,7 +25,7 @@ export const ImageGallery: React.FC<Props> = ({ images }) => {
               />
             </div>
             <div className="border-b border-dashed opacity-80 md:hidden [&:last-child]:hidden" />
-          </>
+          </React.Fragment>
         );
       })}
     </div>

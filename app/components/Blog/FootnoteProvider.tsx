@@ -42,7 +42,7 @@ export const Footnotes: React.FC<React.PropsWithChildren<FootnoteProps>> = ({
       setFootnotes(footnotesStore);
     };
 
-    getNote();
+    void getNote();
   }, [ids]);
 
   return (

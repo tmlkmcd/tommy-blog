@@ -2,7 +2,7 @@ import * as React from "react";
 import type { List } from "~/components/VisualAndExample/Draggable/DraggableBase";
 import { listCards } from "~/components/VisualAndExample/Draggable/DraggableBase";
 import { useDraggableField } from "~/hooks/useDraggableField";
-import { rearrangeArray } from "~/data/rearrangeArray";
+import { rearrangeArray } from "~/data/arrayHelpers";
 import { DraggableItemWithHandle } from "~/components/VisualAndExample/Draggable/DraggableItemWithHandle";
 
 export const DraggableListWithHandleGhost: React.FC = () => {

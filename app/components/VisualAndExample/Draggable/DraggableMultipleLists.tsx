@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { List } from "~/components/VisualAndExample/Draggable/DraggableBase";
-import { rearrangeArray } from "~/data/rearrangeArray";
+import { rearrangeArray } from "~/data/arrayHelpers";
 import { useDraggableField } from "~/hooks/useDraggableField";
 import { DraggableItem } from "~/components/VisualAndExample/Draggable/DraggableItem";
 import { listCards } from "~/components/VisualAndExample/Draggable/DraggableBase";
