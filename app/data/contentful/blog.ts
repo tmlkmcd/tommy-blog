@@ -3,7 +3,8 @@ import type { BlogPost, ExtendedBlogPost } from "~/data/contentful/types";
 import type { EntryCollection } from "contentful";
 import type { Category, Series } from "~/data/contentful/types";
 import { contentfulClient } from "~/data/contentful/client";
-import { Footnote } from "~/data/contentful/types";
+import type { Footnote } from "~/data/contentful/types";
+import { crawlAndIndexFootnotes } from "~/data/blogPosts";
 
 export async function getBlogPosts({
   token,
@@ -133,6 +134,7 @@ export async function getBlogPosts({
     const post = entries.items[0];
     return {
       ...post.fields,
+      footnotes: crawlAndIndexFootnotes(post.fields),
       updated: post.sys.updatedAt,
     };
   } else if (seriesData && seriesId) {
