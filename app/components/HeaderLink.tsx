@@ -29,7 +29,3 @@ export const HeaderLink: React.FC<Props> = ({ path, label, subItems = [] }) => {
     </LinkWithQuery>
   );
 };
-
-const NestedHeaderLink: React.FC<Props> = () => {
-  return <div />;
-};

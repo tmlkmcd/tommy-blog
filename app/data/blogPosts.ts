@@ -13,7 +13,6 @@ export function crawlAndIndexFootnotes(blogPost: ExtendedBlogPost): string[] {
 }
 
 function crawlContent(content: RichTextContent, footnotes: string[]) {
-  console.log("crawling)");
   if (isFootnote(content) && content.data.target?.sys.id) {
     footnotes.push(content.data.target?.sys.id);
   }

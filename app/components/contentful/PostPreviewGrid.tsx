@@ -3,7 +3,7 @@ import type { ExtendedBlogPost, Series } from "~/data/contentful/types";
 import { formatBlogDate } from "~/data/dates";
 import { Categories } from "~/components/contentful/Categories";
 import { LinkWithQuery } from "~/components/LinkWithQuery";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
 import type { Entry } from "contentful";
 import classNames from "classnames";
 import { useCascadeAnimate } from "~/hooks/useCascadeAnimate";
@@ -79,19 +79,15 @@ const GridItemPreview: React.FC<PreviewProps> = React.memo(
     className = "",
   }) {
     const { search } = useLocation();
-    const navigate = useNavigate();
 
     return (
-      <button
+      <section
         className={classNames(
-          "flex flex-col rounded bg-nobel-400 bg-opacity-60 text-left transition-all hover:brightness-125",
+          "relative flex flex-col rounded bg-nobel-400 bg-opacity-60 text-left",
           className
         )}
-        onClick={() => {
-          navigate(`${target}${search}`);
-        }}
       >
-        <section className="relative w-full">
+        <a href={`${target}${search}`} className="peer relative w-full">
           <div
             className="fade-btm absolute inset-0 w-full rounded-t bg-cover opacity-50"
             style={{ backgroundImage: `url(${imgSrc})` }}
@@ -106,9 +102,16 @@ const GridItemPreview: React.FC<PreviewProps> = React.memo(
               </header>
             </div>
           )}
-        </section>
-        <div className="flex grow flex-col px-2 pb-2">
-          <span className="pt-2 text-xl lg:text-2xl">{title}</span>
+        </a>
+        <div className="flex grow flex-col items-start px-2 pb-2 peer-hover:[&>a]:text-pasta-800 peer-hover:[&>a]:decoration-pasta-800">
+          <a
+            href={`${target}${search}`}
+            className={classNames(
+              "relative mb-2 mt-2 inline-block pt-0.5 text-xl underline decoration-transparent transition-all duration-300 hover:text-pasta-800 hover:decoration-pasta-800 lg:text-2xl"
+            )}
+          >
+            {title}
+          </a>
           {categories && <Categories categories={categories} />}
           <span className="pt-2 text-sm md:text-base">{blurb}</span>
           {showSeries && series && (
@@ -124,7 +127,7 @@ const GridItemPreview: React.FC<PreviewProps> = React.memo(
             </span>
           )}
         </div>
-      </button>
+      </section>
     );
   }
 );
