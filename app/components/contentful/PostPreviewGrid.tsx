@@ -83,39 +83,41 @@ const GridItemPreview: React.FC<PreviewProps> = React.memo(
     return (
       <section
         className={classNames(
-          "relative flex flex-col rounded bg-nobel-400 bg-opacity-60 text-left",
+          "relative flex flex-col rounded bg-nobel-400 bg-opacity-60 text-left transition-all duration-300 [&:has(.peer:hover)]:brightness-125",
           className
         )}
       >
-        <a href={`${target}${search}`} className="peer relative w-full">
-          <div
-            className="fade-btm absolute inset-0 w-full rounded-t bg-cover opacity-50"
-            style={{ backgroundImage: `url(${imgSrc})` }}
-          />
-          <div className="flex justify-center">
-            {imgSrc && <img src={imgSrc} className="fade-btm" alt="" />}
-          </div>
-          {date && (
-            <div className="fade-top absolute inset-x-0 bottom-0 flex grow flex-col bg-nobel-400 bg-opacity-60 px-2 pt-6">
-              <header className="mx-1 flex items-center gap-1 border-b border-dashed border-nobel-700">
-                {formatBlogDate(date)}
-              </header>
+        <a href={`${target}${search}`} className="group peer relative w-full">
+          <div className="relative">
+            <div
+              className="fade-btm absolute inset-0 w-full rounded-t bg-cover opacity-50"
+              style={{ backgroundImage: `url(${imgSrc})` }}
+            />
+            <div className="flex justify-center">
+              {imgSrc && <img src={imgSrc} className="fade-btm" alt="" />}
             </div>
-          )}
-        </a>
-        <div className="flex grow flex-col items-start px-2 pb-2 peer-hover:[&>a]:text-pasta-800 peer-hover:[&>a]:decoration-pasta-800">
-          <a
-            href={`${target}${search}`}
+            {date && (
+              <div className="fade-top absolute inset-x-0 bottom-0 flex grow flex-col bg-nobel-400 bg-opacity-60 px-2 pt-6">
+                <header className="mx-1 flex items-center gap-1 border-b border-dashed border-nobel-700">
+                  {formatBlogDate(date)}
+                </header>
+              </div>
+            )}
+          </div>
+          <h2
             className={classNames(
-              "relative mb-2 mt-2 inline-block pt-0.5 text-xl underline decoration-transparent transition-all duration-300 hover:text-pasta-800 hover:decoration-pasta-800 lg:text-2xl"
+              "px-2 pt-2 text-xl underline decoration-transparent transition-all duration-300 lg:text-2xl",
+              "hover:text-sapphireSplendour-300 hover:decoration-current group-hover:text-sapphireSplendour-300 group-hover:decoration-current"
             )}
           >
             {title}
-          </a>
+          </h2>
+        </a>
+        <div className="flex grow flex-col items-start gap-2 px-2 [&>*]:last:pb-2 peer-hover:[&>h2>a]:text-pasta-800 peer-hover:[&>h2>a]:decoration-current">
           {categories && <Categories categories={categories} />}
-          <span className="pt-2 text-sm md:text-base">{blurb}</span>
+          <span className="text-sm md:text-base">{blurb}</span>
           {showSeries && series && (
-            <span className="pt-2 text-sm">
+            <span className="text-sm">
               Part a series on{" "}
               <LinkWithQuery
                 to={`/blog/series/${series.fields.slug}`}
