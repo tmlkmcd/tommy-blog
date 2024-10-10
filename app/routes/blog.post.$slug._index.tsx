@@ -11,6 +11,7 @@ import { useRootContext } from "~/RootContext";
 import { PageName } from "~/Pages";
 import { LinkWithQuery } from "~/components/LinkWithQuery";
 import { getBlogPosts } from "~/data/contentful/blog";
+import { YouTubeVideo } from "~/components/Blog/YouTubeVideo";
 
 export const loader: (
   args: LoaderArgs
@@ -68,9 +69,17 @@ export default function Index() {
       >
         <div className="flex flex-col gap-4">
           <RichText node={post.post} />
+          <p>-tommy</p>
+          {post.youtubeVideoId && (
+            <YouTubeVideo videoId={post.youtubeVideoId} />
+          )}
           <SignOff />
-          <div className="mt-2 text-xl font-bold">Footnotes</div>
-          <div id="footnotes" />
+          {(post.footnotes || []).length > 0 && (
+            <>
+              <div className="mt-2 text-xl font-bold">Footnotes</div>
+              <div id="footnotes" />
+            </>
+          )}
         </div>
       </Layout>
     </Footnotes>
@@ -80,12 +89,11 @@ export default function Index() {
 function SignOff() {
   return (
     <div className="flex flex-col gap-4">
-      <p>-tommy</p>
       <p className="text-sm italic">
         Thanks for reading! If you enjoyed reading this post and/or learned
         something, please{" "}
         <LinkWithQuery to="/contact">get in touch</LinkWithQuery> and let me
-        know. Better yet, if you've found any errata in my writing, please do{" "}
+        know. Better yet, if you've found any errata in my blog posts, please do{" "}
         <LinkWithQuery to="/contact">make me aware</LinkWithQuery>. I'm always
         looking for opportunities to improve my writing!
       </p>

@@ -60,6 +60,7 @@ export interface BlogPost {
   image: Asset;
   bannerImage: Asset;
   series?: Entry<Series>;
+  youtubeVideoId?: string;
 }
 
 export interface ExtendedBlogPost extends BlogPost {
