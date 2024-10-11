@@ -9,9 +9,7 @@ import {
 } from "@remix-run/react";
 
 import appleTouchIcon from "~/webpageIconography/apple-touch-icon.png";
-import favicon16 from "~/webpageIconography/favicon-16x16.png";
-import favicon32 from "~/webpageIconography/favicon-32x32.png";
-import safariPinnedTab from "~/webpageIconography/safari-pinned-tab.svg";
+import favicon48 from "~/webpageIconography/favicon-48x48.png";
 import siteWebmanifest from "~/webpageIconography/site.webmanifest";
 
 import stylesheet from "~/tailwind.css";
@@ -30,17 +28,10 @@ export const links: LinksFunction = () => [
   {
     rel: "icon",
     type: "image/png",
-    sizes: "32x32",
-    href: favicon32,
-  },
-  {
-    rel: "icon",
-    type: "image/png",
-    sizes: "16x16",
-    href: favicon16,
+    sizes: "48x48",
+    href: favicon48,
   },
   { rel: "manifest", href: siteWebmanifest },
-  { rel: "mask-icon", href: safariPinnedTab, color: "#5bbad5" },
 ];
 
 export { loader } from "./rootLoader";

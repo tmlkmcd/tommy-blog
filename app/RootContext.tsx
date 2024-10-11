@@ -24,7 +24,7 @@ export const RootProvider: React.FC<
   React.PropsWithChildren<ContentfulGenericItems>
 > = (props) => {
   const { children, ...otherProps } = props;
-  const { pathname, search } = useLocation();
+  const { pathname } = useLocation();
 
   const [breadcrumbTrail, setBreadcrumbTrail] = React.useState<Breadcrumb[]>(
     []
@@ -33,7 +33,7 @@ export const RootProvider: React.FC<
   const pushBreadcrumb = React.useCallback(
     (label: string, refresh: boolean = false, ignoreLink = false) => {
       setBreadcrumbTrail((breadcrumbs) => {
-        let route = ignoreLink ? null : pathname + search;
+        let route = ignoreLink ? null : pathname;
         if (refresh) return [{ label, route }];
 
         if (breadcrumbs.length >= 1) {
@@ -48,7 +48,7 @@ export const RootProvider: React.FC<
         return [...breadcrumbs, { label, route }];
       });
     },
-    [pathname, search]
+    [pathname]
   );
 
   const goToBreadcrumb = (index: number) => {
