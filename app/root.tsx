@@ -59,6 +59,17 @@ export default function App() {
           <Links />
           <title>Tommy's Website</title>
         </head>
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-RJLGBQQEH2"
+        />
+        <script>
+          {`window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-RJLGBQQEH2');`}
+        </script>
         <body
           className={classNames(
             "min-h-screen bg-page bg-cover bg-fixed bg-center bg-no-repeat text-center font-aleo text-nobel-950 md:h-auto md:py-8",
