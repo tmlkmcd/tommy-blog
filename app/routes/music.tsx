@@ -4,7 +4,7 @@ import type { Band, Paragraph } from "~/data/contentful/types";
 import { Outlet, useLoaderData, useParams } from "@remix-run/react";
 import { Layout } from "~/components/Layout";
 import { RichText } from "~/components/contentful/RichText";
-import { Navigate, useNavigate } from "react-router";
+import { Navigate, useLocation, useNavigate } from "react-router";
 import classNames from "classnames";
 import { contentfulClient } from "~/data/contentful/client";
 import { getParagraph } from "~/data/contentful/generic";
@@ -51,6 +51,7 @@ export default function Index() {
     bands: Band[];
   };
   const navigate = useNavigate();
+  const { search } = useLocation();
 
   const bandRoutes = bands.map((band) => {
     return `${toKebabCase(band.name)}`;
@@ -59,7 +60,7 @@ export default function Index() {
   const showingBandIndex = bandRoutes.indexOf(useParams().band ?? "");
 
   if (showingBandIndex === -1) {
-    return <Navigate to={`/music/${bandRoutes[0]}`} replace={true} />;
+    return <Navigate to={`/music/${bandRoutes[0]}${search}`} replace={true} />;
   }
 
   const transition = (to: string) => {
@@ -84,7 +85,9 @@ export default function Index() {
                 "tab p-2",
                 index === showingBandIndex && "active"
               )}
-              onClick={() => transition(`/music/${toKebabCase(band.name)}`)}
+              onClick={() =>
+                transition(`/music/${toKebabCase(band.name)}${search}`)
+              }
               key={band.name}
             >
               {band.name}
