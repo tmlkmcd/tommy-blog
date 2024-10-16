@@ -195,7 +195,7 @@ export default function Index() {
   return (
     <button
       className="relative flex h-full w-full flex-col items-stretch justify-stretch"
-      onClick={() => proceed()}
+      onClick={() => proceed(true)}
     >
       <SongPicker
         changeSong={changeSong}
