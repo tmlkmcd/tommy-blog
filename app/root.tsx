@@ -3,6 +3,7 @@ import {
   Links,
   LiveReload,
   Meta,
+  Outlet,
   Scripts,
   ScrollRestoration,
   useLoaderData,
@@ -21,6 +22,7 @@ import { ModalProvider } from "~/components/Modal";
 import type { ContentfulGenericItems } from "~/rootLoader";
 import { RootProvider } from "~/RootContext";
 import { Footer } from "~/components/Footer";
+import { useLocation } from "react-router";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
@@ -48,8 +50,29 @@ export const meta: V2_MetaFunction = () => [
 
 export default function App() {
   const cfGeneric = useLoaderData() as ContentfulGenericItems;
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const lyrics = params.get("lyricsTheme") === "1";
 
   const { theme } = useTheme();
+
+  if (lyrics) {
+    return (
+      <html lang="en" className="h-full w-full">
+        <head>
+          <Meta />
+          <Links />
+          <title>Tommy's Website</title>
+        </head>
+        <body className="h-full w-full">
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </body>
+      </html>
+    );
+  }
 
   return (
     <html lang="en">
