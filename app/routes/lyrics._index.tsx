@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as ReactDOM from "react-dom";
 import { youllBeBack } from "~/lyrics/youllBeBack";
 import { hotelCalifornia } from "~/lyrics/hotelCalifornia";
 import classNames from "classnames";
@@ -211,6 +212,7 @@ export default function Index() {
         >
           <img
             src={currentSong.albumArt}
+            key={currentSong.albumArt}
             alt="Album Art"
             className="mx-auto max-h-[400px] p-4"
           />
@@ -260,8 +262,15 @@ function SongPicker({
   currentSongIndex: number;
 }) {
   const [query, setQuery] = React.useState("");
+  const [wrapper, setWrapper] = React.useState<HTMLElement | null>(null);
 
-  return (
+  React.useEffect(() => {
+    setWrapper(document.getElementById("asd"));
+  }, []);
+
+  if (!wrapper) return null;
+
+  return ReactDOM.createPortal(
     <div
       className={classNames(
         "fixed right-0 top-0 z-50 flex h-full w-[300px] flex-col gap-4 rounded border bg-white p-4 text-3xl transition-[all] duration-500",
@@ -282,8 +291,7 @@ function SongPicker({
         {songList
           .filter(({ title }) => title.includes(query))
           .map(({ title, index }) => (
-            <a
-              href="#"
+            <button
               type="button"
               className={classNames(
                 "border-top border-top-iceColdStare-800 text-lg underline",
@@ -297,10 +305,11 @@ function SongPicker({
               key={index}
             >
               {title}
-            </a>
+            </button>
           ))}
       </div>
-    </div>
+    </div>,
+    wrapper
   );
 }
 

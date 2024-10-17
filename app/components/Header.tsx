@@ -45,7 +45,7 @@ export const Header: React.FC = () => {
         <div className="flex grow flex-col justify-end pl-4">
           <div className="mb-2 flex flex-col md:flex-row md:justify-evenly">
             <HeaderLink label="Blog" path="/blog" />
-            <HeaderLink label="Music" path="/music" />
+            {/*<HeaderLink label="Music" path="/music" />*/}
             <HeaderLink label="Technology" path="/tech" />
             <HeaderLink label="About" path="/about" />
             <HeaderLink label="Contact" path="/contact" />

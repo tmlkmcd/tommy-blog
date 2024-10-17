@@ -69,6 +69,7 @@ export default function App() {
           <ScrollRestoration />
           <Scripts />
           <LiveReload />
+          <div id="asd" />
         </body>
       </html>
     );
