@@ -306,28 +306,18 @@ function SongPicker({
   if (!wrapper) return null;
   const filtered = songList.filter(({ title }) => title.includes(query));
 
-  const onClick = () => {
+  const submit = () => {
     if (filtered.length === 1) {
       changeSong(filtered[0].index);
       setQuery("");
       toggle(false);
+      return;
     }
 
-    if (filtered.length > 1) {
-      setStateBitwise(1);
-    }
-
-    setTimeout(() => {
-      setStateBitwise(3);
-    }, 5);
-
-    setTimeout(() => {
-      setStateBitwise(2);
-    }, 10);
-
-    setTimeout(() => {
-      setStateBitwise(0);
-    }, 500);
+    setStateBitwise(1);
+    setTimeout(() => setStateBitwise(3), 5);
+    setTimeout(() => setStateBitwise(2), 10);
+    setTimeout(() => setStateBitwise(0), 700);
   };
 
   return ReactDOM.createPortal(
@@ -344,29 +334,32 @@ function SongPicker({
       }}
     >
       <h1 className="">Search song...</h1>
-      <input
-        value={query}
-        className="w-full rounded border border-b-iceColdStare-800"
-        type="text"
-        onChange={(e) => {
-          setQuery(e.currentTarget.value);
-          e.stopPropagation();
-        }}
-      />
-      <button
-        className={classNames(
-          "rounded border border-b-iceColdStare-800 text-lg",
-          stateBitwise & 1 ? "bg-[red]" : "bg-iceColdStare-400",
-          stateBitwise & 2 && "transition-all duration-500"
-        )}
-        onClick={(e) => {
-          onClick();
-          e.stopPropagation();
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          submit();
         }}
       >
-        go
-      </button>
-      <span>{filtered.length}</span>
+        <input
+          value={query}
+          className="w-full rounded border border-b-iceColdStare-800"
+          type="text"
+          onChange={(e) => {
+            setQuery(e.currentTarget.value);
+            e.stopPropagation();
+          }}
+        />
+        <button
+          className={classNames(
+            "rounded border border-b-iceColdStare-800 text-lg",
+            stateBitwise & 1 ? "bg-[red]" : "bg-iceColdStare-400",
+            stateBitwise & 2 && "transition-all duration-[700]"
+          )}
+        >
+          let's gooooo
+        </button>
+        <span>{filtered.length}</span>
+      </form>
     </div>,
     wrapper
   );
