@@ -164,6 +164,9 @@ export default function Index() {
 
   React.useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "PageUp") proceed();
+      if (e.key === "PageDown") goBack();
+
       if (e.key === "Enter") proceed(true);
       if (e.key === "ArrowRight") proceed(true);
       if (mod(e) && (e.key === "ArrowLeft" || e.key === "ArrowUp")) {
