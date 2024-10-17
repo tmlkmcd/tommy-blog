@@ -33,6 +33,7 @@ import { useThrottle } from "~/hooks/useThrottle";
 const songs = [
   dropsOfJupiter,
   moreThanWords,
+
   somethinStupid,
   inMyLife,
   feelingGood,
@@ -46,10 +47,10 @@ const songs = [
 
   tequila,
   themeFromSeinfeld,
-  brownEyedGirl,
   pokemon,
   youAndMeAndTheBottleMakesThree,
-  comeOnEileen,
+  brownEyedGirl,
+  // comeOnEileen,
   youCanCallMeAl,
   youreTheOneThatIWant,
   jolene,
