@@ -66,7 +66,7 @@ const songList = songs.map(({ title }, index) => ({
   index,
 }));
 
-const THROTTLE_LIMIT = 100;
+const THROTTLE_LIMIT = 400;
 
 interface State {
   lyricIndex: number;
