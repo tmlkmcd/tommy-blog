@@ -29,6 +29,7 @@ import {
   youKnowMyName,
 } from "~/lyrics/noLyrics";
 import { useThrottle } from "~/hooks/useThrottle";
+import { useLocation } from "react-router";
 
 const songs = [
   dropsOfJupiter,
@@ -89,6 +90,12 @@ export default function Index() {
       ...newState,
     }));
   };
+
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const textSize = params.get("textSize");
+
+  const mainRef = React.useRef<HTMLButtonElement>(null);
 
   const currentSong = songs[songIndex];
   let splitLyrics: string[] | null = null;
@@ -201,11 +208,18 @@ export default function Index() {
     <button
       className="relative flex h-full w-full flex-col items-stretch justify-stretch"
       onClick={() => proceed(true)}
+      ref={mainRef}
     >
       <SongPicker
         changeSong={changeSong}
         showSongPicker={showSongPicker}
-        currentSongIndex={songIndex}
+        toggle={(value?: boolean) => {
+          const n = value ?? !showSongPicker;
+          if (!n) {
+            mainRef.current?.focus();
+          }
+          setState({ showSongPicker: n });
+        }}
       />
       <div className="flex flex-row items-center justify-around p-4">
         <div
@@ -239,14 +253,30 @@ export default function Index() {
               <p
                 key={index}
                 className={classNames(
-                  "duration absolute flex flex-col gap-4 px-8 text-6xl text-nobel-950 opacity-0 transition-[opacity]",
+                  "duration absolute flex flex-col gap-4 px-8 text-nobel-950 opacity-0 transition-[opacity]",
                   fade && "duration-[1000ms]",
                   index === lyricIndex && "opacity-100"
                 )}
               >
                 {line.split("\n").map((l, i) => {
                   if (l === "-") return null;
-                  return <span key={i}>{l}</span>;
+                  return (
+                    <span
+                      key={i}
+                      className={classNames(
+                        textSize === "1" && "text-2xl",
+                        textSize === "2" && "text-3xl",
+                        textSize === "3" && "text-4xl",
+                        textSize === "4" && "text-5xl",
+                        (textSize === "5" || !textSize) && "text-6xl",
+                        textSize === "6" && "text-7xl",
+                        textSize === "7" && "text-8xl",
+                        textSize === "8" && "text-9xl"
+                      )}
+                    >
+                      {l}
+                    </span>
+                  );
                 })}
               </p>
             )
@@ -259,20 +289,46 @@ export default function Index() {
 function SongPicker({
   changeSong,
   showSongPicker,
-  currentSongIndex,
+  toggle,
 }: {
   changeSong: (index: number) => void;
   showSongPicker: boolean;
-  currentSongIndex: number;
+  toggle: (newState?: boolean) => void;
 }) {
   const [query, setQuery] = React.useState("");
   const [wrapper, setWrapper] = React.useState<HTMLElement | null>(null);
+  const [stateBitwise, setStateBitwise] = React.useState(0);
 
   React.useEffect(() => {
     setWrapper(document.getElementById("asd"));
   }, []);
 
   if (!wrapper) return null;
+  const filtered = songList.filter(({ title }) => title.includes(query));
+
+  const onClick = () => {
+    if (filtered.length === 1) {
+      changeSong(filtered[0].index);
+      setQuery("");
+      toggle(false);
+    }
+
+    if (filtered.length > 1) {
+      setStateBitwise(1);
+    }
+
+    setTimeout(() => {
+      setStateBitwise(3);
+    }, 5);
+
+    setTimeout(() => {
+      setStateBitwise(2);
+    }, 10);
+
+    setTimeout(() => {
+      setStateBitwise(0);
+    }, 500);
+  };
 
   return ReactDOM.createPortal(
     <div
@@ -280,6 +336,12 @@ function SongPicker({
         "fixed right-0 top-0 z-50 flex h-full w-[300px] flex-col gap-4 rounded border bg-white p-4 text-3xl transition-[all] duration-500",
         showSongPicker ? "translate-x-0" : "translate-x-full"
       )}
+      onKeyDown={(e) => {
+        e.stopPropagation();
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
     >
       <h1 className="">Search song...</h1>
       <input
@@ -291,27 +353,20 @@ function SongPicker({
           e.stopPropagation();
         }}
       />
-      <div className="flex flex-col gap-1">
-        {songList
-          .filter(({ title }) => title.includes(query))
-          .map(({ title, index }) => (
-            <button
-              type="button"
-              className={classNames(
-                "border-top border-top-iceColdStare-800 text-lg underline",
-                index === currentSongIndex && "font-bold"
-              )}
-              onClick={(event) => {
-                changeSong(index);
-                event.preventDefault();
-                event.stopPropagation();
-              }}
-              key={index}
-            >
-              {title}
-            </button>
-          ))}
-      </div>
+      <button
+        className={classNames(
+          "rounded border border-b-iceColdStare-800 text-lg",
+          stateBitwise & 1 ? "bg-[red]" : "bg-iceColdStare-400",
+          stateBitwise & 2 && "transition-all duration-500"
+        )}
+        onClick={(e) => {
+          onClick();
+          e.stopPropagation();
+        }}
+      >
+        go
+      </button>
+      <span>{filtered.length}</span>
     </div>,
     wrapper
   );
