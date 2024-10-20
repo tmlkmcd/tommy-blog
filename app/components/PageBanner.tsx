@@ -17,8 +17,12 @@ export const PageBanner: React.FC = () => {
 
   const component: string | null = React.useMemo(() => {
     if (blogPost) {
-      const { bannerImage } = blogPost;
-      return bannerImage?.fields.file.url ?? null;
+      const { bannerImages } = blogPost;
+      try {
+        return bannerImages.fields.fullBannerImage.fields.file.url ?? null;
+      } catch (e) {
+        return null;
+      }
     }
 
     return null;

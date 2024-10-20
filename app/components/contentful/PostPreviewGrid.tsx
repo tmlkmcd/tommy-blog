@@ -30,17 +30,25 @@ export const PostPreviewGrid: React.FC<Props> = ({
   posts,
   showSeries = true,
 }) => {
-  const items = posts.map<PreviewProps>((post) => ({
-    title: post.title,
-    blurb: post.blurb,
-    imgSrc: post.image?.fields.file.url ?? null,
-    categories: (post.categories ?? []).map(({ fields: { name } }) => name),
-    id: post.slug,
-    series: post.series,
-    date: post.published,
-    target: `/blog/post/${post.slug}`,
-    showSeries,
-  }));
+  const items = posts.map<PreviewProps>((post) => {
+    let imgSrc = null;
+    try {
+      imgSrc = post.bannerImages.fields.previewBannerImage.fields.file.url;
+    } catch (e) {
+      /* nothing */
+    }
+    return {
+      title: post.title,
+      blurb: post.blurb,
+      imgSrc,
+      categories: (post.categories ?? []).map(({ fields: { name } }) => name),
+      id: post.slug,
+      series: post.series,
+      date: post.published,
+      target: `/blog/post/${post.slug}`,
+      showSeries,
+    };
+  });
 
   return <GeneralPreviewGrid items={items} />;
 };

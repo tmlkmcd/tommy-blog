@@ -57,8 +57,11 @@ export interface BlogPost {
   published: string;
   categories: Entry<Category>[];
   post: EntryFields.RichText;
-  image: Asset;
-  bannerImage: Asset;
+  bannerImages: Entry<{
+    title: string;
+    fullBannerImage: Asset;
+    previewBannerImage: Asset;
+  }>;
   series?: Entry<Series>;
   youtubeVideoId?: string;
 }
