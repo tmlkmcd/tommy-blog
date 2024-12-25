@@ -50,31 +50,8 @@ export const meta: V2_MetaFunction = () => [
 
 export default function App() {
   const cfGeneric = useLoaderData() as ContentfulGenericItems;
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const lyrics = params.get("lyricsTheme") === "1";
 
   const { theme } = useTheme();
-
-  if (lyrics) {
-    return (
-      <html lang="en" className="h-full w-full">
-        <head>
-          <Meta />
-          <Links />
-          <title>Tommy's Website</title>
-        </head>
-        <body className="h-full w-full">
-          <Outlet />
-          <ScrollRestoration />
-          <Scripts />
-          <LiveReload />
-          <div id="asd" />
-        </body>
-      </html>
-    );
-  }
-
   return (
     <html lang="en">
       <RootProvider {...cfGeneric}>
@@ -83,17 +60,6 @@ export default function App() {
           <Links />
           <title>Tommy's Website</title>
         </head>
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-RJLGBQQEH2"
-        />
-        <script>
-          {`window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'G-RJLGBQQEH2');`}
-        </script>
         <body
           className={classNames(
             "min-h-screen bg-page bg-cover bg-fixed bg-center bg-no-repeat text-center font-aleo text-nobel-950 md:h-auto md:py-8",

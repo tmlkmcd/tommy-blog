@@ -1,16 +1,18 @@
 import * as React from "react";
 import { Layout } from "~/components/Layout";
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import type { ExtendedBlogPost } from "~/data/contentful/types";
+import type { ExtendedBlogPost, PaginationInfo } from "~/data/contentful/types";
 import { useLoaderData, useParams } from "@remix-run/react";
 import { PostPreviewGrid } from "~/components/contentful/PostPreviewGrid";
 import { useRootContext } from "~/RootContext";
 import { PageName } from "~/Pages";
 import { getBlogPosts } from "~/data/contentful/blog";
+import { getPage } from "~/data/contentful/pagination";
 
-export const loader: (
-  args: LoaderArgs
-) => Promise<ExtendedBlogPost[]> = async ({ context, request, params }) => {
+export const loader: (args: LoaderArgs) => Promise<{
+  posts: ExtendedBlogPost[];
+  pagination: PaginationInfo;
+}> = async ({ context, request, params }) => {
   const url = new URL(request.url);
   const token =
     url.searchParams.get("cf_token") ??
@@ -28,13 +30,17 @@ export const loader: (
     tag,
     token,
     space,
+    page: getPage(url.searchParams.get("page")),
     isPreview: !!url.searchParams.get("cf_token"),
   });
 };
 
 export default function Index() {
   const { pushBreadcrumb } = useRootContext();
-  const posts = useLoaderData<typeof loader>() as ExtendedBlogPost[];
+  const { posts } = useLoaderData<typeof loader>() as {
+    posts: ExtendedBlogPost[];
+    pagination: PaginationInfo;
+  };
   const { tag } = useParams<{ tag: string }>();
 
   React.useEffect(() => {

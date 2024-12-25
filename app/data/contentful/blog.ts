@@ -1,5 +1,9 @@
 import type * as contentful from "contentful";
-import type { BlogPost, ExtendedBlogPost } from "~/data/contentful/types";
+import type {
+  BlogPost,
+  ExtendedBlogPost,
+  PaginationInfo,
+} from "~/data/contentful/types";
 import type { EntryCollection } from "contentful";
 import type { Category, Series } from "~/data/contentful/types";
 import { contentfulClient } from "~/data/contentful/client";
@@ -11,12 +15,17 @@ export async function getBlogPosts({
   client,
   space,
   isPreview,
+  page,
 }: {
   token?: string | null;
   client?: contentful.ContentfulClientApi;
   space?: string | null;
   isPreview?: boolean;
-}): Promise<ExtendedBlogPost[]>;
+  page?: number;
+}): Promise<{
+  posts: ExtendedBlogPost[];
+  pagination: PaginationInfo;
+}>;
 
 export async function getBlogPosts({
   slug,
@@ -38,13 +47,18 @@ export async function getBlogPosts({
   client,
   space,
   isPreview,
+  page,
 }: {
   tag: string;
   token?: string | null;
   client?: contentful.ContentfulClientApi;
   space?: string | null;
   isPreview?: boolean;
-}): Promise<ExtendedBlogPost[]>;
+  page?: number;
+}): Promise<{
+  posts: ExtendedBlogPost[];
+  pagination: PaginationInfo;
+}>;
 
 export async function getBlogPosts({
   series,
@@ -52,13 +66,19 @@ export async function getBlogPosts({
   client,
   space,
   isPreview,
+  page,
 }: {
   series: string;
   token?: string | null;
   client?: contentful.ContentfulClientApi;
   space?: string | null;
   isPreview?: boolean;
-}): Promise<{ series: Series; posts: ExtendedBlogPost[] }>;
+  page?: number;
+}): Promise<{
+  series: Series;
+  posts: ExtendedBlogPost[];
+  pagination: PaginationInfo;
+}>;
 
 export async function getBlogPosts({
   slug,
@@ -68,6 +88,7 @@ export async function getBlogPosts({
   client: givenClient,
   space,
   isPreview,
+  page = 1,
 }: {
   slug?: string;
   tag?: string;
@@ -76,10 +97,18 @@ export async function getBlogPosts({
   client?: contentful.ContentfulClientApi;
   space?: string | null;
   isPreview?: boolean;
+  page?: number;
 }): Promise<
   | ExtendedBlogPost
-  | ExtendedBlogPost[]
-  | { series: Series; posts: ExtendedBlogPost[] }
+  | {
+      posts: ExtendedBlogPost[];
+      pagination: PaginationInfo;
+    }
+  | {
+      series: Series;
+      posts: ExtendedBlogPost[];
+      pagination: PaginationInfo;
+    }
 > {
   const client =
     givenClient ??
@@ -116,6 +145,8 @@ export async function getBlogPosts({
   const options: Record<string, string> = {
     content_type: "blogPost",
     order: "-fields.published",
+    limit: "6",
+    skip: ((page - 1) * 6).toString(),
   };
 
   if (slug) {
@@ -129,6 +160,11 @@ export async function getBlogPosts({
   const entries = (
     await client.getEntries(options)
   ).toPlainObject() as EntryCollection<BlogPost>;
+
+  const pagination = {
+    page,
+    total: entries.total,
+  };
 
   if (slug) {
     const post = entries.items[0];
@@ -146,15 +182,19 @@ export async function getBlogPosts({
           updated: sys.updatedAt,
         };
       }),
+      pagination,
     };
   }
 
-  return entries.items.map(({ fields, sys }) => {
-    return {
-      ...fields,
-      updated: sys.updatedAt,
-    };
-  });
+  return {
+    posts: entries.items.map(({ fields, sys }) => {
+      return {
+        ...fields,
+        updated: sys.updatedAt,
+      };
+    }),
+    pagination,
+  };
 }
 
 export async function getAllSeries({

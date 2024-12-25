@@ -1,21 +1,20 @@
 import * as React from "react";
 import { useLoaderData } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import type { Series } from "~/data/contentful/types";
+import type { PaginationInfo, Series } from "~/data/contentful/types";
 import type { ExtendedBlogPost } from "~/data/contentful/types";
 import { Layout } from "~/components/Layout";
 import { PostPreviewGrid } from "~/components/contentful/PostPreviewGrid";
 import { useRootContext } from "~/RootContext";
 import { PageName } from "~/Pages";
 import { getBlogPosts } from "~/data/contentful/blog";
+import { getPage } from "~/data/contentful/pagination";
 
-export const loader: (
-  args: LoaderArgs
-) => Promise<{ series: Series; posts: ExtendedBlogPost[] }> = async ({
-  context,
-  request,
-  params,
-}) => {
+export const loader: (args: LoaderArgs) => Promise<{
+  series: Series;
+  posts: ExtendedBlogPost[];
+  pagination: PaginationInfo;
+}> = async ({ context, request, params }) => {
   const url = new URL(request.url);
   const token =
     url.searchParams.get("cf_token") ??
@@ -32,6 +31,7 @@ export const loader: (
     series: slug,
     token,
     space,
+    page: getPage(url.searchParams.get("page")),
     isPreview: !!url.searchParams.get("cf_token"),
   });
 };
@@ -39,6 +39,7 @@ export default function Index() {
   const { series, posts } = useLoaderData<typeof loader>() as {
     series: Series;
     posts: ExtendedBlogPost[];
+    pagination: PaginationInfo;
   };
 
   const { pushBreadcrumb } = useRootContext();

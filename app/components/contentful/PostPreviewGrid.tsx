@@ -41,7 +41,7 @@ export const PostPreviewGrid: React.FC<Props> = ({
       title: post.title,
       blurb: post.blurb,
       imgSrc,
-      categories: (post.categories ?? []).map(({ fields: { name } }) => name),
+      categories: (post?.categories ?? []).map(({ fields: { name } }) => name),
       id: post.slug,
       series: post.series,
       date: post.published,
