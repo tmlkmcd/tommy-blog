@@ -1,6 +1,5 @@
 import * as React from "react";
-import { useLocation } from "react-router";
-import { Link } from "@remix-run/react";
+import { Link, useSearchParams } from "@remix-run/react";
 import classNames from "classnames";
 
 export const LinkWithQuery: React.FC<
@@ -12,7 +11,17 @@ export const LinkWithQuery: React.FC<
     } & React.ComponentProps<typeof Link>
   >
 > = ({ children, to, variant = "primary", className, ...props }) => {
-  const { search } = useLocation();
+  const [searchParams] = useSearchParams();
+  let suffix = "";
+  const cfToken = searchParams.get("cf_token");
+
+  if (cfToken) {
+    if (to.includes("?")) {
+      suffix = `&cf_token=${cfToken}`;
+    } else {
+      suffix = `?cf_token=${cfToken}`;
+    }
+  }
 
   const fullClassName = classNames(
     variant === "primary" &&
@@ -21,7 +30,7 @@ export const LinkWithQuery: React.FC<
   );
 
   return (
-    <Link to={`${to}${search}`} className={fullClassName} {...props}>
+    <Link to={`${to}${suffix}`} className={fullClassName} {...props}>
       {children}
     </Link>
   );

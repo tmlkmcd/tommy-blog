@@ -3,7 +3,6 @@ import type { ExtendedBlogPost, Series } from "~/data/contentful/types";
 import { formatBlogDate } from "~/data/dates";
 import { Categories } from "~/components/contentful/Categories";
 import { LinkWithQuery } from "~/components/LinkWithQuery";
-import { useLocation } from "react-router";
 import type { Entry } from "contentful";
 import classNames from "classnames";
 import { useCascadeAnimate } from "~/hooks/useCascadeAnimate";
@@ -86,8 +85,6 @@ const GridItemPreview: React.FC<PreviewProps> = React.memo(
     target,
     className = "",
   }) {
-    const { search } = useLocation();
-
     return (
       <section
         className={classNames(
@@ -95,7 +92,7 @@ const GridItemPreview: React.FC<PreviewProps> = React.memo(
           className
         )}
       >
-        <a href={`${target}${search}`} className="group peer relative w-full">
+        <LinkWithQuery to={target} className="group peer relative w-full">
           <div className="relative">
             <div
               className="fade-btm absolute inset-0 w-full rounded-t bg-cover opacity-50"
@@ -120,7 +117,7 @@ const GridItemPreview: React.FC<PreviewProps> = React.memo(
           >
             {title}
           </h2>
-        </a>
+        </LinkWithQuery>
         <div className="flex grow flex-col items-start gap-2 px-2 [&>*]:last:pb-2 peer-hover:[&>h2>a]:text-pasta-800 peer-hover:[&>h2>a]:decoration-current">
           {categories && <Categories categories={categories} />}
           <span className="text-sm md:text-base">{blurb}</span>
