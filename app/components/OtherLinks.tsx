@@ -3,6 +3,7 @@ import * as React from "react";
 import { GithubIcon } from "~/icons/GithubIcon";
 import { MediumIcon } from "~/icons/MediumIcon";
 import { InstagramIcon } from "~/icons/InstagramIcon";
+import { YouTubeIcon } from "~/icons/YouTubeIcon";
 
 export enum OutsideLink {
   GITHUB = "GITHUB",
@@ -55,6 +56,17 @@ const Instagram: React.FC = () => {
   );
 };
 
+const YouTube: React.FC = () => {
+  return (
+    <a
+      href="https://www.youtube.com/@MusicianTommy"
+      className="flex items-center justify-start gap-2 text-sm text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"
+    >
+      <YouTubeIcon /> Youtube
+    </a>
+  );
+};
+
 export const OtherLinks: React.FC = () => {
   return (
     <span className="flex flex-wrap justify-center gap-2">
@@ -65,6 +77,8 @@ export const OtherLinks: React.FC = () => {
       <Medium />
       <span className="hidden md:block">|</span>
       <Instagram />
+      <span className="hidden md:block">|</span>
+      <YouTube />
     </span>
   );
 };
