@@ -8,6 +8,8 @@ import { useRootContext } from "~/RootContext";
 import { PageName } from "~/Pages";
 import { getBlogPosts } from "~/data/contentful/blog";
 import { getPage } from "~/data/contentful/pagination";
+import { Paginator } from "~/components/Blog/Paginator";
+import { usePageNumbers } from "~/hooks/usePageNumbers";
 
 export const loader: (args: LoaderArgs) => Promise<{
   posts: ExtendedBlogPost[];
@@ -37,11 +39,12 @@ export const loader: (args: LoaderArgs) => Promise<{
 
 export default function Index() {
   const { pushBreadcrumb } = useRootContext();
-  const { posts } = useLoaderData<typeof loader>() as {
+  const { posts, pagination } = useLoaderData<typeof loader>() as {
     posts: ExtendedBlogPost[];
     pagination: PaginationInfo;
   };
   const { tag } = useParams<{ tag: string }>();
+  const { changePage } = usePageNumbers();
 
   React.useEffect(() => {
     pushBreadcrumb(PageName.Tag(tag));
@@ -54,6 +57,7 @@ export default function Index() {
   return (
     <Layout title={`Posts with tag: '${tag}'`}>
       <PostPreviewGrid posts={posts} />
+      <Paginator {...pagination} onPageChange={changePage} />
     </Layout>
   );
 }

@@ -92,7 +92,11 @@ const GridItemPreview: React.FC<PreviewProps> = React.memo(
           className
         )}
       >
-        <LinkWithQuery to={target} className="group peer relative w-full">
+        <LinkWithQuery
+          to={target}
+          className="group peer relative w-full"
+          variant="other"
+        >
           <div className="relative">
             <div
               className="fade-btm absolute inset-0 w-full rounded-t bg-cover opacity-50"

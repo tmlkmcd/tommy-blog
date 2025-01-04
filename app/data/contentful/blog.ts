@@ -163,7 +163,7 @@ export async function getBlogPosts({
 
   const pagination = {
     page,
-    total: entries.total,
+    total: Math.ceil(entries.total / 6),
   };
 
   if (slug) {

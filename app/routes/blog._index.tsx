@@ -9,6 +9,8 @@ import { useRootContext } from "~/RootContext";
 import { PageName } from "~/Pages";
 import { getBlogPosts } from "~/data/contentful/blog";
 import { getPage } from "~/data/contentful/pagination";
+import { Paginator } from "~/components/Blog/Paginator";
+import { usePageNumbers } from "~/hooks/usePageNumbers";
 
 export const loader: (args: LoaderArgs) => Promise<{
   posts: ExtendedBlogPost[];
@@ -29,11 +31,12 @@ export const loader: (args: LoaderArgs) => Promise<{
 };
 
 export default function Index() {
-  const { posts } = useLoaderData<typeof loader>() as {
+  const { posts, pagination } = useLoaderData<typeof loader>() as {
     posts: ExtendedBlogPost[];
     pagination: PaginationInfo;
   };
   const { pushBreadcrumb } = useRootContext();
+  const { changePage } = usePageNumbers();
 
   React.useEffect(() => {
     pushBreadcrumb(PageName.Blog, true);
@@ -48,6 +51,7 @@ export default function Index() {
       <section className="flex flex-col-reverse gap-2 lg:flex-row">
         <section className="flex-1">
           <PostPreviewGrid posts={posts} />
+          <Paginator {...pagination} onPageChange={changePage} />
         </section>
       </section>
     </Layout>

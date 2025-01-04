@@ -9,6 +9,8 @@ import { useRootContext } from "~/RootContext";
 import { PageName } from "~/Pages";
 import { getBlogPosts } from "~/data/contentful/blog";
 import { getPage } from "~/data/contentful/pagination";
+import { Paginator } from "~/components/Blog/Paginator";
+import { usePageNumbers } from "~/hooks/usePageNumbers";
 
 export const loader: (args: LoaderArgs) => Promise<{
   series: Series;
@@ -36,13 +38,14 @@ export const loader: (args: LoaderArgs) => Promise<{
   });
 };
 export default function Index() {
-  const { series, posts } = useLoaderData<typeof loader>() as {
+  const { series, posts, pagination } = useLoaderData<typeof loader>() as {
     series: Series;
     posts: ExtendedBlogPost[];
     pagination: PaginationInfo;
   };
 
   const { pushBreadcrumb } = useRootContext();
+  const { changePage } = usePageNumbers();
 
   React.useEffect(() => {
     pushBreadcrumb(PageName.SeriesGroup(series.name));
@@ -55,6 +58,7 @@ export default function Index() {
   return (
     <Layout title={`Posts in series: '${series.name}'`}>
       <PostPreviewGrid posts={posts} showSeries={false} />
+      <Paginator {...pagination} onPageChange={changePage} />
     </Layout>
   );
 }
