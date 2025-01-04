@@ -38,11 +38,19 @@ export const Paginator: React.FC<Props> = ({ page, total, onPageChange }) => {
         <DblChevronIcon direction="left" size="xs" /> back
       </button>
       <section className="flex flex-row gap-1.5">
-        {mid.map((navigatorPage) => {
+        {mid.map((navigatorPage, i) => {
           if (typeof navigatorPage === "string")
-            return <span className="mx-1">...</span>;
+            return (
+              <span className="mx-1" key={`...-${i}`}>
+                ...
+              </span>
+            );
           if (navigatorPage === page)
-            return <span className="mx-0.5 font-bold">{page}</span>;
+            return (
+              <span className="mx-0.5 font-bold" key={navigatorPage}>
+                {page}
+              </span>
+            );
           return (
             <button
               key={navigatorPage}
