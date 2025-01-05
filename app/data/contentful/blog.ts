@@ -8,7 +8,10 @@ import type { EntryCollection } from "contentful";
 import type { Category, Series } from "~/data/contentful/types";
 import { contentfulClient } from "~/data/contentful/client";
 import type { Footnote } from "~/data/contentful/types";
-import { crawlAndIndexFootnotes } from "~/data/blogPosts";
+import {
+  crawlAndIndexFootnotes,
+  crawlAndIndexHeadings,
+} from "~/data/blogPosts";
 
 export async function getBlogPosts({
   token,
@@ -171,6 +174,7 @@ export async function getBlogPosts({
     return {
       ...post.fields,
       footnotes: crawlAndIndexFootnotes(post.fields),
+      headings: crawlAndIndexHeadings(post.fields),
       updated: post.sys.updatedAt,
     };
   } else if (seriesData && seriesId) {

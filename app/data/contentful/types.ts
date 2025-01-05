@@ -22,6 +22,27 @@ export function isFootnote(
   );
 }
 
+export function isHeader(
+  content: EntryFields.RichText | RichTextContent
+): number | null {
+  switch (content.nodeType) {
+    case "heading-1":
+      return 1;
+    case "heading-2":
+      return 2;
+    case "heading-3":
+      return 3;
+    case "heading-4":
+      return 4;
+    case "heading-5":
+      return 5;
+    case "heading-6":
+      return 6;
+    default:
+      return null;
+  }
+}
+
 export function isInternalLink(
   content: EntryFields.RichText | RichTextContent
 ): boolean {
@@ -66,9 +87,27 @@ export interface BlogPost {
   youtubeVideoId?: string;
 }
 
+export interface PaginationInfo {
+  page: number;
+  total: number;
+}
+
+export interface ContentsItem {
+  id: string;
+  title: string;
+  subItems?: ContentsItem[];
+}
+
+export interface HeadingItem {
+  level: number;
+  heading: string;
+}
+
 export interface ExtendedBlogPost extends BlogPost {
   updated?: string;
   footnotes?: string[];
+  headings?: HeadingItem[];
+  contents?: ContentsItem[];
 }
 
 export interface Category {

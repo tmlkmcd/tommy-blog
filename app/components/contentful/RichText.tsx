@@ -18,6 +18,7 @@ import {
 import { Blockquote } from "~/components/contentful/Blockquote";
 import { Table } from "~/components/contentful/Table";
 import { LightboxImage } from "~/components/LightboxImage";
+import { headingToKebabCase } from "~/data/blogPosts";
 
 interface Props {
   node: EntryFields.RichText | RichTextContent;
@@ -35,8 +36,13 @@ export const RichText: React.FC<Props> = ({ node }) => {
       );
     }
 
+    const id =
+      node.nodeType.startsWith("heading") && node.content?.[0]?.value
+        ? headingToKebabCase(node.content?.[0]?.value)
+        : undefined;
+
     return (
-      <WrapRichText node={node}>
+      <WrapRichText node={node} elementId={id}>
         {node.content.map((innerNode, i) => (
           <RichText key={i} node={innerNode} />
         ))}
@@ -52,8 +58,9 @@ export const RichText: React.FC<Props> = ({ node }) => {
 const WrapRichText: React.FC<
   React.PropsWithChildren<{
     node: EntryFields.RichText | RichTextContent;
+    elementId?: string;
   }>
-> = ({ node, children }) => {
+> = ({ node, elementId, children }) => {
   const { nodeType, data } = node;
 
   if (isFootnote(node)) {
@@ -120,17 +127,41 @@ const WrapRichText: React.FC<
     case "paragraph":
       return <p className={className}>{children}</p>;
     case "heading-1":
-      return <h1 className="text-2xl font-bold">{children}</h1>;
+      return (
+        <h1 className="text-2xl font-bold" id={elementId}>
+          {children}
+        </h1>
+      );
     case "heading-2":
-      return <h2 className="mt-2 text-xl font-bold">{children}</h2>;
+      return (
+        <h2 className="mt-2 text-xl font-bold" id={elementId}>
+          {children}
+        </h2>
+      );
     case "heading-3":
-      return <h3 className="mt-1 text-lg font-bold">{children}</h3>;
+      return (
+        <h3 className="mt-1 text-lg font-bold" id={elementId}>
+          {children}
+        </h3>
+      );
     case "heading-4":
-      return <h4 className="font-bold">{children}</h4>;
+      return (
+        <h4 className="font-bold" id={elementId}>
+          {children}
+        </h4>
+      );
     case "heading-5":
-      return <h5 className="font-bold">{children}</h5>;
+      return (
+        <h5 className="font-bold" id={elementId}>
+          {children}
+        </h5>
+      );
     case "heading-6":
-      return <h6 className="font-bold">{children}</h6>;
+      return (
+        <h6 className="font-bold" id={elementId}>
+          {children}
+        </h6>
+      );
     case "hyperlink":
       return (
         <a

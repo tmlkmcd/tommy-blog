@@ -12,6 +12,7 @@ import { PageName } from "~/Pages";
 import { LinkWithQuery } from "~/components/LinkWithQuery";
 import { getBlogPosts } from "~/data/contentful/blog";
 import { YouTubeVideo } from "~/components/Blog/YouTubeVideo";
+import { Contents } from "~/components/Blog/Contents";
 
 export const loader: (
   args: LoaderArgs
@@ -68,6 +69,7 @@ export default function Index() {
         }
       >
         <div className="flex flex-col gap-4">
+          <Contents headings={post.headings} />
           <RichText node={post.post} />
           <p>-tommy</p>
           {post.youtubeVideoId && (
