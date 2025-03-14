@@ -138,6 +138,13 @@ module.exports = {
     },
   },
   plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        ".scrollbar-thin": {
+          "scrollbar-width": "thin",
+        },
+      });
+    },
     flipCard,
     borderGradient,
     require("@sira-ui/tailwind")({

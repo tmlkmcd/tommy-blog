@@ -53,7 +53,7 @@ export default function App() {
 
   const { theme } = useTheme();
   return (
-    <html lang="en">
+    <html lang="en" className="scrollbar-thin">
       <RootProvider {...cfGeneric}>
         <head>
           <Meta />
@@ -62,7 +62,7 @@ export default function App() {
         </head>
         <body
           className={classNames(
-            "min-h-screen bg-page bg-cover bg-fixed bg-center bg-no-repeat text-center font-aleo text-nobel-950 md:h-auto md:py-8",
+            "min-h-full w-full bg-page bg-cover bg-fixed bg-center bg-no-repeat text-center font-aleo text-nobel-950 md:h-auto md:py-8",
             theme
           )}
         >

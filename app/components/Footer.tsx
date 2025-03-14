@@ -10,10 +10,7 @@ export const Footer: React.FC = () => {
     <footer className="space-y-4 border-t bg-pinkApotheosis-50 bg-opacity-60 px-8 py-4 text-left lg:px-12">
       <OtherLinks />
       <div>&copy; 2022-{currentYear} Thomas McDevitt.</div>
-      <div>
-        Apologies for how bare this site is. It's still under construction! 😬
-      </div>
-      <div className="mx-auto max-w-[400px] items-center text-sm italic">
+      <div className="mx-auto items-center text-sm italic">
         This website is built with{" "}
         <a
           href="https://react.dev/"
