@@ -19,6 +19,8 @@ import { Blockquote } from "~/components/contentful/Blockquote";
 import { Table } from "~/components/contentful/Table";
 import { LightboxImage } from "~/components/LightboxImage";
 import { headingToKebabCase } from "~/data/blogPosts";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import a11yLight from "react-syntax-highlighter/dist/esm/styles/hljs/a11y-light";
 
 interface Props {
   node: EntryFields.RichText | RichTextContent;
@@ -112,6 +114,24 @@ const WrapRichText: React.FC<
   switch (nodeType) {
     case "text":
       if (mark.some((m) => m.type === "code")) {
+        if (typeof children === "string") {
+          const [language, ...code] = children.split("\n");
+
+          if (["tsx", "ts", "jsx", "js"].includes(language)) {
+            return (
+              <SyntaxHighlighter
+                language={language}
+                style={a11yLight}
+                className="rounded-lg px-0.5 shadow-lg"
+                customStyle={{
+                  backgroundColor: "rgba(255, 255, 250, 0.6)",
+                }}
+              >
+                {code.join("\n")}
+              </SyntaxHighlighter>
+            );
+          }
+        }
         return (
           <code
             className={classNames(
@@ -125,7 +145,7 @@ const WrapRichText: React.FC<
       }
       return <span className={className}>{children}</span>;
     case "paragraph":
-      return <p className={className}>{children}</p>;
+      return <div className={className}>{children}</div>;
     case "heading-1":
       return (
         <h1 className="text-2xl font-bold" id={elementId}>
@@ -191,6 +211,10 @@ const WrapRichText: React.FC<
           className="w-full min-w-[8rem] max-w-xs lg:max-w-sm"
           imageClassName="w-full"
         />
+      );
+    case "hr":
+      return (
+        <hr className="mx-12 my-4 border-t border-t-pasta-800 opacity-20" />
       );
     default:
       console.log("not implemented", node, nodeType);
