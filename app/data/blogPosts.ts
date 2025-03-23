@@ -48,7 +48,7 @@ function scanTopLevelContentForHeadings(
   headings: HeadingItem[]
 ) {
   const level = isHeader(content);
-  const heading = content.content?.[0]?.value;
+  const heading = content.content?.map((c) => c.value).join(" ");
   if (level && heading) {
     headings.push({
       level,
