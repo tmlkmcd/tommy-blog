@@ -20,7 +20,8 @@ import { Table } from "~/components/contentful/Table";
 import { LightboxImage } from "~/components/LightboxImage";
 import { headingToKebabCase } from "~/data/blogPosts";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import a11yLight from "react-syntax-highlighter/dist/esm/styles/hljs/a11y-light";
+import a11yDark from "react-syntax-highlighter/dist/esm/styles/hljs/a11y-dark";
+import { CopyIcon } from "~/icons/CopyIcon";
 
 interface Props {
   node: EntryFields.RichText | RichTextContent;
@@ -118,17 +119,28 @@ const WrapRichText: React.FC<
           const [language, ...code] = children.split("\n");
 
           if (["tsx", "ts", "jsx", "js"].includes(language)) {
+            const joinedCode = code.join("\n");
+            const copy = () => {
+              void navigator.clipboard?.writeText?.(joinedCode);
+            };
             return (
-              <SyntaxHighlighter
-                language={language}
-                style={a11yLight}
-                className="rounded-lg px-0.5 shadow-lg"
-                customStyle={{
-                  backgroundColor: "rgba(255, 255, 250, 0.6)",
-                }}
-              >
-                {code.join("\n")}
-              </SyntaxHighlighter>
+              <section className="relative">
+                <button
+                  onClick={() => copy()}
+                  className="absolute right-2 top-2 text-white"
+                  type="button"
+                >
+                  <CopyIcon size="sm" />
+                </button>
+                <SyntaxHighlighter
+                  language={language}
+                  style={a11yDark}
+                  className="rounded-lg p-2 shadow-lg"
+                  customStyle={{ padding: "1rem" }}
+                >
+                  {joinedCode}
+                </SyntaxHighlighter>
+              </section>
             );
           }
         }
