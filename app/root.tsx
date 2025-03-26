@@ -1,19 +1,16 @@
-import type { LinksFunction, V2_MetaFunction } from "@remix-run/cloudflare";
+import type { LinksFunction, MetaFunction } from "react-router";
 import {
   Links,
-  LiveReload,
   Meta,
-  Outlet,
   Scripts,
   ScrollRestoration,
   useLoaderData,
-} from "@remix-run/react";
+} from "react-router";
 
 import appleTouchIcon from "~/webpageIconography/apple-touch-icon.png";
 import favicon48 from "~/webpageIconography/favicon-48x48.png";
 import siteWebmanifest from "~/webpageIconography/site.webmanifest";
 
-import stylesheet from "~/tailwind.css";
 import { useTheme } from "~/hooks/useTheme";
 import classNames from "classnames";
 import { Header } from "~/components/Header";
@@ -22,10 +19,10 @@ import { ModalProvider } from "~/components/Modal";
 import type { ContentfulGenericItems } from "~/rootLoader";
 import { RootProvider } from "~/RootContext";
 import { Footer } from "~/components/Footer";
-import { useLocation } from "react-router";
+
+import "~/tailwind.css";
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesheet },
   { rel: "apple-touch-icon", sizes: "180x180", href: appleTouchIcon },
   {
     rel: "icon",
@@ -38,7 +35,7 @@ export const links: LinksFunction = () => [
 
 export { loader } from "./rootLoader";
 
-export const meta: V2_MetaFunction = () => [
+export const meta: MetaFunction = () => [
   {
     charset: "utf-8",
   },
@@ -63,14 +60,14 @@ export default function App() {
         <body
           className={classNames(
             "min-h-[100vh] w-full bg-page bg-cover bg-fixed bg-center bg-no-repeat text-center font-aleo text-nobel-950 md:h-auto md:py-8",
-            theme
+            theme,
           )}
         >
           <ModalProvider>
             <div
               className={classNames(
                 "rounded border border-black backdrop-blur-sm md:mx-auto md:max-w-2xl lg:w-[95%] lg:max-w-[60rem]",
-                "h-full md:h-auto md:shadow-main"
+                "h-full md:h-auto md:shadow-main",
               )}
             >
               <Header />
@@ -79,7 +76,6 @@ export default function App() {
             </div>
             <ScrollRestoration />
             <Scripts />
-            <LiveReload />
             <div id="modal-root" />
           </ModalProvider>
         </body>

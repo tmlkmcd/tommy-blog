@@ -1,6 +1,8 @@
-/** @type {import('tailwindcss').Config} */
-const { flipCard } = require("./tailwind/flipCard");
-const { borderGradient } = require("./tailwind/borderGradient");
+import type { Config } from "tailwindcss";
+
+// import { flipCard } from "./tailwind/flipCard";
+// import { borderGradient } from "./tailwind/borderGradient";
+
 module.exports = {
   content: ["./app/**/*.{js,jsx,ts,tsx}"],
   theme: {
@@ -138,15 +140,15 @@ module.exports = {
     },
   },
   plugins: [
-    function ({ addUtilities }) {
+    function ({ addUtilities }: any) {
       addUtilities({
         ".scrollbar-thin": {
           "scrollbar-width": "thin",
         },
       });
     },
-    flipCard,
-    borderGradient,
+    // flipCard,
+    // borderGradient,
     require("@sira-ui/tailwind")({
       themes: [
         {

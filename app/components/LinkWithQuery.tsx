@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, useSearchParams } from "@remix-run/react";
+import { Link, useSearchParams } from "react-router";
 import classNames from "classnames";
 
 export const LinkWithQuery: React.FC<
@@ -26,7 +26,7 @@ export const LinkWithQuery: React.FC<
   const fullClassName = classNames(
     variant === "primary" &&
       "text-sapphireSplendour-700 transition hover:text-sapphireSplendour-300 underline",
-    className
+    className,
   );
 
   return (

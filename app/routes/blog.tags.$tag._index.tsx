@@ -1,8 +1,11 @@
 import * as React from "react";
 import { Layout } from "~/components/Layout";
-import type { LoaderArgs } from "@remix-run/cloudflare";
 import type { ExtendedBlogPost, PaginationInfo } from "~/data/contentful/types";
-import { useLoaderData, useParams } from "@remix-run/react";
+import {
+  useLoaderData,
+  useParams,
+  type LoaderFunctionArgs,
+} from "react-router";
 import { PostPreviewGrid } from "~/components/contentful/PostPreviewGrid";
 import { useRootContext } from "~/RootContext";
 import { PageName } from "~/Pages";
@@ -11,16 +14,16 @@ import { getPage } from "~/data/contentful/pagination";
 import { Paginator } from "~/components/Blog/Paginator";
 import { usePageNumbers } from "~/hooks/usePageNumbers";
 
-export const loader: (args: LoaderArgs) => Promise<{
+export const loader: (args: LoaderFunctionArgs) => Promise<{
   posts: ExtendedBlogPost[];
   pagination: PaginationInfo;
 }> = async ({ context, request, params }) => {
   const url = new URL(request.url);
   const token =
     url.searchParams.get("cf_token") ??
-    (context.CONTENTFUL_TOKEN as string) ??
+    (context.cloudflare.env.CONTENTFUL_TOKEN as string) ??
     null;
-  const space = context.CONTENTFUL_SPACE as string;
+  const space = context.cloudflare.env.CONTENTFUL_SPACE as string;
 
   const { tag } = params;
 

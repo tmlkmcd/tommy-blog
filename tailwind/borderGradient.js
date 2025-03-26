@@ -1,4 +1,4 @@
-const plugin = require("tailwindcss/plugin");
+import plugin from "tailwindcss/plugin";
 
 export const borderGradient = plugin(function ({ matchUtilities }) {
   matchUtilities(
@@ -16,6 +16,6 @@ export const borderGradient = plugin(function ({ matchUtilities }) {
         purple: ["rgb(162, 0, 162)", "rgb(255, 0, 255)", "rgb(245, 105, 245)"],
       },
       type: "color",
-    }
+    },
   );
 });

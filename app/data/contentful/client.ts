@@ -1,5 +1,5 @@
-import * as contentful from "contentful";
-import { AxiosRequestConfig } from "axios";
+import contentful from "contentful";
+import type { AxiosRequestConfig } from "axios";
 
 export const contentfulClient = ({
   token,

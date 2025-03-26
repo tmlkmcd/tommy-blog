@@ -1,17 +1,17 @@
-import type { LoaderArgs } from "@remix-run/cloudflare";
+import type { LoaderFunctionArgs } from "react-router";
 import type { InternalLink } from "~/data/contentful/types";
 import type { Entry } from "contentful";
 import { getInternalLink } from "~/data/contentful/generic";
 
 export const loader: (
-  args: LoaderArgs
+  args: LoaderFunctionArgs,
 ) => Promise<Entry<InternalLink>> = async ({ context, request, params }) => {
   const url = new URL(request.url);
   const token =
     url.searchParams.get("cf_token") ??
-    (context.CONTENTFUL_TOKEN as string) ??
+    (context.cloudflare.env.CONTENTFUL_TOKEN as string) ??
     null;
-  const space = context.CONTENTFUL_SPACE as string;
+  const space = context.cloudflare.env.CONTENTFUL_SPACE as string;
 
   const { id } = params;
 

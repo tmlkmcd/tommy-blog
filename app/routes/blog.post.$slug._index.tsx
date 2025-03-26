@@ -1,9 +1,8 @@
 import * as React from "react";
 import { Navigate } from "react-router";
 import { Layout } from "~/components/Layout";
-import { type LoaderArgs } from "@remix-run/cloudflare";
 import type { ExtendedBlogPost } from "~/data/contentful/types";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, type LoaderFunctionArgs } from "react-router";
 import { RichText } from "~/components/contentful/RichText";
 import { Categories } from "~/components/contentful/Categories";
 import { Footnotes } from "~/components/Blog/FootnoteProvider";
@@ -15,7 +14,7 @@ import { YouTubeVideo } from "~/components/Blog/YouTubeVideo";
 import { Contents } from "~/components/Blog/Contents";
 
 export const loader: (
-  args: LoaderArgs
+  args: LoaderFunctionArgs,
 ) => Promise<ExtendedBlogPost | null> = async ({
   context,
   request,
@@ -24,9 +23,9 @@ export const loader: (
   const url = new URL(request.url);
   const token =
     url.searchParams.get("cf_token") ??
-    (context.CONTENTFUL_TOKEN as string) ??
+    (context.cloudflare.env.CONTENTFUL_TOKEN as string) ??
     null;
-  const space = context.CONTENTFUL_SPACE as string;
+  const space = context.cloudflare.env.CONTENTFUL_SPACE as string;
 
   if (!params.slug) {
     throw new Error('Missing "slug" parameter');

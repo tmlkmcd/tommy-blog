@@ -6,6 +6,7 @@ node_modules
 /public/build
 /build
 .dev.vars
+/.react-router/
 
 # Jetbrains
 .idea

@@ -1,8 +1,7 @@
 import * as React from "react";
 import { AboutPages, PageName } from "~/Pages";
 import type { CoreSkill } from "~/data/contentful/types";
-import { useLoaderData } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/cloudflare";
+import { type LoaderFunctionArgs, useLoaderData } from "react-router";
 import { useRootContext } from "~/RootContext";
 import classNames from "classnames";
 import { useCascadeAnimate } from "~/hooks/useCascadeAnimate";
@@ -13,16 +12,15 @@ export const handle = {
   about: AboutPages.SKILLSET,
 };
 
-export const loader: (args: LoaderArgs) => Promise<CoreSkill[]> = async ({
-  context,
-  request,
-}) => {
+export const loader: (
+  args: LoaderFunctionArgs,
+) => Promise<CoreSkill[]> = async ({ context, request }) => {
   const url = new URL(request.url);
   const token =
     url.searchParams.get("cf_token") ??
-    (context.CONTENTFUL_TOKEN as string) ??
+    (context.cloudflare.env.CONTENTFUL_TOKEN as string) ??
     null;
-  const space = context.CONTENTFUL_SPACE as string;
+  const space = context.cloudflare.env.CONTENTFUL_SPACE as string;
 
   const client = contentfulClient({
     token,
@@ -58,7 +56,7 @@ export default function Index() {
               animating <= index &&
                 "invisible motion-safe:translate-y-[1.5rem]",
               animating > index &&
-                "motion-safe:animate-fade-in-fancy motion-reduce:animate-fade-in"
+                "motion-safe:animate-fade-in-fancy motion-reduce:animate-fade-in",
             )}
           />
         ))}
@@ -78,7 +76,7 @@ function CoreSkillComponent({ skill, className }: CoreSkillProps) {
     <div
       className={classNames(
         "flex flex-col gap-2 border-t-2 bg-opacity-40 px-4 py-2 text-left",
-        className
+        className,
       )}
     >
       <h2 className="relative mb-4 text-lg font-bold">
@@ -91,7 +89,7 @@ function CoreSkillComponent({ skill, className }: CoreSkillProps) {
             skill.order === 2 && "before:border-gradient-yellow",
             skill.order === 3 && "before:border-gradient-green",
             skill.order === 4 && "before:border-gradient-blue",
-            skill.order === 5 && "before:border-gradient-purple"
+            skill.order === 5 && "before:border-gradient-purple",
           )}
         >
           {skill.name}
@@ -106,7 +104,7 @@ function CoreSkillComponent({ skill, className }: CoreSkillProps) {
             skill.order === 2 && "border-gradient-yellow",
             skill.order === 3 && "border-gradient-green",
             skill.order === 4 && "border-gradient-blue",
-            skill.order === 5 && "border-gradient-purple"
+            skill.order === 5 && "border-gradient-purple",
           )}
         />
         <div className="grow py-2">{skill.blurb}</div>

@@ -1,16 +1,14 @@
 import * as React from "react";
-import type { GistProps } from "react-gist";
-import Gist from "react-gist";
 import classNames from "classnames";
 import { GithubIcon } from "~/icons/GithubIcon";
 
-export const BlockGithubGistDisplay: React.FC<
-  GistProps & { expandable: boolean }
-> = (props) => {
+export const BlockGithubGistDisplay: React.FC<{ expandable: boolean }> = (
+  props
+) => {
   const [expanded, setExpanded] = React.useState(false);
   const wrapper = React.useRef<HTMLSpanElement>(null);
 
-  const { expandable, ...gistProps } = props;
+  const { expandable } = props;
 
   const toggle = (scroll = false) => {
     if (scroll) {
@@ -33,13 +31,13 @@ export const BlockGithubGistDisplay: React.FC<
             {expanded ? "Collapse..." : "Expand..."}
           </button>
           <span>or,</span>
-          <a
-            href={`https://gist.github.com/tmlkmcd/${props.id}`}
-            className="flex items-center justify-start gap-2 text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"
-          >
-            <span>visit the gist on Github</span>{" "}
-            <GithubIcon className="inline-block" />
-          </a>
+          {/*<a*/}
+          {/*  href={`https://gist.github.com/tmlkmcd/${props.id}`}*/}
+          {/*  className="flex items-center justify-start gap-2 text-sapphireSplendour-700 underline transition hover:text-sapphireSplendour-300"*/}
+          {/*>*/}
+          {/*  <span>visit the gist on Github</span>{" "}*/}
+          {/*  <GithubIcon className="inline-block" />*/}
+          {/*</a>*/}
         </span>
       )}
       <span
@@ -48,7 +46,7 @@ export const BlockGithubGistDisplay: React.FC<
           expandable && !expanded && "fade-btm max-h-[300px]"
         )}
       >
-        <Gist {...gistProps} />
+        {/*<Gist {...gistProps} />*/}
       </span>
       {expanded && (
         <button
@@ -62,10 +60,8 @@ export const BlockGithubGistDisplay: React.FC<
   );
 };
 
-export const TooltipGistDisplay: React.FC<GistProps & { tooltip: string }> = (
-  props
-) => {
-  const { tooltip, ...gistProps } = props;
+export const TooltipGistDisplay: React.FC<{ tooltip: string }> = (props) => {
+  const { tooltip } = props;
 
   const [translate, setTranslate] = React.useState<number>(0);
   const [screenIsWideEnough, setScreenIsWideEnough] =
@@ -91,18 +87,18 @@ export const TooltipGistDisplay: React.FC<GistProps & { tooltip: string }> = (
       className="relative z-[999] [&>span]:hover:animate-fade-in"
       onMouseEnter={reCenter}
     >
-      <a
-        href={`https://gist.github.com/tmlkmcd/${props.id}`}
-        className={classNames(
-          "underline",
-          screenIsWideEnough
-            ? "decoration-dotted"
-            : "text-sapphireSplendour-700 transition hover:text-sapphireSplendour-300"
-        )}
-        ref={tooltipText}
-      >
-        {tooltip}
-      </a>
+      {/*<a*/}
+      {/*  href={`https://gist.github.com/tmlkmcd/${props.id}`}*/}
+      {/*  className={classNames(*/}
+      {/*    "underline",*/}
+      {/*    screenIsWideEnough*/}
+      {/*      ? "decoration-dotted"*/}
+      {/*      : "text-sapphireSplendour-700 transition hover:text-sapphireSplendour-300"*/}
+      {/*  )}*/}
+      {/*  ref={tooltipText}*/}
+      {/*>*/}
+      {/*  {tooltip}*/}
+      {/*</a>*/}
       {screenIsWideEnough && (
         <span
           className={classNames(
@@ -110,7 +106,7 @@ export const TooltipGistDisplay: React.FC<GistProps & { tooltip: string }> = (
           )}
           style={{ transform: `translateX(${translate * 100}%)` }}
         >
-          <Gist {...gistProps} />
+          {/*<Gist {...gistProps} />*/}
         </span>
       )}
     </span>

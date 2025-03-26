@@ -1,9 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Aleo:400,700&display=block");
 @import url("https://fonts.googleapis.com/css?family=Metamorphous:400,500,700&display=block");
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @layer utilities {
     .fade-btm {

@@ -1,4 +1,4 @@
-const plugin = require("tailwindcss/plugin");
+import plugin from "tailwindcss/plugin";
 
 export const flipCard = plugin(function ({ addUtilities }) {
   addUtilities({

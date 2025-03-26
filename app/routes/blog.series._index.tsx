@@ -1,23 +1,22 @@
 import * as React from "react";
-import type { LoaderArgs } from "@remix-run/cloudflare";
 import type { Series } from "~/data/contentful/types";
 import { useRootContext } from "~/RootContext";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, type LoaderFunctionArgs } from "react-router";
 import { PageName } from "~/Pages";
 import { Layout } from "~/components/Layout";
 import { GeneralPreviewGrid } from "~/components/contentful/PostPreviewGrid";
 import { getAllSeries } from "~/data/contentful/blog";
 
-export const loader: (args: LoaderArgs) => Promise<Series[]> = async ({
+export const loader: (args: LoaderFunctionArgs) => Promise<Series[]> = async ({
   context,
   request,
 }) => {
   const url = new URL(request.url);
   const token =
     url.searchParams.get("cf_token") ??
-    (context.CONTENTFUL_TOKEN as string) ??
+    (context.cloudflare.env.CONTENTFUL_TOKEN as string) ??
     null;
-  const space = context.CONTENTFUL_SPACE as string;
+  const space = context.cloudflare.env.CONTENTFUL_SPACE as string;
 
   return getAllSeries({
     token,
@@ -28,7 +27,7 @@ export const loader: (args: LoaderArgs) => Promise<Series[]> = async ({
 
 export default function Index() {
   const { pushBreadcrumb } = useRootContext();
-  const series = useLoaderData<typeof loader>() as Series[];
+  const series = useLoaderData<typeof loader>();
 
   React.useEffect(() => {
     pushBreadcrumb(PageName.Series);
@@ -47,7 +46,7 @@ export default function Index() {
         id: slug,
         target: `/blog/series/${slug}`,
       };
-    }
+    },
   );
 
   return (

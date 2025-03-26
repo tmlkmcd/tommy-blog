@@ -1,4 +1,4 @@
-import type { LoaderArgs } from "@remix-run/cloudflare";
+import type { LoaderFunctionArgs } from "react-router";
 import type { Category, ImageAsset } from "~/data/contentful/types";
 import type { Banner } from "~/data/contentful/types";
 import { contentfulClient } from "~/data/contentful/client";
@@ -12,14 +12,16 @@ export interface ContentfulGenericItems {
 }
 
 export const loader: (
-  args: LoaderArgs
+  args: LoaderFunctionArgs,
 ) => Promise<ContentfulGenericItems | null> = async ({ context, request }) => {
   const url = new URL(request.url);
   const token =
     url.searchParams.get("cf_token") ??
-    (context.CONTENTFUL_TOKEN as string) ??
+    (context.cloudflare.env.CONTENTFUL_TOKEN as string) ??
     null;
-  const space = context.CONTENTFUL_SPACE as string;
+  const space = context.cloudflare.env.CONTENTFUL_SPACE as string;
+
+  console.log("context", context);
 
   const client = contentfulClient({
     token,

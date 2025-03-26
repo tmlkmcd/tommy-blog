@@ -1,7 +1,6 @@
 import * as React from "react";
-import type { LoaderArgs } from "@remix-run/cloudflare";
+import { type LoaderFunctionArgs, useLoaderData } from "react-router";
 import type { TruthAndLie } from "~/data/contentful/types";
-import { useLoaderData } from "@remix-run/react";
 import { useCascadeAnimate } from "~/hooks/useCascadeAnimate";
 import classNames from "classnames";
 import { AboutPages, PageName } from "~/Pages";
@@ -14,16 +13,15 @@ export const handle = {
   about: AboutPages.TTAAL,
 };
 
-export const loader: (args: LoaderArgs) => Promise<TruthAndLie[]> = async ({
-  context,
-  request,
-}) => {
+export const loader: (
+  args: LoaderFunctionArgs,
+) => Promise<TruthAndLie[]> = async ({ context, request }) => {
   const url = new URL(request.url);
   const token =
     url.searchParams.get("cf_token") ??
-    (context.CONTENTFUL_TOKEN as string) ??
+    (context.cloudflare.env.CONTENTFUL_TOKEN as string) ??
     null;
-  const space = context.CONTENTFUL_SPACE as string;
+  const space = context.cloudflare.env.CONTENTFUL_SPACE as string;
 
   const client = contentfulClient({
     token,
@@ -86,7 +84,7 @@ function Item({
           ? "motion-safe:animate-fade-in-fancy motion-reduce:animate-fade-in"
           : "invisible motion-safe:translate-y-[1.5rem]",
         "flex flex-1 items-stretch rounded-xl bg-transparent transition",
-        "flipCard-wrapper"
+        "flipCard-wrapper",
       )}
     >
       <div className="flipCard-inner-wrapper">
@@ -96,7 +94,7 @@ function Item({
         <p
           className={classNames(
             "flex flex-col items-center justify-center gap-4 rounded-xl p-4 opacity-80 shadow-casual",
-            truthAndLie.isReal ? "bg-lightMint-500" : "bg-danger-400"
+            truthAndLie.isReal ? "bg-lightMint-500" : "bg-danger-400",
           )}
         >
           <span className="text-xl font-bold">

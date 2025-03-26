@@ -1,7 +1,11 @@
 import * as React from "react";
-import type { LoaderArgs } from "@remix-run/cloudflare";
 import type { Band, Paragraph } from "~/data/contentful/types";
-import { Outlet, useLoaderData, useParams } from "@remix-run/react";
+import {
+  Outlet,
+  useLoaderData,
+  useParams,
+  type LoaderFunctionArgs,
+} from "react-router";
 import { Layout } from "~/components/Layout";
 import { RichText } from "~/components/contentful/RichText";
 import { Navigate, useLocation, useNavigate } from "react-router";
@@ -11,7 +15,7 @@ import { getParagraph } from "~/data/contentful/generic";
 import { getBands } from "~/data/contentful/music";
 
 export const loader: (
-  args: LoaderArgs
+  args: LoaderFunctionArgs,
 ) => Promise<{ paragraph: Paragraph; bands: Band[] }> = async ({
   context,
   request,
@@ -19,9 +23,9 @@ export const loader: (
   const url = new URL(request.url);
   const token =
     url.searchParams.get("cf_token") ??
-    (context.CONTENTFUL_TOKEN as string) ??
+    (context.cloudflare.env.CONTENTFUL_TOKEN as string) ??
     null;
-  const space = context.CONTENTFUL_SPACE as string;
+  const space = context.cloudflare.env.CONTENTFUL_SPACE as string;
 
   const client = contentfulClient({
     token,
@@ -83,7 +87,7 @@ export default function Index() {
             <button
               className={classNames(
                 "tab p-2",
-                index === showingBandIndex && "active"
+                index === showingBandIndex && "active",
               )}
               onClick={() =>
                 transition(`/music/${toKebabCase(band.name)}${search}`)

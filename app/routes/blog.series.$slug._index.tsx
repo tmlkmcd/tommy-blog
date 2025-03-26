@@ -1,6 +1,5 @@
 import * as React from "react";
-import { useLoaderData } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/cloudflare";
+import { useLoaderData, type LoaderFunctionArgs } from "react-router";
 import type { PaginationInfo, Series } from "~/data/contentful/types";
 import type { ExtendedBlogPost } from "~/data/contentful/types";
 import { Layout } from "~/components/Layout";
@@ -12,7 +11,7 @@ import { getPage } from "~/data/contentful/pagination";
 import { Paginator } from "~/components/Blog/Paginator";
 import { usePageNumbers } from "~/hooks/usePageNumbers";
 
-export const loader: (args: LoaderArgs) => Promise<{
+export const loader: (args: LoaderFunctionArgs) => Promise<{
   series: Series;
   posts: ExtendedBlogPost[];
   pagination: PaginationInfo;
@@ -20,9 +19,9 @@ export const loader: (args: LoaderArgs) => Promise<{
   const url = new URL(request.url);
   const token =
     url.searchParams.get("cf_token") ??
-    (context.CONTENTFUL_TOKEN as string) ??
+    (context.cloudflare.env.CONTENTFUL_TOKEN as string) ??
     null;
-  const space = context.CONTENTFUL_SPACE as string;
+  const space = context.cloudflare.env.CONTENTFUL_SPACE as string;
   const { slug } = params;
 
   if (!slug) {
@@ -38,11 +37,7 @@ export const loader: (args: LoaderArgs) => Promise<{
   });
 };
 export default function Index() {
-  const { series, posts, pagination } = useLoaderData<typeof loader>() as {
-    series: Series;
-    posts: ExtendedBlogPost[];
-    pagination: PaginationInfo;
-  };
+  const { series, posts, pagination } = useLoaderData<typeof loader>();
 
   const { pushBreadcrumb } = useRootContext();
   const { changePage } = usePageNumbers();

@@ -1,6 +1,10 @@
 import * as React from "react";
-import { Outlet, useLoaderData, useMatches } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/cloudflare";
+import {
+  Outlet,
+  useLoaderData,
+  useMatches,
+  type LoaderFunctionArgs,
+} from "react-router";
 import { Layout } from "~/components/Layout";
 import type { Paragraph } from "~/data/contentful/types";
 import { RichText } from "~/components/contentful/RichText";
@@ -10,16 +14,16 @@ import { Navigate, useNavigate } from "react-router";
 import { contentfulClient } from "~/data/contentful/client";
 import { getParagraph } from "~/data/contentful/generic";
 
-export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
+export const loader: (args: LoaderFunctionArgs) => Promise<Paragraph> = async ({
   context,
   request,
 }) => {
   const url = new URL(request.url);
   const token =
     url.searchParams.get("cf_token") ??
-    (context.CONTENTFUL_TOKEN as string) ??
+    (context.cloudflare.env.CONTENTFUL_TOKEN as string) ??
     null;
-  const space = context.CONTENTFUL_SPACE as string;
+  const space = context.cloudflare.env.CONTENTFUL_SPACE as string;
 
   const client = contentfulClient({
     token,
@@ -68,7 +72,7 @@ export default function Index() {
         <button
           className={classNames(
             "tab p-2",
-            matches.includes(AboutPages.SKILLSET) && "active"
+            matches.includes(AboutPages.SKILLSET) && "active",
           )}
           onClick={() => transition("/about/skills")}
         >
@@ -77,7 +81,7 @@ export default function Index() {
         <button
           className={classNames(
             "tab p-2",
-            matches.includes(AboutPages.TTAAL) && "active"
+            matches.includes(AboutPages.TTAAL) && "active",
           )}
           onClick={() => transition("/about/ttaal")}
         >
@@ -86,7 +90,7 @@ export default function Index() {
         <button
           className={classNames(
             "tab p-2",
-            matches.includes(AboutPages.FAQ) && "active"
+            matches.includes(AboutPages.FAQ) && "active",
           )}
           onClick={() => transition("/about/faq")}
         >

@@ -1,7 +1,6 @@
 import * as React from "react";
-import type { LoaderArgs } from "@remix-run/cloudflare";
 import type { Paragraph } from "~/data/contentful/types";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, type LoaderFunctionArgs } from "react-router";
 import { Layout } from "~/components/Layout";
 import { RichText } from "~/components/contentful/RichText";
 import { ImplementedECSimulators } from "~/components/VisualAndExample/ErrorCorrection/types";
@@ -24,16 +23,16 @@ const ImplementedSimulatorsMap: Record<
   },
 };
 
-export const loader: (args: LoaderArgs) => Promise<Paragraph> = async ({
+export const loader: (args: LoaderFunctionArgs) => Promise<Paragraph> = async ({
   context,
   request,
 }) => {
   const url = new URL(request.url);
   const token =
     url.searchParams.get("cf_token") ??
-    (context.CONTENTFUL_TOKEN as string) ??
+    (context.cloudflare.env.CONTENTFUL_TOKEN as string) ??
     null;
-  const space = context.CONTENTFUL_SPACE as string;
+  const space = context.cloudflare.env.CONTENTFUL_SPACE as string;
 
   return getParagraph({
     identifier: "error-correction",
@@ -58,7 +57,7 @@ export default function Index() {
   }, []);
 
   const [simulator, setSimulator] = React.useState<ImplementedECSimulators>(
-    ImplementedECSimulators.HAMMING_CODE
+    ImplementedECSimulators.HAMMING_CODE,
   );
 
   const [isEncoding, setIsEncoding] = React.useState<boolean>(true);
@@ -71,7 +70,7 @@ export default function Index() {
       <section
         className={classNames(
           "flex flex-col gap-6 border border-black border-opacity-60 p-2 sm:p-6",
-          "overflow-hidden bg-white sm:shadow-[inset_0_0_0.75rem_rgba(0,_0,_0,_0.6)]"
+          "overflow-hidden bg-white sm:shadow-[inset_0_0_0.75rem_rgba(0,_0,_0,_0.6)]",
         )}
       >
         <div className="flex flex-col justify-between gap-4 sm:flex-row">
@@ -96,7 +95,7 @@ export default function Index() {
                   <option key={key} value={key}>
                     {title}
                   </option>
-                )
+                ),
               )}
             </select>
           </div>

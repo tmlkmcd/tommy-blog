@@ -3,25 +3,23 @@ import { Layout } from "~/components/Layout";
 import { DraggableListWithHandleGhost } from "~/components/VisualAndExample/Draggable/DraggableListWithHandleGhost";
 import { DraggableList } from "~/components/VisualAndExample/Draggable/DraggableList";
 import { DraggableMultipleLists } from "~/components/VisualAndExample/Draggable/DraggableMultipleLists";
-import type { LoaderArgs } from "@remix-run/cloudflare";
 import type { Paragraph } from "~/data/contentful/types";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, type LoaderFunctionArgs } from "react-router";
 import { RichText } from "~/components/contentful/RichText";
 import { useDraggableField } from "~/hooks/useDraggableField";
 import { rearrangeArray } from "~/data/arrayHelpers";
 import classNames from "classnames";
 import { getParagraph } from "~/data/contentful/generic";
 
-export const loader: (args: LoaderArgs) => Promise<Paragraph[]> = async ({
-  context,
-  request,
-}) => {
+export const loader: (
+  args: LoaderFunctionArgs,
+) => Promise<Paragraph[]> = async ({ context, request }) => {
   const url = new URL(request.url);
   const token =
     url.searchParams.get("cf_token") ??
-    (context.CONTENTFUL_TOKEN as string) ??
+    (context.cloudflare.env.CONTENTFUL_TOKEN as string) ??
     null;
-  const space = context.CONTENTFUL_SPACE as string;
+  const space = context.cloudflare.env.CONTENTFUL_SPACE as string;
 
   return getParagraph({
     identifier: ["draggable-list-1", "draggable-list-2", "draggable-list-3"],
@@ -39,7 +37,7 @@ export default function Index() {
   React.useEffect(() => {
     document.title = "useDraggableField - Tommy's Website";
     console.log(
-      "Did you notice that the title of each section is draggable on the page too? 😬"
+      "Did you notice that the title of each section is draggable on the page too? 😬",
     );
     return () => {
       document.title = "Tommy's Website";
@@ -88,7 +86,7 @@ export default function Index() {
             className={classNames(
               "flex flex-col gap-2 p-2",
               dragging === i && "opacity-50",
-              dragOver === i && "rounded border border-dashed"
+              dragOver === i && "rounded border border-dashed",
             )}
             {...dropZoneProps(i)}
             key={title}
