@@ -1,89 +1,75 @@
-import type { LinksFunction, V2_MetaFunction } from "@remix-run/cloudflare";
 import {
+  isRouteErrorResponse,
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
-} from "@remix-run/react";
+} from "react-router";
 
-import appleTouchIcon from "~/webpageIconography/apple-touch-icon.png";
-import favicon48 from "~/webpageIconography/favicon-48x48.png";
-import siteWebmanifest from "~/webpageIconography/site.webmanifest";
+import type { Route } from "./+types/root";
+import "./app.css";
 
-import stylesheet from "~/tailwind.css";
-import { useTheme } from "~/hooks/useTheme";
-import classNames from "classnames";
-import { Header } from "~/components/Header";
-import { Body } from "~/components/Body";
-import { ModalProvider } from "~/components/Modal";
-import type { ContentfulGenericItems } from "~/rootLoader";
-import { RootProvider } from "~/RootContext";
-import { Footer } from "~/components/Footer";
-import { useLocation } from "react-router";
-
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesheet },
-  { rel: "apple-touch-icon", sizes: "180x180", href: appleTouchIcon },
+export const links: Route.LinksFunction = () => [
+  { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
-    rel: "icon",
-    type: "image/png",
-    sizes: "48x48",
-    href: favicon48,
+    rel: "preconnect",
+    href: "https://fonts.gstatic.com",
+    crossOrigin: "anonymous",
   },
-  { rel: "manifest", href: siteWebmanifest },
+  {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+  },
 ];
 
-export { loader } from "./rootLoader";
-
-export const meta: V2_MetaFunction = () => [
-  {
-    charset: "utf-8",
-  },
-  { title: "Tommy's Website" },
-  { name: "viewport", content: "width=device-width,initial-scale=1" },
-  { name: "msapplication-tilecolor", content: "#da532c" },
-  { name: "theme-color", content: "#ffffff" },
-];
+export function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        {children}
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
+  );
+}
 
 export default function App() {
-  const cfGeneric = useLoaderData() as ContentfulGenericItems;
+  return <Outlet />;
+}
 
-  const { theme } = useTheme();
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  let message = "Oops!";
+  let details = "An unexpected error occurred.";
+  let stack: string | undefined;
+
+  if (isRouteErrorResponse(error)) {
+    message = error.status === 404 ? "404" : "Error";
+    details =
+      error.status === 404
+        ? "The requested page could not be found."
+        : error.statusText || details;
+  } else if (import.meta.env.DEV && error && error instanceof Error) {
+    details = error.message;
+    stack = error.stack;
+  }
+
   return (
-    <html lang="en" className="scrollbar-thin">
-      <RootProvider {...cfGeneric}>
-        <head>
-          <Meta />
-          <Links />
-          <title>Tommy's Website</title>
-        </head>
-        <body
-          className={classNames(
-            "min-h-full w-full bg-page bg-cover bg-fixed bg-center bg-no-repeat text-center font-aleo text-nobel-950 md:h-auto md:py-8",
-            theme
-          )}
-        >
-          <ModalProvider>
-            <div
-              className={classNames(
-                "rounded border border-black backdrop-blur-sm md:mx-auto md:max-w-2xl lg:w-[95%] lg:max-w-6xl",
-                "h-full md:h-auto md:shadow-main"
-              )}
-            >
-              <Header />
-              <Body />
-              <Footer />
-            </div>
-            <ScrollRestoration />
-            <Scripts />
-            <LiveReload />
-            <div id="modal-root" />
-          </ModalProvider>
-        </body>
-      </RootProvider>
-    </html>
+    <main className="pt-16 p-4 container mx-auto">
+      <h1>{message}</h1>
+      <p>{details}</p>
+      {stack && (
+        <pre className="w-full p-4 overflow-x-auto">
+          <code>{stack}</code>
+        </pre>
+      )}
+    </main>
   );
 }
